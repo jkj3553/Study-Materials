@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unit III - Software Engineering Exam Prep</title>
+<style>
+  body{font-family:'Segoe UI',Arial,sans-serif;max-width:980px;margin:0 auto;padding:20px 24px 80px;color:#222;line-height:1.55;background:#fafafa;}
+  h1{font-size:1.7rem;margin-bottom:4px;}
+  h2{margin-top:46px;border-bottom:3px solid #2c5aa0;padding-bottom:6px;color:#1f3f73;}
+  h3{color:#2c5aa0;}
+  .subtitle{color:#666;margin-top:0;}
+  #toc{background:#eef2fa;border:1px solid #cdd9ef;border-radius:8px;padding:16px 22px;margin:20px 0 10px;}
+  #toc h2{margin-top:0;border:none;}
+  #toc ol{margin:0;padding-left:22px;}
+  #toc li{margin:3px 0;}
+  #toc a{color:#1f3f73;text-decoration:none;}
+  #toc a:hover{text-decoration:underline;}
+  .card{background:#fff;border:1px solid #d7d7e0;border-left:6px solid #2c5aa0;border-radius:8px;padding:18px 22px;margin:18px 0;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+  .card.pyq{border-left-color:#b5581f;}
+  .tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+  .tag{display:inline-block;font-size:0.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:12px;background:#2c5aa0;color:#fff;}
+  .tag.pyq{background:#b5581f;}
+  .tag.ch{background:#555;}
+  .qtext{font-style:italic;color:#333;background:#f4f6fb;border-left:3px solid #a9bde0;padding:8px 12px;margin-bottom:12px;font-size:0.95rem;}
+  .imp-points{background:#fff8e6;border:1px solid #f0dca0;border-radius:6px;padding:10px 16px;margin-top:14px;}
+  .imp-points h4{margin:0 0 6px 0;color:#8a6300;font-size:0.9rem;}
+  .imp-points ul{margin:0;padding-left:20px;}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:0.92rem;}
+  th,td{border:1px solid #ccc;padding:6px 10px;text-align:left;vertical-align:top;}
+  th{background:#eef2fa;}
+  .formula{background:#eef7ee;border:1px dashed #6ba36b;padding:8px 14px;border-radius:6px;font-family:'Consolas',monospace;margin:8px 0;}
+  .answer-box{background:#eaf3ff;border:1px solid #9cc0eb;border-radius:6px;padding:6px 12px;font-weight:700;margin-top:6px;display:inline-block;}
+  .diagram{display:flex;flex-direction:column;align-items:center;gap:8px;background:#f7f8fb;padding:16px;border-radius:8px;margin:14px 0;border:1px solid #e0e2ea;}
+  .drow{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;align-items:center;}
+  .dbox{border:1.5px solid #2c5aa0;padding:8px 12px;border-radius:5px;background:#fff;font-size:0.82rem;text-align:center;min-width:90px;}
+  .dbox.hl{background:#dbe9ff;font-weight:600;}
+  .dbox.sub{border-style:dashed;color:#555;}
+  .darrow{font-size:1.1rem;color:#555;}
+  .dlabel{font-size:0.75rem;color:#777;}
+  .seqbox{background:#f7f8fb;border:1px solid #e0e2ea;border-radius:8px;padding:14px 18px;margin:14px 0;}
+  .seqhead{display:flex;gap:24px;font-weight:700;color:#1f3f73;border-bottom:2px solid #2c5aa0;padding-bottom:6px;margin-bottom:8px;flex-wrap:wrap;}
+  .seqmsg{padding:4px 0;font-size:0.9rem;border-bottom:1px dotted #ccc;}
+  .seqmsg b{color:#2c5aa0;}
+  .note{background:#fdeeee;border:1px solid #eab3b3;border-radius:6px;padding:8px 14px;font-size:0.88rem;margin:10px 0;}
+  .ref{font-size:0.85rem;color:#666;font-style:italic;}
+  ul{padding-left:22px;}
+  .top{position:fixed;bottom:14px;right:18px;background:#2c5aa0;color:#fff;padding:6px 12px;border-radius:16px;font-size:0.8rem;text-decoration:none;}
+</style>
+</head>
+<body>
+
+<h1>Unit III &mdash; Architectural Design &amp; Object-Oriented Design</h1>
+<p class="subtitle">Software Engineering, BE 2nd year CSE &middot; Based on Sommerville, 7th Ed., Chapters 11 &amp; 14</p>
+
+<div id="toc">
+<h2>Contents</h2>
+<ol>
+  <li><b>Section 1 &mdash; Imp Questions</b>
+    <ol>
+      <li><a href="#s1q1">Structural model &amp; control model for given systems (with diagrams)</a></li>
+      <li><a href="#s1q2">Object identification &amp; OOD &mdash; UML class diagram with generalization and aggregation</a></li>
+      <li><a href="#s1q3">Sequence diagram for a fully automated petrol/gas station</a></li>
+      <li><a href="#s1q4a">Why design conflicts arise (e.g. availability vs security)</a></li>
+      <li><a href="#s1q4b">Strategies for decomposing a sub-system into modules</a></li>
+    </ol>
+  </li>
+  <li><b>Section 2 &mdash; Sample / PYQ Questions</b>
+    <ol>
+      <li><a href="#s2a">Structural model &mdash; worked examples (Passport auth, robot cleaner, marks-card system, Aadhar, digital library, config. mgmt.)</a></li>
+      <li><a href="#s2b">Control model &mdash; worked examples (insulin dispenser, TV controller, batch payroll)</a></li>
+      <li><a href="#s2c">Approaches to identifying objects + weather mapping system</a></li>
+      <li><a href="#s2d">Group diary &amp; time management system &mdash; generalization diagram</a></li>
+      <li><a href="#s2e">Repository model &mdash; description, example, advantages/disadvantages</a></li>
+      <li><a href="#s2f">EPOS (point-of-sale) system &mdash; architectural model</a></li>
+      <li><a href="#s2g">Weather station &mdash; data collection sequence diagram</a></li>
+      <li><a href="#s2h">Object aggregation model &mdash; ticket reservation system</a></li>
+      <li><a href="#s2i">Fundamental questions architects must answer</a></li>
+      <li><a href="#s2j">Two generic control styles</a></li>
+      <li><a href="#s2k">Petrol/gas station sequence diagram (PYQ repeat)</a></li>
+    </ol>
+  </li>
+</ol>
+<p class="ref">Note: no separate "imp topics" list was provided for this unit, so Section 3 ("Remaining Imp Topics") has been skipped &mdash; every topic below already comes from either the imp-questions list or a sample paper.</p>
+</div>
+
+<h2>Section 1 &mdash; Imp Questions</h2>
+
+<!-- ===================== S1 Q1 ===================== -->
+<div class="card" id="s1q1">
+<div class="tagrow"><span class="tag">Imp Question</span><span class="tag ch">Ch 11 &mdash; Architectural Design</span></div>
+<div class="qtext">"Giving reasons for your answer, suggest an appropriate structural model and control model for the given systems and explain with diagrams."</div>
+
+<p>This question always has two parts hiding inside it: pick a <b>structural model</b> (how the system is organised / how sub-systems share data) and pick a <b>control model</b> (who is in charge of starting/stopping things). Learn the options once, then you can answer this for <i>any</i> system they throw at you &mdash; just plug in the reasoning.</p>
+
+<h3>A. Structural models (system organisation styles)</h3>
+<p>These describe how sub-systems talk to each other and share data. There are three standard ones:</p>
+
+<h4>1. Repository model</h4>
+<p>All sub-systems share one central database/repository. A sub-system doesn't talk to another sub-system directly &mdash; it just reads/writes the shared repository.</p>
+<div class="diagram">
+  <div class="drow">
+    <div class="dbox">Design editor</div><div class="dbox">Code generator</div>
+  </div>
+  <div class="darrow">&updownarrow;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&updownarrow;</div>
+  <div class="drow">
+    <div class="dbox">Design translator</div>
+    <div class="dbox hl">Central Repository</div>
+    <div class="dbox">Program editor</div>
+  </div>
+  <div class="darrow">&updownarrow;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&updownarrow;</div>
+  <div class="drow">
+    <div class="dbox">Design analyser</div><div class="dbox">Report generator</div>
+  </div>
+  <div class="dlabel">Example: CASE toolset architecture</div>
+</div>
+<p><b>Good when:</b> large amounts of data must be shared, and sub-systems don't need to know how the data was produced (e.g. compilers, CASE tools, big data-processing systems).<br>
+<b>Advantages:</b> efficient sharing of large data; centralised management (backup/security); the shared schema is published once.<br>
+<b>Disadvantages:</b> all sub-systems must agree on one data model (a compromise); hard to evolve the schema; hard to distribute across machines; no room for sub-system-specific data policies.</p>
+
+<h4>2. Client-server model</h4>
+<p>A set of stand-alone servers, each offering a specific service, and clients that call those services over a network.</p>
+<div class="diagram">
+  <div class="drow"><div class="dbox">Client 1</div><div class="dbox">Client 2</div><div class="dbox">Client 3</div></div>
+  <div class="dlabel">&updownarrow; network &updownarrow;</div>
+  <div class="drow"><div class="dbox hl">Server A</div><div class="dbox hl">Server B</div></div>
+</div>
+<p><b>Good when:</b> the system is naturally distributed and each service has its own data (e.g. a film/picture library with separate video, picture, catalogue servers).<br>
+<b>Advantages:</b> data distribution is simple; makes good use of networked/cheaper hardware; easy to add/upgrade servers.<br>
+<b>Disadvantages:</b> no shared data model, so different servers may organise data differently &mdash; data exchange can be inefficient; each server repeats its own management logic; no central directory of what services exist.</p>
+
+<h4>3. Abstract machine / layered model</h4>
+<p>The system is organised into layers, each layer offering services only to the layer directly above it. If one layer's interface changes, only the neighbouring layer is affected.</p>
+<div class="diagram">
+  <div class="dbox">Configuration management layer</div>
+  <div class="dbox">Object management layer</div>
+  <div class="dbox">Database system layer</div>
+  <div class="dbox">Operating system layer</div>
+  <div class="dlabel">Example: Version management system</div>
+</div>
+<p><b>Good when:</b> security matters (put critical assets in inner layers) or the system needs to be built/extended incrementally.<br>
+<b>Disadvantage:</b> can feel artificial &mdash; not every system naturally splits into clean layers.</p>
+
+<h3>B. Control models</h3>
+<p>These decide <i>who</i> controls the starting/stopping/sequencing of sub-systems.</p>
+
+<h4>1. Centralised control</h4>
+<ul>
+  <li><b>Call-return (top-down subroutine) model:</b> control starts at the top of a routine hierarchy (main program) and moves down through subroutine calls. Only suitable for sequential systems.</li>
+  <li><b>Manager model:</b> one component (the manager) decides when to start/stop/coordinate other processes. Works for concurrent systems; in a sequential system it can be coded as a big <code>case</code> statement.</li>
+</ul>
+<div class="diagram">
+  <div class="dbox hl">Main program</div>
+  <div class="drow"><div class="dbox">Routine 1</div><div class="dbox">Routine 2</div><div class="dbox">Routine 3</div></div>
+  <div class="dlabel">Call-return tree</div>
+</div>
+<div class="diagram">
+  <div class="drow"><div class="dbox">Sensor processes</div><div class="dbox hl">System controller</div><div class="dbox">Actuator processes</div></div>
+  <div class="drow"><div class="dbox">Computation</div><div class="dbox">User interface</div><div class="dbox">Fault handler</div></div>
+  <div class="dlabel">Manager model &mdash; real-time system control</div>
+</div>
+
+<h4>2. Event-driven control</h4>
+<ul>
+  <li><b>Broadcast model:</b> an event is announced to all sub-systems; whichever sub-system has registered interest handles it. Good for integrating sub-systems spread over a network.</li>
+  <li><b>Interrupt-driven model:</b> used in real-time systems where a fast reaction is essential. Each interrupt type has a dedicated handler picked from an interrupt vector.</li>
+</ul>
+<div class="diagram">
+  <div class="drow"><div class="dbox">Sub-system 1</div><div class="dbox">Sub-system 2</div><div class="dbox">Sub-system 3</div></div>
+  <div class="dlabel">&updownarrow;&nbsp;&nbsp;&nbsp;&nbsp;&updownarrow;&nbsp;&nbsp;&nbsp;&nbsp;&updownarrow;</div>
+  <div class="dbox hl">Event &amp; message handler</div>
+  <div class="dlabel">Selective broadcasting</div>
+</div>
+
+<h3>C. How to reason about "the given system" in an exam</h3>
+<table>
+<tr><th>Clue in the question</th><th>Pick this</th></tr>
+<tr><td>Lots of shared data used by many parts, don't care who produced it</td><td>Repository (structural)</td></tr>
+<tr><td>Independent services, possibly on a network, each with own data</td><td>Client-server (structural)</td></tr>
+<tr><td>Security-critical or naturally incremental system</td><td>Layered/abstract machine (structural)</td></tr>
+<tr><td>Simple, sequential, one thing happens after another</td><td>Call-return (control)</td></tr>
+<tr><td>Several processes running together, need one coordinator</td><td>Manager model (control)</td></tr>
+<tr><td>Reacts to unpredictable outside events, possibly distributed</td><td>Broadcast model (control)</td></tr>
+<tr><td>Must react to a hardware signal instantly</td><td>Interrupt-driven (control)</td></tr>
+</table>
+<p>Always justify with <b>why</b> &mdash; e.g. "since the system must remain continuously available I recommend redundant client-server nodes rather than a single repository, because a single central store is a single point of failure."</p>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Structural models: Repository, Client-Server, Abstract machine/Layered &mdash; name all three even if only one is used.</li>
+  <li>Control models: Centralised (Call-return, Manager) and Event-driven (Broadcast, Interrupt-driven) &mdash; name all four.</li>
+  <li>At least one advantage + one disadvantage of the model you finally pick.</li>
+  <li>A labelled block diagram for both the structural and the control model.</li>
+  <li>A one-line justification tied to the specific system given in the question (not generic).</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S1 Q2 ===================== -->
+<div class="card" id="s1q2">
+<div class="tagrow"><span class="tag">Imp Question</span><span class="tag ch">Ch 14 &mdash; Object-Oriented Design</span></div>
+<div class="qtext">"Identify the objects and develop an Object-Oriented Design (with UML class diagram showing generalization and aggregation) for a given system."</div>
+
+<h3>Step 1 &mdash; The OOD process (so you can structure your answer)</h3>
+<ol>
+  <li>Understand the context and how the system will be used (use-cases).</li>
+  <li>Design the overall system architecture (layered/repository/etc, from Q1 above).</li>
+  <li>Identify the principal objects.</li>
+  <li>Develop design models (class diagram, sequence diagram, state diagram).</li>
+  <li>Specify object interfaces.</li>
+</ol>
+
+<h3>Step 2 &mdash; How to actually find the objects</h3>
+<p>There's no single formula, but four standard approaches are used (write these even if the question doesn't explicitly ask for approaches):</p>
+<table>
+<tr><th>Approach</th><th>Idea</th></tr>
+<tr><td>Grammatical (linguistic)</td><td>Underline nouns in the system description &rarr; candidate objects; underline verbs &rarr; candidate operations.</td></tr>
+<tr><td>Tangible things</td><td>Look for physical/real-world things in the domain (sensors, devices, people, documents).</td></tr>
+<tr><td>Behavioural</td><td>Look at what behaviour the system needs, then decide which entity is responsible for each behaviour.</td></tr>
+<tr><td>Scenario-based</td><td>Walk through a use-case scenario step by step; each noun/verb that shows up becomes an object/method.</td></tr>
+</table>
+<p>In an exam, just skim the given paragraph, underline the nouns (they become classes), and underline the verbs attached to each noun (they become that class's operations).</p>
+
+<h3>Step 3 &mdash; Generalization (an "is-a" relationship)</h3>
+<p>When several classes share common attributes/operations, pull the common part into a super-class; the specific classes become sub-classes and <i>inherit</i> everything from the super-class, adding their own extra bits.</p>
+<div class="diagram">
+  <div class="dbox hl">Employee <span class="dlabel">(name, address, salary&hellip;)</span></div>
+  <div class="drow"><div class="dbox">Manager <span class="dlabel">(budgetsControlled)</span></div><div class="dbox">Programmer <span class="dlabel">(project, progLanguages)</span></div></div>
+  <div class="drow"><div class="dbox sub">Project Manager</div><div class="dbox sub">Dept. Manager</div><div class="dbox sub">Strategic Manager</div></div>
+  <div class="dlabel">Triangle-arrow (&#9651;) points from sub-class up to super-class = generalization</div>
+</div>
+
+<h3>Step 4 &mdash; Aggregation (a "has-a"/"part-of" relationship)</h3>
+<p>Aggregation means one class is made up of other classes (whole-part). It is drawn as a line with an open diamond &#9671; at the "whole" end.</p>
+<div class="diagram">
+  <div class="dbox hl">Invoice</div>
+  <div class="dlabel">&#9671;&mdash;&mdash; has &mdash;&mdash;&gt;</div>
+  <div class="drow"><div class="dbox">Customer</div><div class="dbox">Payment</div><div class="dbox">Receipt</div></div>
+  <div class="dlabel">Example: an Invoice is built from/linked to Customer, Payment and Receipt information</div>
+</div>
+
+<h3>Step 5 &mdash; Draw the class diagram</h3>
+<p>Each class is a 3-part box: <b>class name</b> on top, <b>attributes</b> in the middle, <b>operations</b> at the bottom. Join classes with:</p>
+<ul>
+  <li>plain line = association ("uses"/"knows about")</li>
+  <li>line + open triangle at super-class = generalization</li>
+  <li>line + open diamond at whole-class = aggregation</li>
+</ul>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Name all four object-identification approaches (grammatical, tangible, behavioural, scenario-based), even if you only use one.</li>
+  <li>Clearly separate attributes vs operations in each class box.</li>
+  <li>Explicitly point out which relationship is generalization (triangle, "is-a") and which is aggregation (diamond, "has-a"/"part-of").</li>
+  <li>Say generalization = inheritance in code; aggregation = composition of objects.</li>
+  <li>Keep the diagram to a reasonable number of classes (5&ndash;8) &mdash; don't overload it.</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S1 Q3 ===================== -->
+<div class="card" id="s1q3">
+<div class="tagrow"><span class="tag">Imp Question</span><span class="tag ch">Ch 14 &mdash; Object-Oriented Design</span></div>
+<div class="qtext">"Using UML graphical notation, design the sequence diagram for a fully automated petrol/gas station system."</div>
+
+<p>A sequence diagram shows objects across the top and time running downward; arrows between the vertical "lifelines" are the messages, in the order they happen. A thin rectangle on a lifeline shows that object is "in control" at that moment.</p>
+
+<h3>Objects (participants) in the system</h3>
+<div class="drow">
+  <div class="dbox">Customer</div><div class="dbox">Pump</div><div class="dbox">PumpController</div>
+  <div class="dbox">CardReader/Payment</div><div class="dbox">StationController</div><div class="dbox">Tank/FuelSensor</div>
+</div>
+
+<h3>Sequence of messages</h3>
+<div class="seqbox">
+  <div class="seqhead"><span>Customer</span><span>Pump</span><span>PumpController</span><span>CardReader</span><span>StationController</span></div>
+  <div class="seqmsg">1. <b>Customer</b> &rarr; <b>Pump</b> : selectPump() / liftNozzle()</div>
+  <div class="seqmsg">2. <b>Pump</b> &rarr; <b>PumpController</b> : requestAuthorisation()</div>
+  <div class="seqmsg">3. <b>PumpController</b> &rarr; <b>CardReader</b> : readCard() / requestPayment()</div>
+  <div class="seqmsg">4. <b>CardReader</b> &rarr; <b>StationController</b> : verifyPayment(cardData)</div>
+  <div class="seqmsg">5. <b>StationController</b> &rarr; <b>CardReader</b> : authorised() [acknowledge]</div>
+  <div class="seqmsg">6. <b>CardReader</b> &rarr; <b>PumpController</b> : paymentApproved()</div>
+  <div class="seqmsg">7. <b>PumpController</b> &rarr; <b>Pump</b> : enableDispensing()</div>
+  <div class="seqmsg">8. <b>Pump</b> &rarr; <b>Customer</b> : dispenseFuel() [loop while nozzle held / tank not full]</div>
+  <div class="seqmsg">9. <b>Pump</b> &rarr; <b>PumpController</b> : sendQuantity(litres, amount)</div>
+  <div class="seqmsg">10. <b>Customer</b> &rarr; <b>Pump</b> : replaceNozzle() [end of fill]</div>
+  <div class="seqmsg">11. <b>PumpController</b> &rarr; <b>StationController</b> : reportSale(amount)</div>
+  <div class="seqmsg">12. <b>StationController</b> &rarr; <b>CardReader</b> : chargeCard(amount)</div>
+  <div class="seqmsg">13. <b>StationController</b> &rarr; <b>Customer</b> : printReceipt()</div>
+</div>
+<p>If the question says "fully automated" &mdash; emphasise there is <b>no cashier/human operator</b>: the StationController does all authorisation, charging and receipt printing that a human would otherwise do.</p>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>UML sequence diagram basics: objects on top, lifelines going down, solid arrow = synchronous call, dashed arrow = return.</li>
+  <li>Activation bar (thin rectangle) on the object currently doing work.</li>
+  <li>Cover the full cycle: authorisation &rarr; dispensing &rarr; payment &rarr; receipt.</li>
+  <li>Mention it is fully automated: no cashier object involved, StationController replaces the human.</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S1 Q4a ===================== -->
+<div class="card" id="s1q4a">
+<div class="tagrow"><span class="tag">Imp Question</span><span class="tag ch">Ch 11 &mdash; Architectural Design</span></div>
+<div class="qtext">"Analyze why design conflicts might arise when designing an architecture (e.g., availability vs. security requirements)."</div>
+
+<p>Every non-functional requirement pulls the architecture in a certain direction. The problem is different requirements pull in <i>opposite</i> directions &mdash; satisfying one makes another harder. That's a design conflict.</p>
+
+<table>
+<tr><th>Characteristic</th><th>What the architecture should do for it</th></tr>
+<tr><td>Performance</td><td>Keep related operations close together (few, large components); minimise communication between components.</td></tr>
+<tr><td>Security</td><td>Use a layered architecture; keep critical assets in inner layers with controlled access.</td></tr>
+<tr><td>Safety</td><td>Keep safety-critical features localised in a small number of sub-systems.</td></tr>
+<tr><td>Availability</td><td>Include redundant components and mechanisms for fault tolerance.</td></tr>
+<tr><td>Maintainability</td><td>Use fine-grained, easily replaceable components.</td></tr>
+</table>
+
+<h3>Why availability vs security specifically conflicts</h3>
+<p>Availability wants the system to <b>never go down</b> &mdash; the standard way to do that is to add redundant copies of data and components, and multiple access points, so if one fails another takes over. But security wants to <b>minimise who/what can touch the critical data</b> &mdash; fewer access points, tightly controlled, ideally one well-guarded place. So:</p>
+<ul>
+  <li>More redundant copies (good for availability) = more places an attacker could target = harder to secure.</li>
+  <li>Locking data down to one well-guarded layer (good for security) = a single point of failure = bad for availability.</li>
+</ul>
+<p><b>Example:</b> a banking system needs to be always available, so you'd replicate the account database across multiple servers/locations. But now you must secure every replica identically, encrypt every synchronisation channel, and manage access control consistently everywhere &mdash; the attack surface has grown even though each server on its own is simple. If you instead centralise everything into one heavily-secured server, that server becomes a single point of failure, hurting availability.</p>
+<p>Other common conflict pairs (mention if the question is generic):</p>
+<ul>
+  <li><b>Performance vs Maintainability:</b> large, tightly-coupled components run faster but are harder to change.</li>
+  <li><b>Safety vs Performance:</b> isolating safety-critical code means more inter-component communication, which slows things down.</li>
+</ul>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Definition line: "architectural design decisions involve trade-offs between competing quality attributes."</li>
+  <li>The five characteristics table (Performance, Security, Safety, Availability, Maintainability) with their strategy.</li>
+  <li>Explicit two-line explanation of why redundancy (availability) increases attack surface (security).</li>
+  <li>One concrete example system (banking / hospital / e-commerce).</li>
+  <li>Mention at least one more conflicting pair (Performance vs Maintainability, or Safety vs Performance).</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S1 Q4b ===================== -->
+<div class="card" id="s1q4b">
+<div class="tagrow"><span class="tag">Imp Question</span><span class="tag ch">Ch 11 &mdash; Architectural Design</span></div>
+<div class="qtext">"Differentiate between the strategies used for decomposing a sub-system into modules."</div>
+
+<p>Once you've picked the overall structural model (Q1), you still have to break each <b>sub-system</b> down further into smaller <b>modules</b>. There are two standard strategies for this:</p>
+
+<table>
+<tr><th></th><th>Object model (modular decomposition)</th><th>Pipeline / data-flow (function-oriented) model</th></tr>
+<tr><td>Idea</td><td>Decompose into loosely-coupled <b>objects</b>, each with its own state + operations, talking via message passing.</td><td>Decompose into <b>functional transformations</b> that turn inputs into outputs, chained together (pipe-and-filter).</td></tr>
+<tr><td>Data</td><td>No shared data area &mdash; each object owns its own state.</td><td>Data flows through the pipeline; a common data format is needed at each stage.</td></tr>
+<tr><td>Best for</td><td>Systems that map naturally to real-world entities (Customer, Invoice, Payment).</td><td>Batch/sequential data-processing systems (UNIX shell style); not good for interactive systems.</td></tr>
+<tr><td>Advantages</td><td>Objects reflect real entities; can change one object's implementation without breaking others; matches OO languages directly.</td><td>Transformations are reusable; intuitive to explain to stakeholders; easy to insert a new transformation; simple to implement sequentially or concurrently.</td></tr>
+<tr><td>Disadvantages</td><td>Object interface changes can still ripple outward; complex real-world entities are sometimes awkward to force into objects.</td><td>Needs everyone to agree on a common data-exchange format; hard to support event-based/interactive behaviour.</td></tr>
+</table>
+
+<div class="diagram">
+  <div class="drow"><div class="dbox">Customer</div><div class="dbox hl">Invoice</div><div class="dbox">Payment</div><div class="dbox">Receipt</div></div>
+  <div class="dlabel">Object model &mdash; Invoice processing system (objects linked by association)</div>
+</div>
+<div class="diagram">
+  <div class="drow"><div class="dbox">Invoices</div><div class="darrow">&rarr;</div><div class="dbox">Read issued invoices</div><div class="darrow">&rarr;</div><div class="dbox">Identify payments</div><div class="darrow">&rarr;</div><div class="dbox">Issue receipts</div></div>
+  <div class="dlabel">Pipeline model &mdash; same invoice processing system, done as a batch-sequential pipeline</div>
+</div>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Name both strategies exactly: "Object model" and "Pipeline / data-flow (function-oriented) model."</li>
+  <li>Object model &rarr; message passing, no shared data; Pipeline &rarr; data flows stage to stage, needs common format.</li>
+  <li>One advantage + one disadvantage for each.</li>
+  <li>A small diagram/example for each (Invoice processing system works for both, from the textbook).</li>
+</ul>
+</div>
+</div>
+
+<h2>Section 2 &mdash; Sample Questions / PYQs</h2>
+
+<!-- ===================== S2 A ===================== -->
+<div class="card pyq" id="s2a">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 11</span></div>
+<div class="qtext">"Suggest the most appropriate structural model for the following systems, giving reasons: Passport Authentication system &middot; Automated robot floor cleaner &middot; University Automated Marks Card Generation system &middot; Aadhar Authentication system &middot; Digital library system &middot; Configuration management system that manages versions of objects."</div>
+<p class="ref">Uses the same three structural models explained in <a href="#s1q1">Section 1, Q1</a> (Repository, Client-server, Layered) &mdash; only the reasoning changes per system.</p>
+
+<table>
+<tr><th>System</th><th>Suggested structural model</th><th>Reasoning</th></tr>
+<tr><td>Passport Authentication system</td><td>Layered / Client-server</td><td>Passport data is security-critical, so it should sit in an inner, protected layer; many verification kiosks/offices across the country need access, so those kiosks act as clients calling a central authentication server &mdash; combining both gives controlled access + wide distribution.</td></tr>
+<tr><td>Automated robot floor cleaner</td><td>Repository</td><td>Many sub-systems (obstacle sensors, navigation, motor control, battery monitor) all need the same up-to-date sensor/position data; a shared repository lets each sub-system read the latest readings without caring which sensor produced them.</td></tr>
+<tr><td>University Marks Card Generation system</td><td>Repository</td><td>It's a large batch job pulling data from many sources (student records, subject marks, attendance) into one place before generating cards &mdash; classic large-shared-data scenario.</td></tr>
+<tr><td>Aadhar Authentication system</td><td>Client-server</td><td>Thousands of independent authentication terminals/agencies (banks, telecom shops) send requests to a small number of central UID servers &mdash; a textbook distributed client-server case.</td></tr>
+<tr><td>Digital library system</td><td>Client-server</td><td>The library offers distinct services (search, borrow, e-book download) to many simultaneous users over a network &mdash; each service can be its own server.</td></tr>
+<tr><td>Configuration management system (manages object versions)</td><td>Repository / Layered</td><td>Version data must be centrally consistent for every tool that touches it (like the CASE toolset example) &mdash; a shared repository, sometimes further split into layers (config-mgmt layer &gt; object-mgmt layer &gt; database layer &gt; OS layer) as in the Version management system diagram.</td></tr>
+</table>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Explicitly name the model chosen for each system (don't just describe, name it).</li>
+  <li>One clear reason per system tied to a keyword in the question (security &rarr; layered, shared sensor data &rarr; repository, many independent terminals &rarr; client-server).</li>
+  <li>A neat diagram for at least one of the systems (repository or client-server sketch is enough).</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S2 B ===================== -->
+<div class="card pyq" id="s2b">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 11</span></div>
+<div class="qtext">"Giving reasons for your answer, suggest an appropriate control model for: a system that monitors sugar level in patients and dispenses insulin &middot; a system to control a Television unit &middot; a batch processing system that prints salary slips and bank credit transfer information."</div>
+<p class="ref">Uses the control models explained in <a href="#s1q1">Section 1, Q1</a> (Call-return, Manager, Broadcast, Interrupt-driven).</p>
+
+<table>
+<tr><th>System</th><th>Suggested control model</th><th>Reasoning</th></tr>
+<tr><td>Sugar-monitoring / insulin dispenser</td><td>Manager model (centralised, real-time)</td><td>It's a real-time embedded system with sensor processes (glucose sensor) and actuator processes (insulin pump) that must be coordinated continuously by one system controller &mdash; exactly the "Real-time system control" pattern.</td></tr>
+<tr><td>Television controller (responds to remote signals)</td><td>Interrupt-driven</td><td>A button press on the remote is an unpredictable external event that needs an instant reaction &mdash; classic interrupt: each button/command has its own handler.</td></tr>
+<tr><td>Batch payroll/salary-slip system</td><td>Call-return (sequential)</td><td>Steps happen strictly one after another (read hours &rarr; compute pay &rarr; print slip &rarr; generate bank transfer) with no real-time external events &mdash; a simple top-down subroutine sequence is enough, no need for a manager or interrupts.</td></tr>
+</table>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Name the exact control model for each (Manager / Interrupt-driven / Call-return).</li>
+  <li>Justify using the real-time vs sequential vs event-driven distinction.</li>
+  <li>A diagram: real-time controller diagram for insulin case, interrupt-vector diagram for TV case.</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S2 C ===================== -->
+<div class="card pyq" id="s2c">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 14</span></div>
+<div class="qtext">"Analyze the various proposals that help in identifying objects." / "Describe the different approaches used to identify objects for a given system. With the help of these approaches identify various objects for a weather mapping system and represent using UML notations."</div>
+<p class="ref">The four approaches themselves are covered in <a href="#s1q2">Section 1, Q2</a>; here they are applied to the textbook's weather mapping system.</p>
+
+<h3>Weather mapping system &mdash; description</h3>
+<p>Remote weather stations collect data and send it, on request, to an area computer. The area computer validates and integrates the data, archives it, and generates weather maps for printing/display.</p>
+
+<h3>Applying the approaches</h3>
+<ul>
+  <li><b>Tangible things:</b> the physical instruments become objects &mdash; Ground thermometer, Air thermometer, Anemometer, Wind vane, Barometer, Rain gauge.</li>
+  <li><b>Grammatical:</b> nouns like "weather station," "data," "map," "printer" &rarr; WeatherStation, WeatherData, Map, MapPrinter.</li>
+  <li><b>Behavioural:</b> "who does what" &rarr; WeatherStation is responsible for reportWeather(), calibrate(), test(); WeatherData is responsible for collect(), summarise().</li>
+</ul>
+
+<h3>Sub-systems identified</h3>
+<div class="diagram">
+  <div class="drow"><div class="dbox hl">Data collection <span class="dlabel">Observer, Satellite, WeatherStation, Balloon, Comms</span></div><div class="dbox hl">Data display <span class="dlabel">UserInterface, MapDisplay, Map, MapPrinter</span></div></div>
+  <div class="drow"><div class="dbox hl">Data processing <span class="dlabel">DataChecking, DataIntegration</span></div><div class="dbox hl">Data archiving <span class="dlabel">DataStorage, MapStore, DataStore</span></div></div>
+</div>
+
+<h3>Weather station object classes</h3>
+<div class="drow">
+  <div class="dbox">WeatherStation <span class="dlabel">reportWeather(), calibrate(), test(), startup(), shutdown()</span></div>
+  <div class="dbox">WeatherData <span class="dlabel">airTemp, groundTemp, windSpeed, pressure, rainfall &mdash; collect(), summarise()</span></div>
+</div>
+<div class="drow">
+  <div class="dbox">GroundThermometer</div><div class="dbox">Anemometer</div><div class="dbox">Barometer</div>
+</div>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>All four object-identification approaches named.</li>
+  <li>Weather mapping system's four sub-systems: Data collection, Data processing, Data archiving, Data display.</li>
+  <li>Key object classes: WeatherStation, WeatherData, plus at least two instrument objects (Anemometer, Barometer, GroundThermometer).</li>
+  <li>Say instrument classes are "application domain objects" and WeatherStation is the interface to the environment.</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S2 D ===================== -->
+<div class="card pyq" id="s2d">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 14</span></div>
+<div class="qtext">"Using the UML graphical notation for object classes, identify the objects and design an object Generalization diagram showing interactions of objects for a group diary and time management system that supports timetabling of meetings/appointments across a group of coworkers. When an appointment involves a number of people, the system finds a common slot in each of their diaries and arranges the appointment; if no common slot exists it interacts with the user to rearrange a personal diary."</div>
+<p class="ref">Uses the generalization/aggregation notation explained in <a href="#s1q2">Section 1, Q2</a>.</p>
+
+<h3>Object identification (grammatical approach on the scenario)</h3>
+<p>Nouns &rarr; candidate classes: Diary, Appointment/Event, Coworker/Participant, TimeSlot, Meeting.</p>
+
+<h3>Generalization</h3>
+<p><b>Event</b> is the super-class (common attributes: date, startTime, endTime). It generalises into two kinds:</p>
+<div class="diagram">
+  <div class="dbox hl">Event <span class="dlabel">date, startTime, endTime &mdash; reschedule()</span></div>
+  <div class="drow"><div class="dbox">Meeting <span class="dlabel">participants[], findCommonSlot()</span></div><div class="dbox">PersonalAppointment <span class="dlabel">owner</span></div></div>
+</div>
+
+<h3>Aggregation</h3>
+<p>A <b>Diary</b> is made up of (aggregates) many Events, and belongs to one Coworker.</p>
+<div class="diagram">
+  <div class="dbox">Coworker</div>
+  <div class="dlabel">&#9671; owns</div>
+  <div class="dbox hl">Diary</div>
+  <div class="dlabel">&#9671; contains many</div>
+  <div class="dbox">Event</div>
+</div>
+
+<h3>Interaction (brief walk-through)</h3>
+<ol>
+  <li>System receives a request to create a Meeting with a list of Coworkers.</li>
+  <li>Meeting.findCommonSlot() checks every participant's Diary for a free TimeSlot.</li>
+  <li>If found &rarr; add the Meeting to each Diary.</li>
+  <li>If not found &rarr; system interacts with the user to reschedule one PersonalAppointment (via Event.reschedule()) to free up a slot.</li>
+</ol>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Event as the super-class, Meeting and PersonalAppointment as sub-classes (generalization).</li>
+  <li>Diary aggregates Event objects (aggregation, diamond notation).</li>
+  <li>Mention the "no common slot &rarr; interact with user to rearrange diary" behaviour explicitly &mdash; examiners look for this line since it's from the question text.</li>
+  <li>Draw the triangle for generalization and the diamond for aggregation, labelled.</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S2 E ===================== -->
+<div class="card pyq" id="s2e">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 11</span></div>
+<div class="qtext">"Describe repository model with appropriate example. State the advantages and disadvantages of the repository model."</div>
+<p class="ref">Full model already explained in <a href="#s1q1">Section 1, Q1(A.1)</a> and compared against the pipeline model in <a href="#s1q4b">Section 1, Q4b</a> &mdash; this card just focuses on it in isolation with more depth, as the question demands.</p>
+
+<p>In the repository model, all sub-systems exchange data through one central, shared data store instead of talking to each other directly. Whenever a sub-system produces data, it just writes it to the repository; any other sub-system that needs it reads it from there.</p>
+
+<div class="diagram">
+  <div class="drow"><div class="dbox">Design editor</div><div class="dbox">Code generator</div></div>
+  <div class="drow"><div class="dbox">Design translator</div><div class="dbox hl">Project repository</div><div class="dbox">Program editor</div></div>
+  <div class="drow"><div class="dbox">Design analyser</div><div class="dbox">Report generator</div></div>
+  <div class="dlabel">Example: CASE toolset architecture &mdash; every tool reads/writes the shared project repository</div>
+</div>
+
+<table>
+<tr><th>Advantages</th><th>Disadvantages</th></tr>
+<tr><td>Efficient way to share large amounts of data</td><td>All sub-systems must agree on one repository data model &mdash; usually a compromise</td></tr>
+<tr><td>Sub-systems don't need to know how data was produced</td><td>Evolving the schema later is difficult and expensive</td></tr>
+<tr><td>Centralised management: backup, security, access control all in one place</td><td>No room for sub-system-specific management policies</td></tr>
+<tr><td>The sharing model is openly published as the repository schema</td><td>Difficult to distribute efficiently across machines</td></tr>
+</table>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Core definition line: sub-systems share data only through a central store, not directly with each other.</li>
+  <li>Named example (CASE toolset / version management system).</li>
+  <li>Full advantages list (4 points) and disadvantages list (4 points) &mdash; markers usually check these are complete.</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S2 F ===================== -->
+<div class="card pyq" id="s2f">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 11</span></div>
+<div class="qtext">"Assume you are responsible for writing the specification for a software system that controls a network of EPOS (electronic point of sale) terminals in a store. The system accepts bar code information from a terminal, queries a product database, and returns the item name and price for display. The system must be continually available during the store's opening hours. Draw the architectural model."</div>
+
+<p>The two key clues here are "<b>network of terminals</b>" (many independent clients) and "<b>must be continually available</b>" (needs redundancy/fault tolerance). That combination points to a <b>client-server model</b>, with the product-database server replicated for availability.</p>
+
+<div class="diagram">
+  <div class="drow"><div class="dbox">EPOS Terminal 1</div><div class="dbox">EPOS Terminal 2</div><div class="dbox">EPOS Terminal 3</div><div class="dbox">EPOS Terminal N</div></div>
+  <div class="dlabel">&updownarrow; store network &updownarrow;</div>
+  <div class="drow"><div class="dbox hl">Product DB Server (primary)</div><div class="dbox hl">Product DB Server (backup/replica)</div></div>
+</div>
+
+<h3>How it works</h3>
+<ol>
+  <li>Terminal scans a bar code &rarr; sends query(barcode) to the DB server.</li>
+  <li>Server looks up the product database, returns (itemName, price).</li>
+  <li>Terminal displays the result to the cashier/customer.</li>
+  <li>If the primary DB server fails, terminals automatically fail over to the replica so the store never stops billing &mdash; this satisfies the "continually available" requirement.</li>
+</ol>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Name the model explicitly: Client-server architecture.</li>
+  <li>Tie "continually available" to redundant/replicated servers &mdash; this is the key marks-earning line.</li>
+  <li>Show the query/response flow: terminal &rarr; server &rarr; (item name, price) &rarr; terminal.</li>
+  <li>A labelled diagram with multiple clients and at least one server.</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S2 G ===================== -->
+<div class="card pyq" id="s2g">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 14</span></div>
+<div class="qtext">"Develop the design of the weather station to show the interaction between the data collection sub-system and the instruments that collect weather data. Use sequence charts to show this interaction."</div>
+<p class="ref">This is the textbook's own worked example (Data collection sequence, Ch 14) &mdash; reproduced with the exact structure from the PDF.</p>
+
+<h3>Objects</h3>
+<div class="drow">
+  <div class="dbox">CommsController</div><div class="dbox">WeatherStation</div><div class="dbox">WeatherData</div><div class="dbox">GroundThermometer / Anemometer / Barometer (Instruments)</div>
+</div>
+
+<h3>Sequence of messages</h3>
+<div class="seqbox">
+  <div class="seqhead"><span>CommsController</span><span>WeatherStation</span><span>WeatherData</span><span>Instruments</span></div>
+  <div class="seqmsg">1. External request &rarr; <b>CommsController</b> : request(report)</div>
+  <div class="seqmsg">2. <b>CommsController</b> &rarr; caller : acknowledge()</div>
+  <div class="seqmsg">3. <b>CommsController</b> &rarr; <b>WeatherStation</b> : report()</div>
+  <div class="seqmsg">4. <b>WeatherStation</b> &rarr; Instruments : collect() [reads each instrument in turn]</div>
+  <div class="seqmsg">5. Instruments &rarr; <b>WeatherStation</b> : return raw readings</div>
+  <div class="seqmsg">6. <b>WeatherStation</b> &rarr; <b>WeatherData</b> : summarise()</div>
+  <div class="seqmsg">7. <b>WeatherData</b> &rarr; <b>WeatherStation</b> : return summarised report</div>
+  <div class="seqmsg">8. <b>WeatherStation</b> &rarr; <b>CommsController</b> : send(report)</div>
+  <div class="seqmsg">9. <b>CommsController</b> &rarr; caller : reply(report)</div>
+  <div class="seqmsg">10. <b>CommsController</b> &rarr; caller : acknowledge()</div>
+</div>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Four participants: CommsController, WeatherStation, WeatherData, Instruments.</li>
+  <li>collect() from instruments and summarise() by WeatherData are the two key operations examiners check for.</li>
+  <li>Request/acknowledge pattern at the start and end (matches the textbook's exact message names).</li>
+  <li>Activation bars shown on whichever object is currently working.</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S2 H ===================== -->
+<div class="card pyq" id="s2h">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 14</span></div>
+<div class="qtext">"Design an object aggregation model for a ticket reservation system, illustrating the relationships between entities like customers, bookings, tickets, payments, and events."</div>
+<p class="ref">Uses the aggregation notation from <a href="#s1q2">Section 1, Q2</a>.</p>
+
+<h3>Object identification</h3>
+<p>Customer, Booking, Ticket, Payment, Event &mdash; all given directly in the question.</p>
+
+<h3>Aggregation model</h3>
+<div class="diagram">
+  <div class="dbox">Customer</div>
+  <div class="dlabel">makes (association)</div>
+  <div class="dbox hl">Booking <span class="dlabel">bookingId, date, status</span></div>
+  <div class="dlabel">&#9671; aggregates</div>
+  <div class="drow"><div class="dbox">Ticket <span class="dlabel">seatNo, ticketId</span></div><div class="dbox">Payment <span class="dlabel">amount, mode, status</span></div></div>
+  <div class="dlabel">Event &mdash; a Booking is made "for" one Event</div>
+  <div class="drow"><div class="dbox">Event <span class="dlabel">eventName, venue, dateTime</span></div></div>
+</div>
+<p>Reading it: a <b>Booking</b> is the "whole" that is built up from (aggregates) one or more <b>Ticket</b> objects and exactly one <b>Payment</b> object &mdash; if the Booking is deleted, its Tickets/Payment stop making sense on their own (whole-part relationship). A <b>Customer</b> makes many Bookings (association, not aggregation, since a Customer exists independently of any Booking). An <b>Event</b> can have many Bookings against it.</p>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Explicitly say which links are aggregation (diamond, whole-part: Booking&ndash;Ticket, Booking&ndash;Payment) vs plain association (Customer&ndash;Booking, Event&ndash;Booking).</li>
+  <li>Multiplicities: one Booking &rarr; many Tickets; one Customer &rarr; many Bookings; one Event &rarr; many Bookings.</li>
+  <li>Attributes listed inside each class box.</li>
+  <li>One sentence defining aggregation as a "part-of" relationship before applying it.</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S2 I ===================== -->
+<div class="card pyq" id="s2i">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 11</span></div>
+<div class="qtext">"Discuss the fundamental questions that need to be answered by the system architects during the architectural design process."</div>
+
+<p>Architectural design is creative and differs project to project, but every architect must answer the same core set of questions:</p>
+<ul>
+  <li><b>Is there a generic/reusable application architecture that fits?</b> &mdash; can an existing reference architecture be reused instead of starting from scratch?</li>
+  <li><b>How will the system be distributed</b> across processors/computers?</li>
+  <li><b>What architectural style(s) are appropriate</b> for this system (repository, client-server, layered, pipe-and-filter, etc.)?</li>
+  <li><b>What approach will be used to structure the system?</b> (how sub-systems are organised)</li>
+  <li><b>How will the system be decomposed into modules?</b> (object model vs pipeline model)</li>
+  <li><b>What control strategy should be used?</b> (centralised vs event-driven)</li>
+  <li><b>How will the architectural design be evaluated?</b> &mdash; against what quality attributes?</li>
+  <li><b>How should the architecture be documented?</b> &mdash; which models/notations will describe it?</li>
+</ul>
+<p>These questions matter because architecture is the earliest big decision point &mdash; it sits between requirements and detailed design, and getting it wrong is expensive to undo later. Answering these questions well also gives stakeholders a shared picture to discuss and lets you analyse early whether non-functional requirements (performance, security, etc.) can even be met.</p>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>List all eight questions &mdash; examiners usually count how many you remember.</li>
+  <li>Mention architectural design sits "between specification and design" and is often done in parallel with specification.</li>
+  <li>Mention the three benefits of explicit architecture: stakeholder communication, system analysis, large-scale reuse.</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S2 J ===================== -->
+<div class="card pyq" id="s2j">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 11</span></div>
+<div class="qtext">"Identify and explain the two generic control styles that are used in software systems with examples and relevant diagrams."</div>
+<p class="ref">Same models as <a href="#s1q1">Section 1, Q1(B)</a> &mdash; this question just wants the two <i>styles</i> (Centralised, Event-based) rather than all four sub-models, so keep the answer focused at that level first, then mention the sub-models as examples.</p>
+
+<table>
+<tr><th>Style</th><th>What it means</th><th>Sub-models (examples)</th><th>Diagram idea</th></tr>
+<tr><td>Centralised control</td><td>One sub-system has overall responsibility: it starts and stops the others.</td><td>Call-return model (sequential top-down calls); Manager model (one manager coordinates concurrent processes, e.g. real-time controller)</td><td>Main program with routines below it / System controller with sensor &amp; actuator processes around it</td></tr>
+<tr><td>Event-based control</td><td>Each sub-system reacts to externally generated events, from other sub-systems or the environment &mdash; no single "boss."</td><td>Broadcast model (event sent to all, interested sub-systems respond); Interrupt-driven model (hardware interrupt &rarr; dedicated handler, used for fast real-time response)</td><td>Sub-systems around an event/message handler / Interrupt vector routing to handlers</td></tr>
+</table>
+
+<div class="imp-points">
+<h4>Imp points to mention</h4>
+<ul>
+  <li>Say clearly there are exactly two generic styles: Centralised and Event-based/Event-driven.</li>
+  <li>Two sub-models under each (Call-return &amp; Manager under Centralised; Broadcast &amp; Interrupt-driven under Event-based).</li>
+  <li>One example system per sub-model.</li>
+  <li>One diagram minimum (real-time manager diagram or interrupt-vector diagram).</li>
+</ul>
+</div>
+</div>
+
+<!-- ===================== S2 K ===================== -->
+<div class="card pyq" id="s2k">
+<div class="tagrow"><span class="tag pyq">PYQ / Sample Paper</span><span class="tag ch">Ch 14</span></div>
+<div class="qtext">"Using the UML graphical notation for object classes, design a Sequence diagram for a petrol or gas station to be set up for fully automated operation." (asked identically in multiple sample papers)</div>
+<p class="ref">This is the exact same question as <a href="#s1q3">Section 1, Q3</a> &mdash; see that card for the full worked sequence diagram and imp-points checklist. It has repeated across at least two sample papers, so make sure this one is rock solid.</p>
+</div>
+
+<a class="top" href="#toc">&uarr; Top</a>
+</body>
+</html>

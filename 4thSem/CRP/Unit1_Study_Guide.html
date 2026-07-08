@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unit 1 Study Guide — Cryptography &amp; Network Security</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{
+    --bg: #0b1016;
+    --bg-panel: #111823;
+    --bg-card: #141e2b;
+    --line: #223047;
+    --text: #dbe6f0;
+    --text-dim: #8fa3ba;
+    --accent: #4fd1c5;      /* cipher-teal */
+    --accent2: #f2b544;     /* key-amber */
+    --danger: #ef6a6a;
+    --mono: 'JetBrains Mono','Fira Code',ui-monospace,Consolas,monospace;
+    --serif: 'Source Serif Pro', Georgia, serif;
+    --sans: 'Inter', -apple-system, Segoe UI, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--sans); line-height:1.65; font-size:16px;
+    background-image:
+      radial-gradient(circle at 10% 0%, rgba(79,209,197,0.06), transparent 40%),
+      radial-gradient(circle at 90% 20%, rgba(242,181,68,0.05), transparent 35%);
+  }
+  a{color:var(--accent);}
+  ::selection{background:rgba(79,209,197,0.35);}
+
+  /* ---------- layout ---------- */
+  .shell{display:flex; min-height:100vh;}
+  nav.toc{
+    width:270px; flex-shrink:0; position:sticky; top:0; height:100vh; overflow-y:auto;
+    background:var(--bg-panel); border-right:1px solid var(--line); padding:22px 16px 40px;
+  }
+  nav.toc::-webkit-scrollbar{width:6px;}
+  nav.toc::-webkit-scrollbar-thumb{background:var(--line); border-radius:3px;}
+  .brand{font-family:var(--mono); font-size:13px; color:var(--accent); letter-spacing:2px; text-transform:uppercase; margin-bottom:4px;}
+  .brand-title{font-family:var(--serif); font-size:20px; color:var(--text); margin:0 0 22px; line-height:1.3;}
+  nav.toc a{
+    display:block; font-size:13.5px; color:var(--text-dim); text-decoration:none;
+    padding:6px 10px; border-radius:6px; margin-bottom:2px; border-left:2px solid transparent;
+  }
+  nav.toc a:hover{background:var(--bg-card); color:var(--text);}
+  nav.toc a.h2{padding-left:22px; font-size:12.5px;}
+  nav.toc .grp-label{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent2); margin:18px 0 6px 10px;}
+
+  main{flex:1; min-width:0; padding:48px clamp(20px,5vw,72px) 100px;}
+  .hero{margin-bottom:56px;}
+  .hero .eyebrow{font-family:var(--mono); color:var(--accent); letter-spacing:3px; font-size:12.5px; text-transform:uppercase;}
+  .hero h1{font-family:var(--serif); font-size:clamp(32px,4vw,50px); margin:10px 0 14px; line-height:1.12;}
+  .hero p{color:var(--text-dim); max-width:680px; font-size:16px;}
+  .hero .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:20px;}
+  .tag{font-family:var(--mono); font-size:11.5px; padding:5px 10px; border:1px solid var(--line); border-radius:20px; color:var(--text-dim);}
+
+  section{margin-bottom:64px; scroll-margin-top:24px;}
+  section h2{
+    font-family:var(--serif); font-size:28px; color:var(--text); margin:0 0 6px;
+    padding-bottom:12px; border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:12px;
+  }
+  section h2 .num{font-family:var(--mono); color:var(--accent2); font-size:16px;}
+  h3{font-family:var(--sans); font-weight:700; font-size:19px; color:var(--accent); margin:30px 0 10px;}
+  h4{font-size:15.5px; color:var(--text); margin:20px 0 8px;}
+  p{margin:10px 0;}
+  ul,ol{padding-left:22px;}
+  li{margin:5px 0;}
+  code, .kbd{font-family:var(--mono); background:#0d1420; border:1px solid var(--line); padding:1px 6px; border-radius:4px; font-size:0.9em; color:var(--accent2);}
+
+  .callout{
+    background:var(--bg-card); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:8px; padding:14px 18px; margin:16px 0; font-size:14.5px;
+  }
+  .callout.warn{border-left-color:var(--accent2);}
+  .callout.note strong, .callout.warn strong{color:var(--accent2);}
+
+  .example{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:10px; margin:18px 0; overflow:hidden;
+  }
+  .example .ex-head{
+    background:#0f1826; padding:10px 18px; font-family:var(--mono); font-size:13px; color:var(--accent);
+    border-bottom:1px solid var(--line); display:flex; justify-content:space-between;
+  }
+  .example .ex-body{padding:16px 18px;}
+  .example .sol-label{font-family:var(--mono); font-size:11.5px; color:var(--accent2); text-transform:uppercase; letter-spacing:1px; margin-top:12px; display:block;}
+  .step{padding:4px 0 4px 14px; border-left:2px solid var(--line); margin:4px 0 4px 4px;}
+
+  .hard{border-left-color:var(--danger);}
+  .hard .ex-head{color:var(--danger);}
+
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:7px 11px; text-align:center;}
+  th{background:#0f1826; color:var(--accent2); font-family:var(--mono); font-weight:500; font-size:12.5px;}
+  td{font-family:var(--mono);}
+  tr:nth-child(even) td{background:rgba(255,255,255,0.015);}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:900px){.grid2{grid-template-columns:1fr;}}
+
+  .diagram{background:var(--bg-card); border:1px solid var(--line); border-radius:10px; padding:18px; margin:18px 0; text-align:center;}
+  .diagram figcaption{font-family:var(--mono); font-size:12px; color:var(--text-dim); margin-top:10px;}
+  svg text{font-family:var(--sans);}
+
+  .qbank{list-style:none; padding:0; counter-reset:q;}
+  .qbank li{counter-increment:q; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; padding:12px 16px 12px 44px; margin:8px 0; position:relative; font-size:14.5px;}
+  .qbank li::before{content:counter(q); position:absolute; left:14px; top:11px; font-family:var(--mono); color:var(--accent); font-weight:700;}
+  .qbank .marks{float:right; font-family:var(--mono); font-size:11px; color:var(--accent2); border:1px solid var(--line); border-radius:12px; padding:2px 8px;}
+
+  .pill-row{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0;}
+  .pill{font-family:var(--mono); font-size:12px; background:#0f1826; border:1px solid var(--line); padding:5px 12px; border-radius:20px; color:var(--text-dim);}
+
+  /* interactive widget */
+  .tool{background:var(--bg-card); border:1px solid var(--accent); border-radius:10px; padding:20px; margin:20px 0;}
+  .tool h4{margin-top:0; color:var(--accent);}
+  .tool input, .tool select{
+    background:#0d1420; border:1px solid var(--line); color:var(--text); padding:8px 10px; border-radius:6px;
+    font-family:var(--mono); margin:4px 6px 4px 0;
+  }
+  .tool label{font-size:12.5px; color:var(--text-dim); display:block; margin-top:8px;}
+  .tool .out{font-family:var(--mono); font-size:16px; color:var(--accent2); margin-top:10px; word-break:break-all;}
+
+  .backlink{position:fixed; bottom:22px; right:22px; background:var(--accent); color:#04211f; font-family:var(--mono); font-size:12px; padding:9px 14px; border-radius:24px; text-decoration:none; box-shadow:0 6px 20px rgba(0,0,0,0.4); opacity:0.92;}
+  .backlink:hover{opacity:1;}
+
+  .divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:40px 0;}
+
+  @media print{
+    nav.toc, .backlink{display:none;}
+    body{background:white; color:black;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="brand">CNS · Unit 1</div>
+    <div class="brand-title">Study Guide</div>
+
+    <div class="grp-label">Foundations</div>
+    <a href="#sec-intro">1 · Security Basics</a>
+    <a class="h2" href="#sec-goals">1.1 Security Goals</a>
+    <a class="h2" href="#sec-attacks">1.2 Security Attacks</a>
+    <a class="h2" href="#sec-services">1.3 Services &amp; Mechanisms</a>
+    <a class="h2" href="#sec-stego">1.4 Crypto vs Steganography</a>
+
+    <div class="grp-label">Number Theory</div>
+    <a href="#sec-mod1">2 · Modular Arithmetic</a>
+    <a class="h2" href="#sec-divide">2.1 Division &amp; Divisibility</a>
+    <a class="h2" href="#sec-gcd">2.2 GCD &amp; Euclidean Algo</a>
+    <a class="h2" href="#sec-congruence">2.3 Modulo &amp; Congruence</a>
+    <a class="h2" href="#sec-inverse">2.4 Inverses in Zn</a>
+    <a class="h2" href="#sec-linear">2.5 Linear Congruences</a>
+
+    <div class="grp-label">Classical Ciphers</div>
+    <a href="#sec-sub">3 · Substitution Ciphers</a>
+    <a class="h2" href="#sec-additive">3.1 Additive / Caesar</a>
+    <a class="h2" href="#sec-mult">3.2 Multiplicative &amp; Affine</a>
+    <a class="h2" href="#sec-mono">3.3 Monoalphabetic</a>
+    <a class="h2" href="#sec-poly">3.4 Polyalphabetic</a>
+    <a class="h2" href="#sec-hill">3.5 Hill Cipher</a>
+    <a href="#sec-transp">4 · Transposition Ciphers</a>
+    <a href="#sec-streamblock">5 · Stream vs Block</a>
+
+    <div class="grp-label">Algebra for Crypto</div>
+    <a href="#sec-algstruct">6 · Groups, Rings, Fields</a>
+    <a href="#sec-gf2n">7 · GF(2ⁿ) Fields</a>
+
+    <div class="grp-label">Exam Prep</div>
+    <a href="#sec-cheat">8 · Formula Cheat-Sheet</a>
+    <a href="#sec-questions">9 · Probable Questions</a>
+    <a href="#sec-hard">10 · Hard Numericals</a>
+  </nav>
+
+  <main>
+
+    <div class="hero">
+      <div class="eyebrow">Cryptography &amp; Network Security</div>
+      <h1>Unit 1 — Complete Exam Study Guide</h1>
+      <p>Security fundamentals, the mathematics behind cryptography (modular arithmetic &amp; algebraic structures), and every classical cipher in this unit — explained with diagrams, fully solved numericals, and a hard-numerical challenge set for last-mile prep.</p>
+      <div class="tags">
+        <span class="tag">CIA Triad</span>
+        <span class="tag">Modular Arithmetic</span>
+        <span class="tag">Euclidean Algorithm</span>
+        <span class="tag">Substitution &amp; Transposition</span>
+        <span class="tag">Hill Cipher</span>
+        <span class="tag">Groups / Rings / Fields</span>
+        <span class="tag">GF(2ⁿ)</span>
+      </div>
+    </div>
+
+    <!-- ================= SECTION 1: INTRO ================= -->
+    <section id="sec-intro">
+      <h2><span class="num">01</span> Introduction to Information Security</h2>
+
+      <h3>Core Vocabulary</h3>
+      <p>Every discussion of cryptography rests on the same handful of terms. Get these exact — examiners love one-line "define" questions on them.</p>
+      <table>
+        <tr><th>Term</th><th>Meaning</th></tr>
+        <tr><td>Plaintext</td><td>The original, readable message</td></tr>
+        <tr><td>Ciphertext</td><td>The coded/scrambled form of the message</td></tr>
+        <tr><td>Cipher</td><td>The algorithm that transforms plaintext ⇄ ciphertext</td></tr>
+        <tr><td>Key</td><td>Secret information the cipher uses; only sender/receiver know it</td></tr>
+        <tr><td>Encipher (encrypt)</td><td>Plaintext → Ciphertext</td></tr>
+        <tr><td>Decipher (decrypt)</td><td>Ciphertext → Plaintext</td></tr>
+        <tr><td>Cryptography</td><td>The study/design of encryption schemes</td></tr>
+        <tr><td>Cryptanalysis</td><td>The study of breaking ciphers without the key</td></tr>
+        <tr><td>Cryptology</td><td>Cryptography + Cryptanalysis, together</td></tr>
+      </table>
+
+      <div class="callout note"><strong>Exam tip:</strong> "Cryptography builds the lock, cryptanalysis picks it, cryptology is the whole locksmithing science."</div>
+
+      <!-- ============ GOALS ============ -->
+      <h3 id="sec-goals">1.1 Security Goals — the CIA Triad</h3>
+      <p>Three goals sit at the centre of every security discussion. Everything else — attacks, services, mechanisms — is defined in terms of which of these three it threatens or protects.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 640 220" width="100%" style="max-width:640px">
+          <circle cx="150" cy="110" r="66" fill="none" stroke="#4fd1c5" stroke-width="2"/>
+          <circle cx="320" cy="60" r="66" fill="none" stroke="#f2b544" stroke-width="2"/>
+          <circle cx="490" cy="110" r="66" fill="none" stroke="#ef6a6a" stroke-width="2"/>
+          <text x="150" y="115" fill="#dbe6f0" font-size="15" text-anchor="middle" font-weight="600">Confidentiality</text>
+          <text x="150" y="135" fill="#8fa3ba" font-size="10" text-anchor="middle">hide information</text>
+          <text x="320" y="60" fill="#dbe6f0" font-size="15" text-anchor="middle" font-weight="600">Integrity</text>
+          <text x="320" y="80" fill="#8fa3ba" font-size="10" text-anchor="middle">no unauthorized change</text>
+          <text x="490" y="115" fill="#dbe6f0" font-size="15" text-anchor="middle" font-weight="600">Availability</text>
+          <text x="490" y="135" fill="#8fa3ba" font-size="10" text-anchor="middle">accessible when needed</text>
+          <text x="320" y="200" fill="#4fd1c5" font-size="13" text-anchor="middle" font-family="monospace">SECURITY GOALS (CIA)</text>
+        </svg>
+        <figcaption>Fig 1.1 — Taxonomy of the three security goals</figcaption>
+      </div>
+
+      <ul>
+        <li><strong>Confidentiality</strong> — protects data (and even the existence of communication, e.g. traffic flow) from unauthorized disclosure. The most talked-about goal in security.</li>
+        <li><strong>Integrity</strong> — changes to data must be made only by authorized entities, through authorized methods. Integrity ≠ confidentiality: data can be visible to everyone yet still need protection from tampering.</li>
+        <li><strong>Availability</strong> — information/services must be accessible to authorized users whenever needed. Attacks like DoS target this goal specifically.</li>
+      </ul>
+
+      <!-- ============ ATTACKS ============ -->
+      <h3 id="sec-attacks">1.2 Security Attacks</h3>
+      <p>Attacks are organized by <em>which goal they threaten</em>. This mapping is a favourite exam diagram — reproduce it exactly.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 700 340" width="100%" style="max-width:700px">
+          <rect x="270" y="10" width="160" height="34" rx="6" fill="#141e2b" stroke="#4fd1c5"/>
+          <text x="350" y="32" fill="#dbe6f0" font-size="13" text-anchor="middle">Security Attacks</text>
+
+          <line x1="350" y1="44" x2="120" y2="80" stroke="#223047"/>
+          <line x1="350" y1="44" x2="350" y2="80" stroke="#223047"/>
+          <line x1="350" y1="44" x2="580" y2="80" stroke="#223047"/>
+
+          <rect x="40" y="80" width="160" height="30" rx="6" fill="#0f1826" stroke="#f2b544"/>
+          <text x="120" y="100" fill="#f2b544" font-size="12" text-anchor="middle">Confidentiality</text>
+          <rect x="270" y="80" width="160" height="30" rx="6" fill="#0f1826" stroke="#f2b544"/>
+          <text x="350" y="100" fill="#f2b544" font-size="12" text-anchor="middle">Integrity</text>
+          <rect x="500" y="80" width="160" height="30" rx="6" fill="#0f1826" stroke="#f2b544"/>
+          <text x="580" y="100" fill="#f2b544" font-size="12" text-anchor="middle">Availability</text>
+
+          <text x="120" y="140" fill="#dbe6f0" font-size="12" text-anchor="middle">Snooping</text>
+          <text x="120" y="160" fill="#dbe6f0" font-size="12" text-anchor="middle">Traffic Analysis</text>
+
+          <text x="350" y="140" fill="#dbe6f0" font-size="12" text-anchor="middle">Modification</text>
+          <text x="350" y="160" fill="#dbe6f0" font-size="12" text-anchor="middle">Masquerading</text>
+          <text x="350" y="180" fill="#dbe6f0" font-size="12" text-anchor="middle">Replaying</text>
+          <text x="350" y="200" fill="#dbe6f0" font-size="12" text-anchor="middle">Repudiation</text>
+
+          <text x="580" y="140" fill="#dbe6f0" font-size="12" text-anchor="middle">Denial of Service</text>
+
+          <line x1="120" y1="110" x2="120" y2="128" stroke="#223047"/>
+          <line x1="350" y1="110" x2="350" y2="128" stroke="#223047"/>
+          <line x1="580" y1="110" x2="580" y2="128" stroke="#223047"/>
+        </svg>
+        <figcaption>Fig 1.2 — Attacks classified against the goal they threaten</figcaption>
+      </div>
+
+      <div class="grid2">
+        <div class="callout">
+          <strong>Threatening Confidentiality</strong>
+          <ul>
+            <li><strong>Snooping</strong> — unauthorized access/interception of data</li>
+            <li><strong>Traffic analysis</strong> — inferring information from patterns of traffic (even if content is encrypted)</li>
+          </ul>
+        </div>
+        <div class="callout">
+          <strong>Threatening Integrity</strong>
+          <ul>
+            <li><strong>Modification</strong> — attacker intercepts &amp; alters the message</li>
+            <li><strong>Masquerading/Spoofing</strong> — impersonating another entity</li>
+            <li><strong>Replaying</strong> — replaying a captured message later</li>
+            <li><strong>Repudiation</strong> — sender/receiver denies having sent/received a message</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout warn"><strong>Threatening Availability</strong> — <strong>Denial of Service (DoS)</strong>: slows or completely halts a system's service.</div>
+
+      <h4>Passive vs Active Attacks</h4>
+      <table>
+        <tr><th></th><th>Passive Attack</th><th>Active Attack</th></tr>
+        <tr><td>Goal threatened</td><td>Confidentiality</td><td>Integrity &amp; Availability</td></tr>
+        <tr><td>Modifies data?</td><td>No — only observes</td><td>Yes — alters/injects/blocks</td></tr>
+        <tr><td>Detectability</td><td>Hard to detect</td><td>Easier to detect, harder to prevent</td></tr>
+        <tr><td>Examples</td><td>Snooping, traffic analysis</td><td>Modification, masquerading, replay, DoS</td></tr>
+      </table>
+
+      <!-- ============ SERVICES ============ -->
+      <h3 id="sec-services">1.3 Security Services &amp; Mechanisms (X.800)</h3>
+      <p>A <strong>security service</strong> is something the system provides to counter attacks; a <strong>security mechanism</strong> is the actual tool/technique used to implement a service. One mechanism can support several services, and one service may need several mechanisms.</p>
+
+      <div class="grid2">
+        <div>
+          <h4>Security Services</h4>
+          <ul>
+            <li>Data Confidentiality</li>
+            <li>Data Integrity</li>
+            <li>Authentication</li>
+            <li>Non-repudiation</li>
+            <li>Access Control</li>
+            <li>Availability</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Security Mechanisms</h4>
+          <ul>
+            <li>Encipherment</li>
+            <li>Digital signature</li>
+            <li>Access control</li>
+            <li>Data integrity mechanisms</li>
+            <li>Authentication exchange</li>
+            <li>Traffic padding</li>
+            <li>Routing control</li>
+            <li>Notarization</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout note"><strong>Relationship:</strong> Goals are <em>what</em> you want (CIA). Services are <em>promises</em> the system makes to protect those goals. Mechanisms are <em>how</em> those promises are kept. Encipherment (cryptography) is the mechanism behind most services.</div>
+
+      <!-- ============ STEGANOGRAPHY ============ -->
+      <h3 id="sec-stego">1.4 Cryptography vs Steganography</h3>
+      <table>
+        <tr><th>Aspect</th><th>Cryptography</th><th>Steganography</th></tr>
+        <tr><td>Goal</td><td>Make message unreadable</td><td>Hide the very existence of the message</td></tr>
+        <tr><td>Visibility</td><td>Ciphertext is visible but meaningless</td><td>Message is invisible, hidden inside other data (image, audio)</td></tr>
+        <tr><td>If discovered</td><td>Attacker still needs the key</td><td>Attacker gets the message immediately</td></tr>
+        <tr><td>Example</td><td>AES, RSA, Caesar cipher</td><td>Hiding text in the LSBs of an image</td></tr>
+      </table>
+    </section>
+
+    <!-- ================= SECTION 2: MODULAR ARITHMETIC ================= -->
+    <section id="sec-mod1">
+      <h2><span class="num">02</span> Mathematics of Cryptography I — Modular Arithmetic</h2>
+      <p>Almost every classical and modern cipher is "arithmetic that wraps around" — this is exactly what modular arithmetic formalizes. Master this chapter and the cipher chapter becomes mechanical.</p>
+
+      <h3 id="sec-divide">2.1 Integer Division &amp; Divisibility</h3>
+      <p>For any integer <code>a</code> and positive integer <code>n</code>, division gives a unique quotient <code>q</code> and remainder <code>r</code>:</p>
+      <div class="callout"><code>a = q × n + r ,&nbsp; 0 ≤ r &lt; n</code></div>
+
+      <div class="example">
+        <div class="ex-head">Example 2.1 <span>Division Algorithm</span></div>
+        <div class="ex-body">
+          <p>Divide a = 255 by n = 11.</p>
+          <span class="sol-label">Solution</span>
+          <div class="step">255 ÷ 11 = 23 remainder 2 → q = 23, r = 2</div>
+          <div class="step">Check: 23 × 11 + 2 = 253 + 2 = 255 ✓</div>
+        </div>
+      </div>
+
+      <div class="callout warn"><strong>Negative dividends:</strong> if <code>a &lt; 0</code>, a calculator gives a negative remainder. Fix: decrement q by 1 and add n to r until 0 ≤ r &lt; n.</div>
+
+      <h4>Properties of Divisibility ( a | b means "a divides b" )</h4>
+      <ul>
+        <li>If <code>a | 1</code>, then a = ±1</li>
+        <li>If <code>a | b</code> and <code>b | a</code>, then a = ±b</li>
+        <li>If <code>a | b</code> and <code>b | c</code>, then <code>a | c</code></li>
+        <li>If <code>a | b</code> and <code>a | c</code>, then <code>a | (mb + nc)</code> for any integers m, n</li>
+      </ul>
+
+      <!-- ============ GCD ============ -->
+      <h3 id="sec-gcd">2.2 Greatest Common Divisor — Euclidean Algorithm</h3>
+      <div class="callout"><strong>Euclidean Algorithm facts:</strong><br>gcd(a, 0) = a &nbsp;&nbsp;|&nbsp;&nbsp; gcd(a, b) = gcd(b, r) where r = a mod b</div>
+
+      <div class="example">
+        <div class="ex-head">Example 2.2 <span>Find gcd(2740, 1760)</span></div>
+        <div class="ex-body">
+          <div class="step">2740 = 1 × 1760 + 980</div>
+          <div class="step">1760 = 1 × 980 + 780</div>
+          <div class="step">980 = 1 × 780 + 200</div>
+          <div class="step">780 = 3 × 200 + 180</div>
+          <div class="step">200 = 1 × 180 + 20</div>
+          <div class="step">180 = 9 × 20 + 0 → remainder 0, stop</div>
+          <span class="sol-label">Answer</span> gcd(2740, 1760) = <strong>20</strong>
+        </div>
+      </div>
+
+      <h4>Extended Euclidean Algorithm</h4>
+      <p>Finds not just gcd(a,b) but integers <code>s, t</code> such that <code>as + bt = gcd(a,b)</code> — this is exactly the tool used to compute modular inverses.</p>
+
+      <div class="example">
+        <div class="ex-head">Example 2.3 <span>Extended Euclid for a = 161, b = 28</span></div>
+        <div class="ex-body">
+          <table>
+            <tr><th>q</th><th>r</th><th>s</th><th>t</th></tr>
+            <tr><td>—</td><td>161</td><td>1</td><td>0</td></tr>
+            <tr><td>—</td><td>28</td><td>0</td><td>1</td></tr>
+            <tr><td>5</td><td>21</td><td>1</td><td>−5</td></tr>
+            <tr><td>1</td><td>7</td><td>−1</td><td>6</td></tr>
+            <tr><td>3</td><td>0</td><td>—</td><td>—</td></tr>
+          </table>
+          <span class="sol-label">Answer</span> gcd(161, 28) = 7, with s = −1, t = 6 → check: 161(−1) + 28(6) = −161+168 = 7 ✓
+        </div>
+      </div>
+
+      <!-- ============ CONGRUENCE ============ -->
+      <h3 id="sec-congruence">2.3 The Modulo Operator, Zn, and Congruence</h3>
+      <p><code>Zn = {0, 1, 2, …, n−1}</code> is the set of residues mod n. Two integers a, b are <strong>congruent mod n</strong> (written <code>a ≡ b (mod n)</code>) if they leave the same remainder when divided by n — equivalently, n | (a−b).</p>
+
+      <div class="example">
+        <div class="ex-head">Example 2.4 <span>Modulo operator</span></div>
+        <div class="ex-body">
+          <div class="step">27 mod 5 = 2</div>
+          <div class="step">36 mod 12 = 0</div>
+          <div class="step">−18 mod 14 → −18 ÷ 14 gives r = −4, add 14 → r = 10</div>
+          <div class="step">−7 mod 10 → r = −7, add 10 → r = 3</div>
+        </div>
+      </div>
+
+      <h4>Properties of mod (very testable)</h4>
+      <div class="callout">
+        (a + b) mod n = [(a mod n) + (b mod n)] mod n<br>
+        (a − b) mod n = [(a mod n) − (b mod n)] mod n<br>
+        (a × b) mod n = [(a mod n) × (b mod n)] mod n
+      </div>
+
+      <!-- ============ INVERSES ============ -->
+      <h3 id="sec-inverse">2.4 Additive &amp; Multiplicative Inverses in Zn</h3>
+      <p><strong>Additive inverse</strong> of a in Zn: the number b such that a + b ≡ 0 (mod n). Always exists (b = n − a).</p>
+      <p><strong>Multiplicative inverse</strong> of a in Zn: the number b such that a × b ≡ 1 (mod n). <strong>Exists only if gcd(a, n) = 1.</strong></p>
+
+      <div class="example">
+        <div class="ex-head">Example 2.5 <span>Multiplicative inverse of 11 in Z26</span></div>
+        <div class="ex-body">
+          <p>Apply extended Euclidean algorithm to (26, 11):</p>
+          <div class="step">26 = 2×11 + 4</div>
+          <div class="step">11 = 2×4 + 3</div>
+          <div class="step">4 = 1×3 + 1</div>
+          <div class="step">3 = 3×1 + 0 → gcd = 1, so inverse exists</div>
+          <div class="step">Back-substitute: 1 = 4 − 1×3 = 4 − 1×(11−2×4) = 3×4 − 1×11 = 3×(26−2×11) − 1×11 = 3×26 − 7×11</div>
+          <span class="sol-label">Answer</span> t = −7 → map to Z26: −7 + 26 = <strong>19</strong>. Check: 11 × 19 = 209 = 8×26+1 ✓
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="ex-head">Example 2.6 <span>Does 8 have an inverse in Z10?</span></div>
+        <div class="ex-body">gcd(10, 8) = 2 ≠ 1 → <strong>no multiplicative inverse exists.</strong></div>
+      </div>
+
+      <!-- ============ LINEAR CONGRUENCE ============ -->
+      <h3 id="sec-linear">2.5 Linear Congruence Equations</h3>
+      <p>Equation form: <code>ax ≡ b (mod n)</code>. Let g = gcd(a, n).</p>
+      <ul>
+        <li>If g ∤ b → <strong>no solution</strong></li>
+        <li>If g = 1 → <strong>exactly one solution</strong>: x ≡ b·a⁻¹ (mod n)</li>
+        <li>If g | b and g ≠ 1 → <strong>exactly g solutions</strong></li>
+      </ul>
+
+      <div class="example">
+        <div class="ex-head">Example 2.7 <span>Solve 3x + 4 ≡ 6 (mod 13)</span></div>
+        <div class="ex-body">
+          <div class="step">Move constant: 3x ≡ 2 (mod 13)</div>
+          <div class="step">gcd(3,13) = 1 → unique solution</div>
+          <div class="step">Inverse of 3 mod 13 is 9 (3×9=27≡1)</div>
+          <div class="step">x ≡ 2×9 = 18 ≡ 5 (mod 13)</div>
+          <span class="sol-label">Answer</span> x = <strong>5</strong>. Check: 3(5)+4 = 19 ≡ 6 (mod 13) ✓
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="ex-head">Example 2.8 <span>Solve 10x ≡ 2 (mod 15)</span></div>
+        <div class="ex-body">gcd(10,15) = 5. Does 5 | 2? No. → <strong>No solution exists.</strong></div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 3: SUBSTITUTION CIPHERS ================= -->
+    <section id="sec-sub">
+      <h2><span class="num">03</span> Traditional Symmetric-Key Ciphers — Substitution</h2>
+
+      <div class="diagram">
+        <svg viewBox="0 0 620 160" width="100%" style="max-width:560px">
+          <rect x="10" y="55" width="90" height="46" rx="8" fill="#141e2b" stroke="#4fd1c5"/>
+          <text x="55" y="83" fill="#dbe6f0" font-size="13" text-anchor="middle">Alice</text>
+          <rect x="170" y="30" width="110" height="40" rx="6" fill="#0f1826" stroke="#f2b544"/>
+          <text x="225" y="55" fill="#f2b544" font-size="12" text-anchor="middle">Encrypt E(K,P)</text>
+          <line x1="100" y1="78" x2="170" y2="50" stroke="#223047" marker-end="url(#ah)"/>
+          <line x1="280" y1="50" x2="380" y2="78" stroke="#223047" marker-end="url(#ah)"/>
+          <text x="330" y="70" fill="#8fa3ba" font-size="11" text-anchor="middle">ciphertext C</text>
+          <rect x="380" y="30" width="110" height="40" rx="6" fill="#0f1826" stroke="#f2b544"/>
+          <text x="435" y="55" fill="#f2b544" font-size="12" text-anchor="middle">Decrypt D(K,C)</text>
+          <rect x="530" y="55" width="90" height="46" rx="8" fill="#141e2b" stroke="#4fd1c5"/>
+          <text x="575" y="83" fill="#dbe6f0" font-size="13" text-anchor="middle">Bob</text>
+          <line x1="490" y1="50" x2="530" y2="78" stroke="#223047" marker-end="url(#ah)"/>
+          <rect x="255" y="105" width="110" height="30" rx="14" fill="#0b1016" stroke="#ef6a6a"/>
+          <text x="310" y="125" fill="#ef6a6a" font-size="11" text-anchor="middle">shared secret key K</text>
+          <line x1="310" y1="105" x2="225" y2="70" stroke="#ef6a6a" stroke-dasharray="3,3"/>
+          <line x1="310" y1="105" x2="435" y2="70" stroke="#ef6a6a" stroke-dasharray="3,3"/>
+          <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#223047"/></marker></defs>
+        </svg>
+        <figcaption>Fig 3.1 — General symmetric-key cipher model (Kerckhoff's Principle: assume the algorithm is public; only K is secret)</figcaption>
+      </div>
+
+      <h4>Cryptanalysis attack types (by information available to attacker)</h4>
+      <table>
+        <tr><th>Attack</th><th>Attacker has</th></tr>
+        <tr><td>Ciphertext-only</td><td>Only ciphertext(s)</td></tr>
+        <tr><td>Known-plaintext</td><td>Some plaintext/ciphertext pairs</td></tr>
+        <tr><td>Chosen-plaintext</td><td>Can choose plaintext, sees resulting ciphertext</td></tr>
+        <tr><td>Chosen-ciphertext</td><td>Can choose ciphertext, sees resulting plaintext</td></tr>
+      </table>
+
+      <!-- ADDITIVE -->
+      <h3 id="sec-additive">3.1 Additive (Shift / Caesar) Cipher</h3>
+      <p>Simplest monoalphabetic cipher. Plaintext, ciphertext, and key are all treated as integers in Z26 (A=0 … Z=25).</p>
+      <div class="callout">Encryption: <code>C = (P + K) mod 26</code> &nbsp;&nbsp;|&nbsp;&nbsp; Decryption: <code>P = (C − K) mod 26</code></div>
+      <p>Julius Caesar used key = 3 — hence "Caesar cipher".</p>
+
+      <div class="example">
+        <div class="ex-head">Example 3.1 <span>Encrypt "hello" with key = 15</span></div>
+        <div class="ex-body">
+          <div class="step">h=7 → (7+15)mod26=22 → W</div>
+          <div class="step">e=4 → (4+15)mod26=19 → T</div>
+          <div class="step">l=11 → (11+15)mod26=26mod26=0 → A</div>
+          <div class="step">l=11 → A (again)</div>
+          <div class="step">o=14 → (14+15)mod26=29mod26=3 → D</div>
+          <span class="sol-label">Ciphertext</span> <strong>WTAAD</strong>
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="ex-head">Example 3.2 <span>Brute-force / statistical attack</span></div>
+        <div class="ex-body">
+          <p>Because the key domain is only 26 values, an additive cipher is trivially broken by trying all 26 shifts (brute force) or by frequency analysis: the most frequent ciphertext letter is very likely the encryption of 'E' or 'T' (the most common English letters), instantly giving the key.</p>
+        </div>
+      </div>
+
+      <div class="tool">
+        <h4>🔐 Live Additive Cipher Tool</h4>
+        <label>Message</label>
+        <input id="capMsg" type="text" value="hello" />
+        <label>Key (0–25)</label>
+        <input id="capKey" type="number" value="15" min="0" max="25" style="width:70px"/>
+        <div class="out" id="capOut">Ciphertext: —</div>
+      </div>
+
+      <!-- MULT / AFFINE -->
+      <h3 id="sec-mult">3.2 Multiplicative &amp; Affine Ciphers</h3>
+      <div class="callout">Multiplicative: <code>C = (P × K) mod 26</code>, requires <code>K ∈ Z26*</code> (gcd(K,26)=1) → only 12 valid keys: 1,3,5,7,9,11,15,17,19,21,23,25.</div>
+      <div class="callout">Affine: <code>C = (K1·P + K2) mod 26</code>, decrypt <code>P = K1⁻¹(C − K2) mod 26</code>. Key space = 12 × 26 = 312.</div>
+
+      <div class="example">
+        <div class="ex-head">Example 3.3 <span>Affine cipher, encrypt "hello" with (K1,K2)=(7,2)</span></div>
+        <div class="ex-body">
+          <div class="step">h=7 → (7×7+2)mod26 = 51mod26 = 25 → Z</div>
+          <div class="step">e=4 → (7×4+2)mod26 = 30mod26 = 4 → E</div>
+          <div class="step">l=11 → (7×11+2)mod26 = 79mod26 = 1 → B</div>
+          <div class="step">l=11 → B</div>
+          <div class="step">o=14 → (7×14+2)mod26 = 100mod26 = 22 → W</div>
+          <span class="sol-label">Ciphertext</span> <strong>ZEBBW</strong>
+        </div>
+      </div>
+      <p class="callout note">Note: additive cipher is the special case K1=1; multiplicative cipher is the special case K2=0.</p>
+
+      <!-- MONO -->
+      <h3 id="sec-mono">3.3 Monoalphabetic Substitution</h3>
+      <p>Each plaintext letter always maps to the <em>same</em> ciphertext letter (1-to-1 mapping table, 26! possible keys). Vulnerable to <strong>frequency analysis</strong> since English letter/digram/trigram frequencies leak through unchanged.</p>
+      <table>
+        <tr><th>Rank</th><th>Common letters</th><th>Common digrams</th><th>Common trigrams</th></tr>
+        <tr><td>Top</td><td>E, T, A, O, I, N</td><td>TH, HE, IN, ER</td><td>THE, ING, AND</td></tr>
+      </table>
+
+      <!-- POLY -->
+      <h3 id="sec-poly">3.4 Polyalphabetic Ciphers</h3>
+      <p>Each plaintext letter can map to <em>different</em> ciphertext letters depending on its position — defeats simple frequency analysis.</p>
+
+      <h4>Vigenère Cipher</h4>
+      <p>Uses a keyword repeated to match message length; each letter of the keyword shifts the corresponding plaintext letter like an additive cipher.</p>
+      <div class="example">
+        <div class="ex-head">Example 3.4 <span>Encrypt "She is listening" with keyword "PASCAL"</span></div>
+        <div class="ex-body">
+          <p>Key stream (repeating PASCAL): 15,0,18,2,0,11,15,0,18,2,0,11,15,0,18…</p>
+          <div class="step">S(18)+P(15)=33mod26=7→H</div>
+          <div class="step">h(7)+A(0)=7→H</div>
+          <div class="step">e(4)+S(18)=22→W</div>
+          <div class="step">…(continue letter by letter)…</div>
+          <span class="sol-label">Result pattern</span> Vigenère = combination of <code>m</code> additive ciphers running in parallel, one per keyword-letter position.
+        </div>
+      </div>
+
+      <h4>Cryptanalysis: Kasiski Test</h4>
+      <p>Find repeated substrings in the ciphertext, note the <em>distance</em> between repeats. The key length very likely divides the <strong>gcd of all these distances</strong> (repeats happen when the same plaintext substring aligns with the same part of the key).</p>
+
+      <h4>Autokey Cipher</h4>
+      <p>Key stream = initial key value followed by the plaintext itself (so the "key" never repeats predictably, unlike Vigenère).</p>
+
+      <h4>Playfair Cipher</h4>
+      <p>Encrypts <strong>pairs (digrams)</strong> of letters using a 5×5 key square (I/J share a cell). Rules: same row → shift right; same column → shift down; rectangle → swap columns.</p>
+
+      <!-- HILL -->
+      <h3 id="sec-hill">3.5 Hill Cipher</h3>
+      <p>A block/matrix cipher: plaintext is grouped into vectors of size <code>m</code>, and multiplied by an <code>m×m</code> key matrix (mod 26). The key matrix <strong>must be invertible mod 26</strong> (gcd(det(K),26)=1) or decryption is impossible.</p>
+      <div class="callout">Encrypt: <code>C = K·P (mod 26)</code> &nbsp;|&nbsp; Decrypt: <code>P = K⁻¹·C (mod 26)</code></div>
+
+      <div class="example">
+        <div class="ex-head">Example 3.5 <span>Encrypt "code is ready" (m=3)</span></div>
+        <div class="ex-body">Group into 3-letter blocks (pad last block with a bogus 'z' if needed), turn each block into a 3×1 vector, multiply by the 3×3 key matrix mod 26. Result: ciphertext <strong>OHKNIHGKLISS</strong>.</div>
+      </div>
+
+      <div class="example">
+        <div class="ex-head">Example 3.6 <span>Known-plaintext attack concept</span></div>
+        <div class="ex-body">
+          <p>If Eve knows block size m and has m plaintext/ciphertext pairs forming an invertible plaintext matrix P, she recovers the key directly:</p>
+          <div class="callout"><code>K = C · P⁻¹ (mod 26)</code></div>
+          <p>This is why Hill cipher — despite defeating simple frequency analysis — is completely broken by a known-plaintext attack. (Full worked numeric version is in the Hard Numericals section.)</p>
+        </div>
+      </div>
+
+      <h4>One-Time Pad &amp; Rotor/Enigma (conceptual)</h4>
+      <ul>
+        <li><strong>One-Time Pad</strong> (Vernam cipher): key is truly random, as long as the message, used only once → mathematically <strong>perfect secrecy</strong> (Shannon). Impractical: key distribution/size = message size.</li>
+        <li><strong>Rotor cipher / Enigma:</strong> mechanical polyalphabetic substitution using rotating wheels; each keypress advances a rotor, changing the substitution alphabet — an early, mechanized way to get a long non-repeating key stream.</li>
+      </ul>
+    </section>
+
+    <!-- ================= SECTION 4: TRANSPOSITION ================= -->
+    <section id="sec-transp">
+      <h2><span class="num">04</span> Transposition Ciphers</h2>
+      <p>Unlike substitution, transposition <strong>reorders</strong> symbols instead of replacing them — the ciphertext contains exactly the same letters as the plaintext, just shuffled.</p>
+
+      <h3>Keyless: Rail Fence Cipher</h3>
+      <div class="example">
+        <div class="ex-head">Example 4.1 <span>"Meet me at the park" — rail fence (2 rows)</span></div>
+        <div class="ex-body">
+          <div class="step">Row 1: M_T_E_T_H_P_R_ (odd positions)</div>
+          <div class="step">Row 2: _E_M_A_T_E_A_K_ (even positions)</div>
+          <span class="sol-label">Ciphertext</span> <strong>MEMATEAKETETHPR</strong> (read row by row)
+        </div>
+      </div>
+
+      <h3>Keyed Columnar Transposition</h3>
+      <div class="example">
+        <div class="ex-head">Example 4.2 <span>Write in rows of 4, read by permuted columns</span></div>
+        <div class="ex-body">
+          <p>Plaintext written row-wise into a grid with a fixed number of columns; a key defines the <em>order</em> in which columns are read out to build the ciphertext (e.g. key = 3,1,4,2 means "read column 3 first, then column 1…").</p>
+          <span class="sol-label">Result</span> <strong>MMTAEEHREAEKTTP</strong> (example from textbook, 4-column grid)
+        </div>
+      </div>
+
+      <div class="callout note">Encryption/decryption keys are usually <em>inverse permutations</em> of each other. Transposition can also be represented as plaintext-matrix × permutation-matrix (mod nothing — it's pure rearrangement, not arithmetic).</div>
+
+      <h3>Double Transposition</h3>
+      <p>Applying transposition twice (often with different keys/dimensions) further diffuses the letter positions and resists simple pattern attacks — an early form of what modern ciphers call "diffusion".</p>
+    </section>
+
+    <!-- ================= SECTION 5: STREAM/BLOCK ================= -->
+    <section id="sec-streamblock">
+      <h2><span class="num">05</span> Stream Ciphers vs Block Ciphers</h2>
+      <table>
+        <tr><th></th><th>Stream Cipher</th><th>Block Cipher</th></tr>
+        <tr><td>Unit encrypted</td><td>One symbol/bit at a time</td><td>Fixed-size block (m &gt; 1 symbols) at a time</td></tr>
+        <tr><td>Key</td><td>Key stream K = (k1,k2,…)</td><td>Single key (possibly matrix) for whole block</td></tr>
+        <tr><td>Example ciphers</td><td>Additive cipher, monoalphabetic sub., Vigenère</td><td>Playfair (m=2), Hill cipher (m≥2)</td></tr>
+        <tr><td>Mono/poly-alphabetic?</td><td>Depends: monoalphabetic if kᵢ independent of position (additive); polyalphabetic if kᵢ depends on position (Vigenère)</td><td>Always polyalphabetic — each output symbol depends on <em>all</em> symbols in the block</td></tr>
+      </table>
+      <div class="callout">In practice, a message is a <em>stream of blocks</em> — block cipher at the block level, stream cipher at the message level. This hybrid view matters for exam "classify this cipher" questions.</div>
+    </section>
+
+    <!-- ================= SECTION 6: ALGEBRAIC STRUCTURES ================= -->
+    <section id="sec-algstruct">
+      <h2><span class="num">06</span> Mathematics of Cryptography II — Algebraic Structures</h2>
+      <p>A set + one or more operations on it = an <strong>algebraic structure</strong>. Cryptography leans on three: groups, rings, fields.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 560 130" width="100%" style="max-width:500px">
+          <rect x="10" y="20" width="150" height="90" rx="10" fill="#141e2b" stroke="#4fd1c5"/>
+          <text x="85" y="45" fill="#4fd1c5" font-size="13" text-anchor="middle">Group</text>
+          <text x="85" y="65" fill="#8fa3ba" font-size="10" text-anchor="middle">1 operation</text>
+          <text x="85" y="80" fill="#8fa3ba" font-size="10" text-anchor="middle">closure, assoc.,</text>
+          <text x="85" y="93" fill="#8fa3ba" font-size="10" text-anchor="middle">identity, inverse</text>
+
+          <rect x="205" y="20" width="150" height="90" rx="10" fill="#141e2b" stroke="#f2b544"/>
+          <text x="280" y="45" fill="#f2b544" font-size="13" text-anchor="middle">Ring</text>
+          <text x="280" y="65" fill="#8fa3ba" font-size="10" text-anchor="middle">2 operations</text>
+          <text x="280" y="80" fill="#8fa3ba" font-size="10" text-anchor="middle">abelian group under +,</text>
+          <text x="280" y="93" fill="#8fa3ba" font-size="10" text-anchor="middle">× is closed &amp; assoc.</text>
+
+          <rect x="400" y="20" width="150" height="90" rx="10" fill="#141e2b" stroke="#ef6a6a"/>
+          <text x="475" y="45" fill="#ef6a6a" font-size="13" text-anchor="middle">Field</text>
+          <text x="475" y="65" fill="#8fa3ba" font-size="10" text-anchor="middle">2 operations</text>
+          <text x="475" y="80" fill="#8fa3ba" font-size="10" text-anchor="middle">commutative ring +</text>
+          <text x="475" y="93" fill="#8fa3ba" font-size="10" text-anchor="middle">mult. inverses (≠0)</text>
+        </svg>
+        <figcaption>Fig 6.1 — Group ⊂ Ring ⊂ Field, in increasing structural richness</figcaption>
+      </div>
+
+      <h3>Group — 4 (or 5) Axioms</h3>
+      <table>
+        <tr><th>Property</th><th>Statement</th></tr>
+        <tr><td>Closure</td><td>a•b ∈ G for all a,b ∈ G</td></tr>
+        <tr><td>Associativity</td><td>(a•b)•c = a•(b•c)</td></tr>
+        <tr><td>Identity</td><td>∃ e : a•e = e•a = a</td></tr>
+        <tr><td>Inverse</td><td>∀a ∃a⁻¹ : a•a⁻¹ = e</td></tr>
+        <tr><td>Commutativity <em>(abelian group)</em></td><td>a•b = b•a — extra, not required for a plain group</td></tr>
+      </table>
+
+      <div class="example">
+        <div class="ex-head">Example 6.1 <span>Is &lt;Zn, +&gt; a group?</span></div>
+        <div class="ex-body">Yes — it's a commutative (abelian) group: closure and associativity of mod-addition hold, identity is 0, and every element's additive inverse (n−a) is also in Zn.</div>
+      </div>
+
+      <div class="example">
+        <div class="ex-head">Example 6.2 <span>Order &amp; cyclic subgroups of &lt;Z6, +&gt;</span></div>
+        <div class="ex-body">
+          <div class="step">ord(0)=1, ord(1)=6, ord(2)=3, ord(3)=2, ord(4)=3, ord(5)=6</div>
+          <p>Cyclic subgroups generated: H1={0}, H2={0,2,4}, H3={0,3}, H4=G itself. Note every |H| divides |G|=6 — <strong>Lagrange's Theorem</strong>.</p>
+        </div>
+      </div>
+
+      <h3>Ring &amp; Field</h3>
+      <p>A <strong>ring</strong> R=&lt;{…},+,×&gt; needs the additive structure to be a full abelian group, while multiplication only needs closure, associativity, and distributivity over addition.</p>
+      <p>A <strong>field</strong> upgrades a commutative ring so multiplication <em>also</em> has inverses for every non-zero element — this is what lets you <em>divide</em>. <code>Zp</code> (p prime) is a field, but <code>Zn</code> for composite n is only a ring (some elements lack multiplicative inverses, e.g. 2 in Z10).</p>
+      <div class="callout note"><strong>Galois's result:</strong> a finite field must have exactly <code>pⁿ</code> elements (p prime). Written <code>GF(pⁿ)</code>.</div>
+    </section>
+
+    <!-- ================= SECTION 7: GF(2^n) ================= -->
+    <section id="sec-gf2n">
+      <h2><span class="num">07</span> GF(2ⁿ) Fields</h2>
+      <p>Modern block ciphers (AES!) need to do +, −, ×, ÷ on <strong>n-bit words</strong> — that's exactly what <code>GF(2ⁿ)</code> provides. Each n-bit word is represented as a polynomial of degree ≤ n−1 with binary (0/1) coefficients.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 480 90" width="100%" style="max-width:460px">
+          <text x="10" y="35" fill="#dbe6f0" font-size="14" font-family="monospace">10011001</text>
+          <text x="150" y="35" fill="#4fd1c5" font-size="16">→</text>
+          <text x="190" y="38" fill="#f2b544" font-size="14" font-family="monospace">x⁷+x⁴+x³+1</text>
+          <text x="10" y="70" fill="#8fa3ba" font-size="11">bit 7 6 5 4 3 2 1 0 → coefficient of x⁷…x⁰</text>
+        </svg>
+        <figcaption>Fig 7.1 — An 8-bit word as a GF(2⁸) polynomial</figcaption>
+      </div>
+
+      <h3>Addition / Subtraction = XOR</h3>
+      <p>In GF(2), addition and subtraction are <em>identical</em> — both are bitwise XOR (no carries, no borrows).</p>
+      <div class="example">
+        <div class="ex-head">Example 7.1 <span>(x⁵+x²+x) ⊕ (x³+x²+1) in GF(2⁸)</span></div>
+        <div class="ex-body">
+          <div class="step">x⁵+x²+x = 00100110</div>
+          <div class="step">x³+x²+1 = 00001101</div>
+          <div class="step">XOR → 00101011 = x⁵+x³+x+1</div>
+        </div>
+      </div>
+
+      <h3>Multiplication = polynomial multiply, then reduce mod an irreducible polynomial</h3>
+      <div class="example">
+        <div class="ex-head">Example 7.2 <span>Multiplicative inverse of (x²+1) mod (x⁴+x+1) in GF(2⁴)</span></div>
+        <div class="ex-body">Using the (polynomial) extended Euclidean algorithm on (x⁴+x+1) and (x²+1): <strong>the inverse is (x³+x+1)</strong>.</div>
+      </div>
+
+      <div class="callout note">This exact machinery — GF(2⁸) with irreducible polynomial x⁸+x⁴+x³+x+1 — is what AES's <code>MixColumns</code> step uses. Expect a "why does cryptography need GF(2ⁿ)" conceptual question.</div>
+    </section>
+
+    <!-- ================= CHEAT SHEET ================= -->
+    <section id="sec-cheat">
+      <h2><span class="num">08</span> One-Page Formula Cheat-Sheet</h2>
+      <table>
+        <tr><th>Concept</th><th>Formula</th></tr>
+        <tr><td>Additive cipher</td><td>C=(P+K) mod26, P=(C−K) mod26</td></tr>
+        <tr><td>Multiplicative cipher</td><td>C=(P×K) mod26, K∈Z26*</td></tr>
+        <tr><td>Affine cipher</td><td>C=(K1·P+K2) mod26, P=K1⁻¹(C−K2) mod26</td></tr>
+        <tr><td>Hill cipher</td><td>C=K·P mod26, P=K⁻¹·C mod26</td></tr>
+        <tr><td>gcd (Euclid)</td><td>gcd(a,b)=gcd(b, a mod b); gcd(a,0)=a</td></tr>
+        <tr><td>Ext. Euclid</td><td>as+bt=gcd(a,b)</td></tr>
+        <tr><td>Linear congruence ax≡b(mod n)</td><td>solvable iff gcd(a,n) | b</td></tr>
+        <tr><td>Mult. inverse exists iff</td><td>gcd(a,n)=1</td></tr>
+        <tr><td>2×2 matrix inverse mod n</td><td>K⁻¹ = det(K)⁻¹ · adj(K) mod n</td></tr>
+        <tr><td>GF(2ⁿ) add/sub</td><td>bitwise XOR</td></tr>
+        <tr><td>Finite field size</td><td>must be pⁿ (Galois)</td></tr>
+      </table>
+    </section>
+
+    <!-- ================= QUESTIONS ================= -->
+    <section id="sec-questions">
+      <h2><span class="num">09</span> Most Probable Exam Questions</h2>
+
+      <h3>Theory / Short Answer</h3>
+      <ol class="qbank">
+        <li><span class="marks">2–3M</span> Define plaintext, ciphertext, cryptography, cryptanalysis, cryptology.</li>
+        <li><span class="marks">5M</span> Explain the three security goals with examples of attacks against each.</li>
+        <li><span class="marks">5M</span> Differentiate between passive and active attacks with examples.</li>
+        <li><span class="marks">5M</span> Explain security services and mechanisms as per X.800, and how they relate to the security goals.</li>
+        <li><span class="marks">3M</span> Distinguish cryptography from steganography.</li>
+        <li><span class="marks">5M</span> State and explain Kerckhoff's principle. Why should security not depend on secrecy of the algorithm?</li>
+        <li><span class="marks">5M</span> Differentiate ciphertext-only, known-plaintext, chosen-plaintext, and chosen-ciphertext attacks.</li>
+        <li><span class="marks">5M</span> Differentiate monoalphabetic and polyalphabetic substitution ciphers with examples.</li>
+        <li><span class="marks">5M</span> Explain the Playfair cipher with its encryption rules.</li>
+        <li><span class="marks">5M</span> Explain the Vigenère cipher and the Kasiski method of cryptanalysis.</li>
+        <li><span class="marks">5M</span> Compare stream ciphers and block ciphers with examples.</li>
+        <li><span class="marks">3M</span> Why must the Hill cipher key matrix be invertible mod 26?</li>
+        <li><span class="marks">5M</span> Define group, ring, and field with one example each. How are they related?</li>
+        <li><span class="marks">5M</span> Explain why AES needs GF(2⁸) arithmetic instead of ordinary integer arithmetic.</li>
+        <li><span class="marks">3M</span> State Lagrange's theorem and verify it on a small example group.</li>
+      </ol>
+
+      <h3>Numerical-Style</h3>
+      <ol class="qbank">
+        <li><span class="marks">5M</span> Find gcd(a, b) using the Euclidean algorithm for a given pair (e.g. gcd(1976, 1075), gcd(4655, 12075)).</li>
+        <li><span class="marks">5M</span> Use the extended Euclidean algorithm to find s, t such that as+bt=gcd(a,b), for a given (a,b).</li>
+        <li><span class="marks">5M</span> Find the multiplicative inverse of a given a in Zn (e.g. inverse of 7 in Z40, of 19 in Z100).</li>
+        <li><span class="marks">5M</span> Solve a linear congruence ax ≡ b (mod n).</li>
+        <li><span class="marks">5M</span> Encrypt/decrypt a word using the additive cipher for a given key.</li>
+        <li><span class="marks">5M</span> Encrypt/decrypt a word using the affine cipher for a given key pair.</li>
+        <li><span class="marks">10M</span> Given a Hill cipher key matrix, encrypt a plaintext block / decrypt a ciphertext block.</li>
+        <li><span class="marks">5M</span> Encode/decode a message with a rail-fence or columnar transposition cipher.</li>
+        <li><span class="marks">5M</span> Compute the order of every element in a small group (e.g. Z8, Z12*).</li>
+        <li><span class="marks">5M</span> Add/multiply two polynomials in GF(2ⁿ) and reduce modulo the given irreducible polynomial.</li>
+      </ol>
+    </section>
+
+    <!-- ================= HARD NUMERICALS ================= -->
+    <section id="sec-hard">
+      <h2><span class="num">10</span> Hard / Challenge Numericals — Fully Solved</h2>
+      <p class="callout warn">These go one notch beyond textbook difficulty — combining two concepts, or requiring a full cryptanalytic attack rather than a single formula. Work through them by hand before checking the solution.</p>
+
+      <!-- HARD 1 -->
+      <div class="example hard">
+        <div class="ex-head">Hard 1 <span>Extended Euclid on large numbers</span></div>
+        <div class="ex-body">
+          <p><strong>Q.</strong> Find gcd(1976, 1776) and integers s, t such that 1976s + 1776t = gcd(1976,1776).</p>
+          <span class="sol-label">Solution</span>
+          <div class="step">1976 = 1×1776 + 200</div>
+          <div class="step">1776 = 8×200 + 176</div>
+          <div class="step">200 = 1×176 + 24</div>
+          <div class="step">176 = 7×24 + 8</div>
+          <div class="step">24 = 3×8 + 0 → gcd = 8</div>
+          <p>Back-substituting (or running the (s,t) table forward) gives <strong>s = −71, t = 79</strong>.</p>
+          <div class="step">Check: 1976×(−71) + 1776×79 = −140296 + 140304 = 8 ✓</div>
+        </div>
+      </div>
+
+      <!-- HARD 2 -->
+      <div class="example hard">
+        <div class="ex-head">Hard 2 <span>Affine cipher cryptanalysis (known-plaintext)</span></div>
+        <div class="ex-body">
+          <p><strong>Q.</strong> Eve intercepts the affine-cipher ciphertext <code>JFFG DG YDBQ</code>. By frequency analysis she suspects the plaintext contains "E" and "T", and confirms via context that plaintext <strong>E → ciphertext F</strong> and plaintext <strong>T → ciphertext G</strong>. Recover the key (K1,K2) and decrypt the full message.</p>
+          <span class="sol-label">Solution</span>
+          <div class="step">E=4, F=5, T=19, G=6. Affine rule: C=(K1·P+K2) mod 26</div>
+          <div class="step">Eqn 1: 4K1 + K2 ≡ 5 (mod 26)</div>
+          <div class="step">Eqn 2: 19K1 + K2 ≡ 6 (mod 26)</div>
+          <div class="step">Subtract: 15K1 ≡ 1 (mod 26) → K1 = inverse of 15 mod 26</div>
+          <div class="step">gcd(15,26)=1; by inspection 15×7=105=4×26+1 → K1 = 7</div>
+          <div class="step">Substitute back: 4(7)+K2≡5 → 28+K2≡5 → K2≡5−28=−23≡3 (mod26)</div>
+          <p>So (K1,K2) = (7, 3). Decrypt using P = K1⁻¹(C−K2) mod 26, with K1⁻¹ = inverse of 7 mod 26 = 15 (since 7×15=105≡1):</p>
+          <div class="step">J(9)→(15×(9−3))mod26=(15×6)mod26=90mod26=12→M</div>
+          <div class="step">F(5)→(15×(5−3))mod26=30mod26=4→E</div>
+          <div class="step">F→E, G(6)→(15×3)mod26=45mod26=19→T, ... continuing letter by letter</div>
+          <span class="sol-label">Answer</span> Full decryption: <strong>MEET AT DAWN</strong> — keys recovered: <strong>K1=7, K2=3</strong>.
+        </div>
+      </div>
+
+      <!-- HARD 3 -->
+      <div class="example hard">
+        <div class="ex-head">Hard 3 <span>Hill Cipher — full known-plaintext attack (2×2)</span></div>
+        <div class="ex-body">
+          <p><strong>Q.</strong> Eve knows a 2×2 Hill cipher (mod 26) turned plaintext "HELP" into ciphertext "HIAT". Recover the key matrix K.</p>
+          <span class="sol-label">Solution</span>
+          <div class="step">Blocks: HE→(7,4), LP→(11,15). Plaintext matrix (columns = blocks): P = [[7,11],[4,15]]</div>
+          <div class="step">Ciphertext blocks: HI→(7,8), AT→(0,19). C = [[7,0],[8,19]]</div>
+          <div class="step">det(P) = 7×15 − 11×4 = 105−44 = 61 ≡ 9 (mod 26). gcd(9,26)=1 → invertible</div>
+          <div class="step">inverse of 9 mod 26 = 3 (since 9×3=27≡1)</div>
+          <div class="step">adj(P) = [[15,−11],[−4,7]] mod26 = [[15,15],[22,7]]</div>
+          <div class="step">P⁻¹ = 3×[[15,15],[22,7]] mod26 = [[45,45],[66,21]] mod26 = [[19,19],[14,21]]</div>
+          <div class="step">K = C·P⁻¹ mod26:<br>
+            row1: (7×19+0×14, 7×19+0×21) mod26 = (133,133)mod26=(3,3)<br>
+            row2: (8×19+19×14, 8×19+19×21) mod26 = (418, 551)mod26 = (2,5)
+          </div>
+          <span class="sol-label">Answer</span> Recovered key <strong>K = [[3,3],[2,5]]</strong>. Just two known plaintext/ciphertext letter-pairs were enough to break the entire cipher — this is why Hill cipher is considered cryptographically weak despite resisting frequency analysis.
+        </div>
+      </div>
+
+      <!-- HARD 4 -->
+      <div class="example hard">
+        <div class="ex-head">Hard 4 <span>Vigenère — full Kasiski examination</span></div>
+        <div class="ex-body">
+          <p><strong>Q.</strong> The ciphertext <code>DLCBIBPSVDLCBIBPSVTYKZWMFIPVEXIHMQ</code> was produced by a Vigenère cipher. Determine the most likely key length and outline how to recover the key.</p>
+          <span class="sol-label">Solution</span>
+          <div class="step">Search for repeated substrings: the 9-letter block "DLCBIBPSV" appears at position 0 and again at position 9.</div>
+          <div class="step">Distance between repeats = 9 − 0 = 9.</div>
+          <div class="step">Since a repeat this long is very unlikely by chance, it means the same plaintext segment lined up with the <em>same</em> stretch of the key both times — so the key length must divide 9.</div>
+          <div class="step">Divisors of 9: {1, 3, 9}. A length-1 key is just a Caesar cipher (would be broken instantly by single-letter frequency analysis and can be ruled out by checking the ciphertext's flat letter distribution); so the most plausible key length is <strong>3</strong> (or possibly 9).</div>
+          <div class="step">Next step: split ciphertext into 3 interleaved subsequences (positions 0,3,6,… / 1,4,7,… / 2,5,8,…). Each subsequence was encrypted with a single Caesar shift — run frequency analysis (most frequent letter ≈ shifted 'E') on each subsequence independently to recover each key letter.</div>
+          <span class="sol-label">Answer</span> Key length = <strong>3</strong>. (This ciphertext was in fact generated with keyword <strong>KEY</strong> — confirming the method.)
+        </div>
+      </div>
+
+      <!-- HARD 5 -->
+      <div class="example hard">
+        <div class="ex-head">Hard 5 <span>Simultaneous linear congruences (CRT-style)</span></div>
+        <div class="ex-body">
+          <p><strong>Q.</strong> Solve the system: x ≡ 2 (mod 3), x ≡ 3 (mod 5), x ≡ 2 (mod 7).</p>
+          <span class="sol-label">Solution</span>
+          <div class="step">N = 3×5×7 = 105</div>
+          <div class="step">N1=N/3=35, N2=N/5=21, N3=N/7=15</div>
+          <div class="step">Need N1⁻¹ mod 3: 35mod3=2, inverse of 2 mod3 =2 (2×2=4≡1)</div>
+          <div class="step">Need N2⁻¹ mod 5: 21mod5=1, inverse of 1 mod5=1</div>
+          <div class="step">Need N3⁻¹ mod 7: 15mod7=1, inverse of 1 mod7=1</div>
+          <div class="step">x ≡ 2×35×2 + 3×21×1 + 2×15×1 (mod 105)</div>
+          <div class="step">= 140 + 63 + 30 = 233 → 233 mod105 = 23</div>
+          <span class="sol-label">Answer</span> <strong>x ≡ 23 (mod 105)</strong>. Check: 23mod3=2 ✓, 23mod5=3 ✓, 23mod7=2 ✓.
+          <p class="callout note">This is exactly the residue-matrix technique the syllabus uses for "solve a set of congruent equations" — same idea, generalized with matrices when the moduli are equal instead of coprime.</p>
+        </div>
+      </div>
+
+      <!-- HARD 6 -->
+      <div class="example hard">
+        <div class="ex-head">Hard 6 <span>GF(2⁸) multiplication — the AES calculation</span></div>
+        <div class="ex-body">
+          <p><strong>Q.</strong> Compute (0x57) ⊗ (0x83) in GF(2⁸) with AES's irreducible polynomial m(x) = x⁸+x⁴+x³+x+1 (i.e. modulus 0x11B).</p>
+          <span class="sol-label">Solution</span>
+          <div class="step">0x57 = 01010111 = x⁶+x⁴+x²+x+1</div>
+          <div class="step">0x83 = 10000011 = x⁷+x+1</div>
+          <div class="step">Multiply term by term (polynomial multiplication over GF(2), i.e. no carries):</div>
+          <div class="step">(x⁶+x⁴+x²+x+1)(x⁷+x+1) expands to a degree-13 polynomial; collect terms with XOR of exponent contributions:<br>
+          = x¹³+x¹¹+x⁹+x⁸+x⁷ + x⁷+x⁵+x³+x²+x + x⁶+x⁴+x²+x+1<br>
+          Combine (drop pairs that XOR to 0): = x¹³+x¹¹+x⁹+x⁸+x⁶+x⁵+x⁴+x³+1
+          </div>
+          <div class="step">Now reduce mod (x⁸+x⁴+x³+x+1), repeatedly replacing x⁸ with (x⁴+x³+x+1), x⁹ with x·(that), etc.</div>
+          <div class="step">Carrying out the full reduction (standard AES worked example) yields:</div>
+          <span class="sol-label">Answer</span> <strong>0x57 ⊗ 0x83 = 0xC1</strong> (binary 11000001, i.e. x⁷+x⁶+1).
+          <p class="callout note">This exact multiplication is the textbook example used to introduce AES's MixColumns arithmetic — worth memorizing the method even if not the exact numbers.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+    <p style="text-align:center;color:var(--text-dim);font-family:var(--mono);font-size:12px;">
+      Compiled from Unit 1 (Introduction to Security · Mathematics of Cryptography I &amp; II · Traditional Symmetric-Key Ciphers) · Good luck on the exam 🔐
+    </p>
+
+  </main>
+</div>
+
+<a class="backlink" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ Top</a>
+
+<script>
+function capUpdate(){
+  var msg = document.getElementById('capMsg').value || '';
+  var key = parseInt(document.getElementById('capKey').value) || 0;
+  key = ((key % 26) + 26) % 26;
+  var out = '';
+  for (var i=0;i<msg.length;i++){
+    var ch = msg[i];
+    if (/[a-z]/i.test(ch)){
+      var base = ch === ch.toUpperCase() ? 65 : 97;
+      var p = ch.toUpperCase().charCodeAt(0) - 65;
+      var c = (p + key) % 26;
+      out += String.fromCharCode(c + base);
+    } else {
+      out += ch;
+    }
+  }
+  document.getElementById('capOut').textContent = 'Ciphertext: ' + out;
+}
+document.getElementById('capMsg').addEventListener('input', capUpdate);
+document.getElementById('capKey').addEventListener('input', capUpdate);
+capUpdate();
+</script>
+
+</body>
+</html>

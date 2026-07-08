@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>October 2024 Supplementary Exam — Software Engineering Solutions</title>
+<style>
+  :root{
+    --beige-1:#f5efe2;
+    --beige-2:#ece2cc;
+    --beige-3:#e0d3b3;
+    --beige-line:#cdbd93;
+    --ink:#211d16;
+    --ink-soft:#4a4334;
+    --accent:#8a6d3b;
+    --card-bg:#fbf8f1;
+    --code-bg:#efe6d2;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--beige-1);
+    color:var(--ink);
+    font-family:'Georgia','Iowan Old Style','Times New Roman',serif;
+    line-height:1.55;
+  }
+
+  header.site{
+    background:var(--ink);
+    color:var(--beige-1);
+    padding:26px 24px 20px;
+    text-align:center;
+    border-bottom:6px solid var(--accent);
+  }
+  header.site h1{
+    margin:0 0 6px;
+    font-size:1.5rem;
+    letter-spacing:0.4px;
+    font-weight:700;
+  }
+  header.site p{
+    margin:0;
+    color:var(--beige-3);
+    font-size:0.95rem;
+    letter-spacing:1px;
+  }
+
+  main{
+    max-width:940px;
+    margin:0 auto;
+    padding:30px 18px 80px;
+  }
+
+  .qcard-grid{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  article.qcard{
+    background:var(--card-bg);
+    border:1px solid var(--beige-line);
+    border-left:5px solid var(--ink);
+    border-radius:3px;
+    padding:20px 24px 22px;
+    box-shadow:0 1px 3px rgba(33,29,22,0.08);
+  }
+  article.qcard h3{
+    margin:0 0 10px;
+    font-size:1.05rem;
+    color:#fff;
+    background:var(--accent);
+    display:inline-block;
+    padding:5px 14px;
+    border-radius:2px;
+  }
+  article.qcard > p:first-of-type{
+    font-weight:700;
+    color:var(--ink);
+    background:var(--beige-2);
+    padding:10px 14px;
+    border-left:3px solid var(--accent);
+    margin:0 0 14px;
+    font-size:0.98rem;
+  }
+  article.qcard h4{
+    margin:16px 0 8px;
+    font-size:0.98rem;
+    color:var(--accent);
+    border-bottom:1px solid var(--beige-line);
+    padding-bottom:4px;
+  }
+  article.qcard h5{
+    margin:14px 0 6px;
+    font-size:0.92rem;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+  article.qcard h6{
+    margin:12px 0 4px;
+    font-size:0.9rem;
+    color:var(--ink-soft);
+  }
+  article.qcard p{
+    margin:8px 0;
+    font-size:0.94rem;
+    color:var(--ink);
+  }
+  article.qcard ul, article.qcard ol{
+    margin:8px 0;
+    padding-left:22px;
+    font-size:0.94rem;
+  }
+  article.qcard li{margin:5px 0;}
+  article.qcard strong{color:var(--ink); font-weight:700;}
+  article.qcard em{color:var(--ink-soft);}
+
+  article.qcard table{
+    width:100%;
+    border-collapse:collapse;
+    margin:14px 0;
+    font-size:0.88rem;
+  }
+  article.qcard th, article.qcard td{
+    border:1px solid var(--beige-line);
+    padding:8px 10px;
+    text-align:left;
+    vertical-align:top;
+  }
+  article.qcard th{
+    background:var(--ink);
+    color:var(--beige-1);
+  }
+  article.qcard tr:nth-child(even) td{
+    background:var(--beige-2);
+  }
+
+  article.qcard code{
+    font-family:'Courier New',monospace;
+    background:var(--code-bg);
+    padding:1px 4px;
+    border-radius:2px;
+  }
+  article.qcard hr{
+    border:none;
+    border-top:1px dashed var(--beige-line);
+    margin:16px 0;
+  }
+
+  /* ---------- Control Flow Diagram (custom, no ASCII) ---------- */
+  .cfg-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:18px 8px;
+    margin:12px 0;
+    background:var(--beige-2);
+    border:1px solid var(--beige-line);
+    border-radius:4px;
+  }
+  .cfg-row{display:flex; justify-content:center; width:100%;}
+  .cfg-node{
+    background:var(--card-bg);
+    border:2px solid var(--ink);
+    border-radius:6px;
+    padding:8px 14px;
+    text-align:center;
+    font-size:0.8rem;
+    font-weight:700;
+    color:var(--ink);
+    min-width:150px;
+  }
+  .cfg-node span{
+    display:block;
+    font-weight:400;
+    font-size:0.74rem;
+    color:var(--ink-soft);
+    margin-top:3px;
+  }
+  .cfg-node.decision{
+    border-color:var(--accent);
+    background:#fff9ec;
+    border-radius:16px;
+  }
+  .cfg-node.exit{
+    border-color:#6b4c2a;
+    background:var(--beige-3);
+  }
+  .cfg-node.start{
+    background:var(--ink);
+    color:var(--beige-1);
+    border-color:var(--ink);
+  }
+  .cfg-node.start span{color:var(--beige-3);}
+  .cfg-node.small{min-width:120px; font-size:0.76rem;}
+
+  .cfg-arrow-down{
+    width:2px;
+    height:20px;
+    background:var(--ink-soft);
+    margin:2px auto;
+    position:relative;
+  }
+  .cfg-arrow-down::after{
+    content:"";
+    position:absolute;
+    bottom:-1px;
+    left:50%;
+    transform:translateX(-50%);
+    border-left:5px solid transparent;
+    border-right:5px solid transparent;
+    border-top:7px solid var(--ink-soft);
+  }
+
+  .cfg-branch-labels{
+    display:flex;
+    justify-content:space-between;
+    width:60%;
+    max-width:340px;
+    font-size:0.72rem;
+    font-style:italic;
+    color:var(--accent);
+    margin:2px 0;
+  }
+
+  .cfg-split{
+    display:flex;
+    justify-content:center;
+    gap:36px;
+    width:100%;
+    flex-wrap:wrap;
+    margin-top:4px;
+  }
+  .cfg-split.two{align-items:flex-start;}
+  .cfg-branch-col{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .cfg-loopback{
+    margin-top:8px;
+    font-size:0.72rem;
+    font-style:italic;
+    color:var(--ink-soft);
+    background:var(--beige-3);
+    padding:3px 10px;
+    border-radius:10px;
+  }
+
+  footer.site{
+    text-align:center;
+    padding:20px;
+    color:var(--ink-soft);
+    font-size:0.8rem;
+    border-top:2px solid var(--beige-line);
+    background:var(--beige-2);
+  }
+
+  @media (max-width:640px){
+    header.site h1{font-size:1.2rem;}
+    article.qcard{padding:16px;}
+    .cfg-split{gap:16px;}
+    .cfg-node{min-width:120px; font-size:0.72rem;}
+    .cfg-branch-labels{width:80%;}
+  }
+</style>
+</head>
+<body>
+<header class="site">
+  <h1>B.M.S. College of Engineering — October 2024 Supplementary Exams</h1>
+  <p>Software Engineering (23CS4PCSED) — Exam-Perfect Solutions</p>
+</header>
+
+<main>
+  <div class="qcard-grid">
+<article class="qcard">
+<h3>Question 1. a)</h3>
+<p><strong>Differentiate between Waterfall model and Spiral model. [Marks Allocated in Paper]</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter of Comparison</th>
+<th>Waterfall Model</th>
+<th>Spiral Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Basic Structure</strong></td>
+<td>A linear sequential process model where each phase (Requirements, Design, Implementation, Testing) cascades downward strictly one after the other.</td>
+<td>An iterative, risk-driven process model represented as a spiral, where each loop in the spiral represents a phase of the software process.</td>
+</tr>
+<tr>
+<td><strong>Risk Management</strong></td>
+<td>Lacks explicit risk assessment mechanisms. Risks are usually discovered late during the testing or deployment phases.</td>
+<td>Explicit risk assessment and risk resolution are core activities built directly into every single iteration of the spiral.</td>
+</tr>
+<tr>
+<td><strong>Requirements Flexibility</strong></td>
+<td>Highly rigid. Requirements must be completely frozen before design begins. Very poor at accommodating changing customer requirements.</td>
+<td>Highly flexible. Requirements can evolve dynamically as the project loops through new spirals and prototypes are evaluated.</td>
+</tr>
+<tr>
+<td><strong>Target Application</strong></td>
+<td>Best suited for well-understood, stable projects (e.g., hardware-interfacing systems, embedded control) where specifications are clear upfront.</td>
+<td>Best suited for large-scale, complex, and highly innovative projects where technical and business risks are high.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article class="qcard">
+<h3>Question 1. b)</h3>
+<p><strong>Differentiate User requirements and System requirements. [Marks Allocated in Paper]</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>User Requirements</th>
+<th>System Requirements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Definition</strong></td>
+<td>High-level abstract statements and broad diagrams describing what operational services the system is expected to provide and the constraints under which it must operate.</td>
+<td>Highly detailed, structured descriptions of the software system's specific functions, services, and operational constraints.</td>
+</tr>
+<tr>
+<td><strong>Target Audience</strong></td>
+<td>Written primarily for client managers, system end-users, contract managers, and non-technical business stakeholders.</td>
+<td>Written strictly for senior software engineers, system architects, and technical developers.</td>
+</tr>
+<tr>
+<td><strong>Language &amp; Format</strong></td>
+<td>Written in natural, everyday language (e.g., English) avoiding deep technical jargon so it can be easily understood by laymen.</td>
+<td>Written using structured natural language templates, formal mathematical specifications, or precise graphical design models (UML).</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article class="qcard">
+<h3>Question 1. c)</h3>
+<p><strong>Differentiate Software Engineering and Computer Science. [Marks Allocated in Paper]</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Computer Science</th>
+<th>Software Engineering</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Core Focus</strong></td>
+<td>Concerned with the theoretical foundations and mathematical fundamentals of computing, algorithms, and computational architecture.</td>
+<td>Concerned with the practicalities of designing, developing, and delivering useful software products to customers.</td>
+</tr>
+<tr>
+<td><strong>Nature of Discipline</strong></td>
+<td>It is a fundamental science focused on discovering new computational truths and limits.</td>
+<td>It is an applied engineering discipline focused on cost-effective, high-quality solution delivery.</td>
+</tr>
+<tr>
+<td><strong>Scope of Work</strong></td>
+<td>Focuses on optimal algorithm creation, data structure efficiency, and hardware-software theory.</td>
+<td>Encompasses project management, risk analysis, software process models, testing, and lifecycle evolution.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article class="qcard">
+<h3>Question 2.</h3>
+<p><strong>The ACM and the IEEE have cooperated to produce a joint code of ethics and professional practice. Discuss the principles that software engineers must adhere to protect the welfare of the society. [Marks Allocated in Paper]</strong></p>
+<p>Software engineers have ethical responsibilities that extend beyond basic technical coding. The ACM/IEEE-CS Joint Task Force defines 8 core principles that engineers must uphold to protect society:</p>
+<ol>
+<li><strong>PUBLIC:</strong> Software engineers shall act consistently with the public interest. They must prioritize public safety and welfare over commercial success.</li>
+<li><strong>CLIENT AND EMPLOYER:</strong> Software engineers shall act in a manner that is in the best interests of their client and employer, provided it is completely consistent with the public interest.</li>
+<li><strong>PRODUCT:</strong> Software engineers shall ensure that their products and related modifications meet the highest professional standards possible.</li>
+<li><strong>JUDGMENT:</strong> Software engineers shall maintain strict integrity and independence in their professional judgment.</li>
+<li><strong>MANAGEMENT:</strong> Software engineering managers and leaders shall subscribe to and promote an ethical approach to the management of software development and maintenance.</li>
+<li><strong>PROFESSION:</strong> Software engineers shall advance the integrity and reputation of the profession consistent with the public interest.</li>
+<li><strong>COLLEAGUES:</strong> Software engineers shall be fair to and supportive of their colleagues.</li>
+<li><strong>SELF:</strong> Software engineers shall participate in lifelong learning regarding the practice of their profession and promote an ethical approach to their practice.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Question 8. a)</h3>
+<p><strong>All requirements are expressed as scenarios. The clients want the design to be simple and the software development to be planned and released in smaller portions. Identify the most suitable software development method to be adopted for the above requirements. Discuss the various practices involved in this method. [8 Marks]</strong></p>
+<h4>1. Identification of the Method</h4>
+<p>The most suitable software development method for this scenario is <strong>Extreme Programming (XP)</strong>, which is a highly prominent framework under <strong>Agile Software Development</strong>. The scenario explicitly mentions requirements written as "scenarios" (User Stories), a demand for "simple design," and software released in "smaller portions" (incremental delivery)—all of which are fundamental signatures of XP.</p>
+<h4>2. Key Practices Involved in Extreme Programming (XP)</h4>
+<ul>
+<li><strong>Requirements as User Stories:</strong> User requirements are expressed directly as scenarios or "user stories" written on story cards, allowing the development team to break them down into implementation tasks.</li>
+<li><strong>Small, Frequent Releases:</strong> The software is built and delivered in small, iterative portions, allowing the client to see working software quickly and adjust requirements accordingly.</li>
+<li><strong>Test-First Development (Test-Driven Development):</strong> Executable test harnesses are written <em>before</em> the actual software code is written. The code is then developed specifically to pass those tests.</li>
+<li><strong>Continuous Refactoring:</strong> The engineering team maintains system simplicity through constant code refactoring, actively cleaning up the architecture to ensure it does not degrade as new features are added.</li>
+<li><strong>Pair Programming:</strong> Developers work in pairs at a single workstation. This provides continuous, real-time code inspection, shares knowledge, and improves overall code quality.</li>
+<li><strong>Customer Involvement:</strong> The client or end-user is actively involved in the development process, evaluating the smaller increments and validating the tests.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question 8. b)</h3>
+<p><strong>Discuss the advantages of software inspections over software testing. Identify the different roles and responsibilities in the inspection process. [6 Marks]</strong></p>
+<h4>1. Advantages of Software Inspections over Dynamic Testing</h4>
+<p>Software inspections (static verification) involve reviewing source code manually before compilation. This provides distinct advantages over traditional execution testing:</p>
+<ul>
+<li><strong>No Defect Masking:</strong> During dynamic execution testing, one error can crash the program or corrupt data, masking other downstream bugs. In an inspection, the code is read statically, allowing the team to discover multiple independent defects in a single session without dealing with program crashes.</li>
+<li><strong>Catches Non-Functional Flaws:</strong> Inspections can catch issues that tests cannot physically execute, such as poor coding style, inefficient algorithms, bad naming conventions, or unmaintainable architectural structures.</li>
+<li><strong>Cost Efficiency:</strong> Finding and fixing a bug during an inspection is significantly cheaper and faster than discovering it during testing, which requires writing reproduction scripts, running debuggers, and recompiling builds.</li>
+</ul>
+<h4>2. Roles and Responsibilities in the Inspection Process</h4>
+<p>According to standard verification protocols, a formal inspection involves the following team roles:</p>
+<ol>
+<li><strong>Author/Programmer:</strong> The individual who wrote the code. They are responsible for explaining the logic to the team and implementing the fixes for any defects found.</li>
+<li><strong>Inspector (Reviewer):</strong> A technical peer who reads the code specifically to find bugs, logical errors, and non-compliance with organizational standards.</li>
+<li><strong>Reader:</strong> The individual who reads the code aloud to the inspection team, walking them through the execution flow step-by-step.</li>
+<li><strong>Moderator (Chairman):</strong> The leader who manages the inspection process, schedules the meetings, keeps the team focused on finding defects (rather than fixing them during the meeting), and ensures formal quality reports are logged.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Question 7. a)</h3>
+<p><strong>Differentiate between structural testing and functional testing. [6 Marks]</strong></p>
+<table>
+<thead>
+<tr>
+<th>Aspect of Comparison</th>
+<th>Structural Testing (White-Box Testing)</th>
+<th>Functional Testing (Black-Box Testing)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Testing Basis</strong></td>
+<td>Test cases are designed based on deep knowledge of the <strong>internal source code structure and logic</strong>.</td>
+<td>Test cases are derived strictly from the <strong>external software requirements and functional specifications</strong>.</td>
+</tr>
+<tr>
+<td><strong>Primary Objective</strong></td>
+<td>To exercise and validate internal logical execution paths, loop boundaries, and conditional branch statements (e.g., <code>if-else</code> blocks).</td>
+<td>To validate that the system accepts inputs and generates the correct outputs in accordance with business rules.</td>
+</tr>
+<tr>
+<td><strong>System Visibility</strong></td>
+<td>The tester has full access to the source code (Clear/Glass box approach).</td>
+<td>The tester treats the software as a completely opaque "black box" with zero visibility into internal algorithms.</td>
+</tr>
+<tr>
+<td><strong>Common Techniques</strong></td>
+<td>Path testing, statement coverage analysis, data-flow testing, and cyclomatic complexity graphs.</td>
+<td>Equivalence partitioning, boundary value analysis, and use-case scenario validation.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article class="qcard">
+<h3>Question 7. c)</h3>
+<p><strong>Assume that an organization has 10 legacy systems. The organization is planning the budget for the upcoming financial quarter and wants to discard some of the legacy systems so that new systems can be incorporated. Discuss the different clusters that need to be analyzed by the organization for discarding the legacy systems. [6 Marks]</strong></p>
+<p>When assessing legacy systems for budgeting and phase-outs, an organization analyzes the software across two dimensions: <strong>System Quality</strong> (technical health) and <strong>Business Value</strong> (operational importance). This evaluation creates four distinct clusters that dictate the system's fate:</p>
+<ol>
+<li><strong>Cluster 1: Low Business Value &amp; Low System Quality (The Discard Cluster)</strong></li>
+<li><em>Analysis:</em> These legacy systems suffer from severe technical debt, unmaintainable code, and constant failure, while simultaneously providing almost zero modern value to the core business operations.</li>
+<li>
+<p><em>Action:</em> <strong>Scrap completely.</strong> These systems should be the primary targets for discarding to free up budget space.</p>
+</li>
+<li>
+<p><strong>Cluster 2: Low Business Value &amp; High System Quality (The Archive Cluster)</strong></p>
+</li>
+<li><em>Analysis:</em> The software is technically sound and runs well, but the business processes it supports have become obsolete or irrelevant to the company's current strategic goals.</li>
+<li>
+<p><em>Action:</em> <strong>Replace or phase out.</strong> The organization should stop active development and migrate any residual required tasks to COTS (Commercial Off-The-Shelf) tools.</p>
+</li>
+<li>
+<p><strong>Cluster 3: High Business Value &amp; Low System Quality (The Re-Engineering Cluster)</strong></p>
+</li>
+<li><em>Analysis:</em> These are critical systems keeping the company running, but they are technically degraded, poorly documented, and expensive to keep online.</li>
+<li>
+<p><em>Action:</em> <strong>Re-engineer or Modernize.</strong> They cannot be discarded because of their business value. The budget must be allocated to clean up the architecture or replace them with a modern enterprise solution.</p>
+</li>
+<li>
+<p><strong>Cluster 4: High Business Value &amp; High System Quality (The Maintain Cluster)</strong></p>
+</li>
+<li><em>Analysis:</em> Highly important, stable systems running smoothly.</li>
+<li><em>Action:</em> <strong>Maintain.</strong> Keep them running with normal operational funding.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Question 7. b)</h3>
+<p><strong>Discuss the set of laws proposed by Lehman with respect to program evolution. [8 Marks]</strong></p>
+<h4>Exam-Perfect Answer:</h4>
+<p>Lehman and Belady studied the evolution of large-scale software systems and proposed a set of empirical laws—known as <strong>Lehman’s Laws of Software Evolution</strong>—that govern how "E-type" (embedded in a real-world environment) systems behave as they change over time.</p>
+<p>To secure full marks, the key laws and their justifications must be defined:</p>
+<ol>
+<li><strong>Law of Continuing Change:</strong></li>
+<li><em>Statement:</em> A program that is used in a real-world environment must continually change, or else it will become progressively less useful in that environment.</li>
+<li>
+<p><em>Implication:</em> Software is never truly "finished." Operating environments, business rules, and user expectations change, forcing the software to adapt or face obsolescence.</p>
+</li>
+<li>
+<p><strong>Law of Increasing Complexity:</strong></p>
+</li>
+<li><em>Statement:</em> As an evolving program changes, its structural complexity increases unless active work is done to maintain or reduce it.</li>
+<li>
+<p><em>Implication:</em> Without continuous refactoring and architectural cleanups, adding new features ad-hoc will degrade the code structure, leading to tight coupling and higher maintenance costs.</p>
+</li>
+<li>
+<p><strong>Law of Large Program Evolution:</strong></p>
+</li>
+<li>
+<p><em>Statement:</em> Program evolution is a self-regulating process. System attributes such as size, time between releases, and the number of reported errors are approximately invariant for each system release.</p>
+</li>
+<li>
+<p><strong>Law of Organizational Stability:</strong></p>
+</li>
+<li><em>Statement:</em> Over a program's lifetime, its rate of development is approximately constant and independent of the resources devoted to system development.</li>
+<li>
+<p><em>Implication:</em> Adding more programmers to a legacy project does not proportionally speed up development due to the communication overhead and structural limits of the software.</p>
+</li>
+<li>
+<p><strong>Law of Conservation of Familiarity:</strong></p>
+</li>
+<li><em>Statement:</em> Over the lifetime of a system, the incremental change in each release is approximately constant.</li>
+<li>
+<p><em>Implication:</em> If a release tries to introduce too many changes at once, the system becomes highly unstable because developers lose familiarity with the core structure.</p>
+</li>
+<li>
+<p><strong>Law of Continuing Growth:</strong></p>
+</li>
+<li>
+<p><em>Statement:</em> The functional capability of software systems must continually increase to maintain user satisfaction over their lifetime.</p>
+</li>
+<li>
+<p><strong>Law of Declining Quality:</strong></p>
+</li>
+<li><em>Statement:</em> The quality of software systems will appear to be declining unless they are strictly modified to reflect changes in their operational environment.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Question 8. c)</h3>
+<p><strong>Path testing is a structural testing strategy whose objective is to exercise every independent execution path through a component or program. For a binary search program, design a path flow graph, where each node represents a line of code. Identify the number of independent paths to be tested using cyclomatic complexity and justify. [6 Marks]</strong></p>
+<h4>Exam-Perfect Answer (Algorithmic Approach):</h4>
+<h5>1. Baseline Algorithm for Binary Search</h5>
+<p>Instead of programming syntax, we define the logic using standard algorithmic steps. Each numbered step will correspond to a node in the flow graph.</p>
+<ol>
+<li><strong>Start</strong> (Initialize <code>Low</code> and <code>High</code> boundaries)</li>
+<li><strong>While</strong> (<code>Low &lt;= High</code>) <strong>do:</strong></li>
+<li>Calculate <code>Midpoint</code></li>
+<li><strong>If</strong> (<code>Array[Midpoint] == Target</code>) <strong>then:</strong></li>
+<li><strong>Return</strong> <code>Found</code> (Exit)</li>
+<li><strong>Else If</strong> (<code>Array[Midpoint] &lt; Target</code>) <strong>then:</strong></li>
+<li>Set <code>Low = Midpoint + 1</code> (Search Right Half)</li>
+<li><strong>Else:</strong></li>
+<li>Set <code>High = Midpoint - 1</code> (Search Left Half)</li>
+<li><strong>Return</strong> <code>Not Found</code> (Exit)</li>
+</ol>
+<h5>2. Control Flow Graph (CFG) Design</h5>
+<p><em>In an exam, draw the nodes as numbered circles connected by directional arrows based on the flow of the algorithmic steps above.</em></p>
+<div class="cfg-wrap">
+  <div class="cfg-row">
+    <div class="cfg-node start">Node 1<br><span>Start — Initialize Low, High</span></div>
+  </div>
+  <div class="cfg-arrow-down"></div>
+
+  <div class="cfg-row">
+    <div class="cfg-node decision">Node 2<br><span>While (Low ≤ High)</span></div>
+  </div>
+  <div class="cfg-branch-labels">
+    <span class="lbl-left">True</span>
+    <span class="lbl-right">False</span>
+  </div>
+
+  <div class="cfg-split two">
+    <div class="cfg-branch-col">
+      <div class="cfg-arrow-down"></div>
+      <div class="cfg-node process">Node 3<br><span>Calculate Midpoint</span></div>
+      <div class="cfg-arrow-down"></div>
+      <div class="cfg-node decision">Node 4<br><span>If Array[Mid] == Target</span></div>
+      <div class="cfg-branch-labels">
+        <span class="lbl-left">True</span>
+        <span class="lbl-right">False</span>
+      </div>
+      <div class="cfg-split two">
+        <div class="cfg-branch-col">
+          <div class="cfg-arrow-down"></div>
+          <div class="cfg-node exit">Node 5<br><span>Return Found (Exit)</span></div>
+        </div>
+        <div class="cfg-branch-col">
+          <div class="cfg-arrow-down"></div>
+          <div class="cfg-node decision">Node 6<br><span>Else If Array[Mid] &lt; Target</span></div>
+          <div class="cfg-branch-labels">
+            <span class="lbl-left">True</span>
+            <span class="lbl-right">False</span>
+          </div>
+          <div class="cfg-split two">
+            <div class="cfg-branch-col">
+              <div class="cfg-arrow-down"></div>
+              <div class="cfg-node process small">Node 7<br><span>Low = Mid + 1</span></div>
+            </div>
+            <div class="cfg-branch-col">
+              <div class="cfg-arrow-down"></div>
+              <div class="cfg-node process small">Node 8/9<br><span>High = Mid − 1</span></div>
+            </div>
+          </div>
+          <div class="cfg-loopback">↺ loops back to Node 2</div>
+        </div>
+      </div>
+    </div>
+    <div class="cfg-branch-col">
+      <div class="cfg-arrow-down"></div>
+      <div class="cfg-node exit">Node 10<br><span>Return Not Found (Exit)</span></div>
+    </div>
+  </div>
+</div>
+
+<h5>3. Cyclomatic Complexity Calculation</h5>
+<p>Cyclomatic Complexity (V(G)) defines the logical complexity of the algorithm and dictates the exact number of independent paths that must be tested to achieve 100% branch coverage.</p>
+<p>It can be calculated using two standard formulas:</p>
+<ul>
+<li><strong>Method 1: Predicate Nodes Formula</strong></li>
+<li>V(G) = P + 1 (where P is the number of predicate/decision nodes)</li>
+<li>Predicate nodes in this algorithm:</li>
+<li>Node 2: <code>While</code> loop condition</li>
+<li>Node 4: <code>If</code> match condition</li>
+<li>
+<p>Node 6: <code>Else If</code> greater/lesser condition</p>
+</li>
+<li>
+<p>P = 3  =>  V(G) = 3 + 1 = 4</p>
+</li>
+<li>
+<p><strong>Method 2: Edge-Node Formula</strong></p>
+</li>
+<li>Conceptually tying the two exit points (Node 5 and Node 10) to a single logical "End" point yields <strong>12 Edges (E)</strong> and <strong>10 Nodes (N)</strong>.</li>
+<li>V(G) = E - N + 2 = 12 - 10 + 2 = 4</li>
+</ul>
+<h5>4. Justification of the 4 Independent Paths</h5>
+<p>Because V(G) = 4, the testing strategy must explicitly execute the following <strong>4 independent paths</strong> to ensure every logical condition is tested at least once:</p>
+<ul>
+<li><strong>Path 1 (Target Not in Array - Loop Bypassed):</strong> <code>1 -&gt; 2 -&gt; 10</code><br />
+<em>(Justification: The array is empty or the boundaries cross immediately, so the loop evaluates to False on the very first check).</em></li>
+<li><strong>Path 2 (Target Found Immediately):</strong> <code>1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5</code><br />
+<em>(Justification: The search target matches the exact midpoint on the first calculation).</em></li>
+<li><strong>Path 3 (Target is in Right Half):</strong> <code>1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 6 -&gt; 7 -&gt; 2...</code><br />
+<em>(Justification: The target is greater than the midpoint, forcing the algorithm to update the lower boundary).</em></li>
+<li><strong>Path 4 (Target is in Left Half):</strong> <code>1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 6 -&gt; 8/9 -&gt; 2...</code><br />
+<em>(Justification: The target is less than the midpoint, forcing the algorithm to update the upper boundary).</em></li>
+</ul>
+</article>
+  </div>
+</main>
+
+<footer class="site">
+  Compiled exam-perfect solutions — October 2024 Supplementary Examination, Software Engineering.
+</footer>
+
+</body>
+</html>

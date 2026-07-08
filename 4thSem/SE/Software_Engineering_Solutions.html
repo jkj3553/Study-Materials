@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Software Engineering — Practice Question Solutions</title>
+<style>
+  :root{
+    --ink:#1c2330; --sub:#4a5568; --line:#e2e8f0; --accent:#2b6cb0; --accent2:#c05621;
+    --bg:#ffffff; --panel:#f7fafc; --code:#edf2f7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family: "Segoe UI", Arial, sans-serif;
+    color:var(--ink); background:var(--bg); margin:0; line-height:1.6;
+  }
+  header{
+    background:linear-gradient(135deg,#1a365d,#2b6cb0);
+    color:#fff; padding:36px 24px; text-align:center;
+  }
+  header h1{margin:0 0 8px 0; font-size:1.8em;}
+  header p{margin:0; opacity:0.9;}
+  .wrap{max-width:960px; margin:0 auto; padding:24px;}
+  nav{background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px 20px; margin-bottom:28px;}
+  nav h2{font-size:1.05em; margin-top:0; color:var(--accent);}
+  nav ol{columns:2; -webkit-columns:2; gap:24px; padding-left:20px; margin:0;}
+  nav li{margin-bottom:6px; break-inside:avoid;}
+  nav a{color:var(--ink); text-decoration:none; font-size:0.92em;}
+  nav a:hover{color:var(--accent); text-decoration:underline;}
+  section.q{
+    border:1px solid var(--line); border-radius:8px; margin-bottom:22px; overflow:hidden;
+  }
+  section.q h2{
+    background:var(--panel); margin:0; padding:14px 20px; font-size:1.08em; color:var(--accent);
+    border-bottom:1px solid var(--line);
+  }
+  section.q .body{padding:16px 20px;}
+  section.q h3{font-size:0.98em; color:var(--accent2); margin:16px 0 6px;}
+  table{border-collapse:collapse; width:100%; margin:10px 0; font-size:0.93em;}
+  th,td{border:1px solid var(--line); padding:6px 10px; text-align:left;}
+  th{background:var(--code);}
+  .calc{background:var(--code); border-radius:6px; padding:12px 16px; font-family:"Consolas",monospace; font-size:0.92em; white-space:pre-wrap;}
+  ul,ol{margin:6px 0; padding-left:22px;}
+  li{margin-bottom:4px;}
+  .diagram{background:var(--panel); border:1px dashed #a0aec0; border-radius:6px; padding:14px; margin:10px 0; text-align:center;}
+  .diagram svg{max-width:100%; height:auto;}
+  .box{fill:#ebf8ff; stroke:#2b6cb0; stroke-width:1.5;}
+  .box2{fill:#fffaf0; stroke:#c05621; stroke-width:1.5;}
+  .arrow{stroke:#2d3748; stroke-width:1.5; fill:none; marker-end:url(#arrow);}
+  footer{text-align:center; padding:20px; color:var(--sub); font-size:0.85em;}
+  code{background:var(--code); padding:1px 5px; border-radius:3px;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Software Engineering — Practice Question Solutions</h1>
+  <p>Answers to all 33 practice questions (agile, project management, OOD/UML, estimation)</p>
+</header>
+
+<div class="wrap">
+
+<nav>
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#q1">Factors for a good agile team</a></li>
+    <li><a href="#q2">Factors leading to project failure</a></li>
+    <li><a href="#q3">Critical practices in project management</a></li>
+    <li><a href="#q4">Data dictionary — Crypto Trading System</a></li>
+    <li><a href="#q5">Role of data dictionary — Car Parts</a></li>
+    <li><a href="#q6">Factors for selecting project team structure</a></li>
+    <li><a href="#q7">Product scope vs project scope</a></li>
+    <li><a href="#q8">Class diagram — Aggregation (petrol bunk)</a></li>
+    <li><a href="#q9">Class diagram — Generalization (petrol bunk)</a></li>
+    <li><a href="#q10">Organizational styles — LIBSYS</a></li>
+    <li><a href="#q11">FP/VAF/LOC/Effort/Cost calculation</a></li>
+    <li><a href="#q12">State machine — Hair Dryer</a></li>
+    <li><a href="#q13">Object models</a></li>
+    <li><a href="#q14">Sequence model — Insulin Pump</a></li>
+    <li><a href="#q15">Use case model — Petrol Pump</a></li>
+    <li><a href="#q16">Multiple inheritance hierarchy</a></li>
+    <li><a href="#q17">CASE workbenches</a></li>
+    <li><a href="#q18">Architectural system characteristics</a></li>
+    <li><a href="#q19">Packing robot system block diagram</a></li>
+    <li><a href="#q20">Architectural decisions</a></li>
+    <li><a href="#q21">Film/picture library — Client-Server</a></li>
+    <li><a href="#q22">Control styles and types</a></li>
+    <li><a href="#q23">OSI model reference architecture</a></li>
+    <li><a href="#q24">Characteristics of OOD</a></li>
+    <li><a href="#q25">Transponder object — Java code</a></li>
+    <li><a href="#q26">Weather mapping subsystem diagram</a></li>
+    <li><a href="#q27">Weather station use case diagram</a></li>
+    <li><a href="#q28">Approaches to object identification</a></li>
+    <li><a href="#q29">Design evolution — pollution monitoring</a></li>
+    <li><a href="#q30">Constantine's organizational paradigms</a></li>
+    <li><a href="#q31">Estimation techniques</a></li>
+    <li><a href="#q32">COCOMO model</a></li>
+    <li><a href="#q33">Stakeholders in SPM</a></li>
+  </ol>
+</nav>
+
+<section class="q" id="q1">
+<h2>1. Factors that make a good agile team</h2>
+<div class="body">
+<ul>
+<li><b>Small, co-located team</b> — typically 5–9 members for fast communication.</li>
+<li><b>Cross-functional skills</b> — members can design, code, test and deploy without external hand-offs.</li>
+<li><b>Trust and self-organization</b> — the team decides how to do the work; management sets goals, not methods.</li>
+<li><b>Strong customer/product-owner involvement</b> — continuous feedback shapes the backlog.</li>
+<li><b>Shared understanding of goals</b> — everyone knows the sprint/release objective.</li>
+<li><b>Good communication culture</b> — daily stand-ups, retrospectives, pair programming.</li>
+<li><b>Stability of membership</b> — teams that stay together sprint after sprint build tacit knowledge and velocity.</li>
+<li><b>Discipline in engineering practice</b> — TDD, CI/CD, refactoring, coding standards.</li>
+<li><b>Empowerment and psychological safety</b> — members can raise problems without fear.</li>
+</ul>
+</div>
+</section>
+
+<section class="q" id="q2">
+<h2>2. Bad factors that lead to software project failure</h2>
+<div class="body">
+<ul>
+<li><b>Unrealistic schedules/budgets</b> imposed without proper estimation.</li>
+<li><b>Poor requirements management</b> — incomplete, ambiguous or constantly changing requirements (scope creep).</li>
+<li><b>Weak project planning and risk management</b> — no contingency for risks.</li>
+<li><b>Lack of user/stakeholder involvement</b> throughout development.</li>
+<li><b>Inadequate communication</b> among team members, and between team and customer.</li>
+<li><b>Insufficient testing and quality assurance</b>, leading to late defect discovery.</li>
+<li><b>Poor team skills or high staff turnover.</b></li>
+<li><b>Ineffective project management</b> — no tracking of progress, milestones or budget.</li>
+<li><b>Technology mismatch</b> — choosing unsuitable tools/platforms.</li>
+<li><b>Lack of top management support and sponsorship.</b></li>
+</ul>
+</div>
+</section>
+
+<section class="q" id="q3">
+<h2>3. Critical practices in software project management</h2>
+<div class="body">
+<ul>
+<li><b>Project planning</b> — defining scope, schedule, resources and budget.</li>
+<li><b>Risk management</b> — identifying, analysing and mitigating risks continuously.</li>
+<li><b>Requirements management</b> — capturing, tracing and controlling change of requirements.</li>
+<li><b>Estimation</b> — realistic effort/cost/size estimation (FP, COCOMO, etc.).</li>
+<li><b>Quality assurance</b> — reviews, testing strategy, defined quality metrics.</li>
+<li><b>Configuration management</b> — version control of code, docs and baselines.</li>
+<li><b>Progress monitoring and control</b> — tracking milestones, EVM, status reporting.</li>
+<li><b>Team management</b> — staffing, motivation, communication and conflict resolution.</li>
+<li><b>Stakeholder management</b> — keeping sponsors, users and vendors aligned.</li>
+<li><b>Change and configuration control</b> — managing scope/requirement changes formally.</li>
+</ul>
+</div>
+</section>
+
+<section class="q" id="q4">
+<h2>4. Data dictionary model — Crypto Trading System</h2>
+<div class="body">
+<p>A data dictionary defines every data item, its meaning, type, size and relationships used in the system, so analysts, developers and testers share one common vocabulary.</p>
+<table>
+<tr><th>Data Item</th><th>Description</th><th>Type</th><th>Size/Range</th></tr>
+<tr><td>UserID</td><td>Unique identifier of a registered trader</td><td>Integer</td><td>10 digits</td></tr>
+<tr><td>WalletAddress</td><td>Blockchain wallet address linked to user</td><td>String</td><td>42 chars (hex)</td></tr>
+<tr><td>CoinSymbol</td><td>Ticker of the cryptocurrency, e.g. BTC, ETH</td><td>String</td><td>3–6 chars</td></tr>
+<tr><td>OrderID</td><td>Unique ID of a buy/sell order</td><td>Integer</td><td>12 digits</td></tr>
+<tr><td>OrderType</td><td>Market / Limit / Stop-loss</td><td>Enum</td><td>3 values</td></tr>
+<tr><td>Quantity</td><td>Amount of coin to trade</td><td>Decimal</td><td>0.00000001–∞</td></tr>
+<tr><td>Price</td><td>Price per unit at order time</td><td>Decimal</td><td>Currency value</td></tr>
+<tr><td>Timestamp</td><td>Date/time the order was placed</td><td>DateTime</td><td>—</td></tr>
+<tr><td>TransactionStatus</td><td>Pending / Executed / Cancelled</td><td>Enum</td><td>3 values</td></tr>
+<tr><td>AccountBalance</td><td>Available fiat/crypto balance of the user</td><td>Decimal</td><td>—</td></tr>
+</table>
+<p>The dictionary also records <b>data flows</b> (User → Order → Matching Engine → Ledger) and <b>data stores</b> (User DB, Order Book, Transaction Ledger, Wallet DB), so that every process in the DFD can be traced to a precisely defined data element.</p>
+</div>
+</section>
+
+<section class="q" id="q5">
+<h2>5. Role of data dictionary in a Car Parts system</h2>
+<div class="body">
+<p>In a Car Parts inventory/sales system, the data dictionary centralises definitions of every entity (Part, Supplier, Vehicle Model, Order, Customer) so that all documentation, code and database schema stay consistent.</p>
+<ul>
+<li><b>Eliminates ambiguity</b> — e.g. "PartNo" is defined once (Alphanumeric, 8 characters) and used identically everywhere.</li>
+<li><b>Supports database design</b> — becomes the basis for table/attribute definitions and normalisation.</li>
+<li><b>Impact analysis</b> — when a part attribute changes, the dictionary shows every process/report that uses it.</li>
+<li><b>Communication tool</b> between business analysts, developers and testers.</li>
+<li><b>Data validation rules</b> — e.g. Quantity ≥ 0, Price > 0, PartCategory ∈ {Engine, Brake, Electrical, Body}.</li>
+<li><b>Supports maintenance</b> — new developers can understand the data model quickly without reverse engineering code.</li>
+</ul>
+<p>Typical entries: PartID, PartName, Category, CompatibleModel, SupplierID, UnitPrice, StockQuantity, ReorderLevel, WarrantyPeriod.</p>
+</div>
+</section>
+
+<section class="q" id="q6">
+<h2>6. Factors considered when selecting project team structure</h2>
+<div class="body">
+<ul>
+<li><b>Difficulty of the problem</b> to be solved — complex problems favour democratic/egoless structures.</li>
+<li><b>Size of the resulting program</b> (LOC) — larger systems may need hierarchical/controlled structures.</li>
+<li><b>Time the team will stay together</b> — short-lived teams favour simpler, well-defined roles.</li>
+<li><b>Degree to which the problem can be modularised.</b></li>
+<li><b>Required quality and reliability</b> of the system being built.</li>
+<li><b>Rigidity of the delivery date.</b></li>
+<li><b>Degree of sociability (communication) required</b> among team members.</li>
+<li><b>Skill/experience level of team members</b> and availability of specialists.</li>
+</ul>
+<p>Common structures: <b>Chief Programmer Team</b> (centralized, hierarchical), <b>Democratic/Egoless Team</b> (flat, consensus-based), and <b>Controlled Decentralized Team</b> (hybrid — sub-teams led by senior programmers, coordinated by a project leader).</p>
+</div>
+</section>
+
+<section class="q" id="q7">
+<h2>7. Product scope and project scope</h2>
+<div class="body">
+<h3>Product scope</h3>
+<p>Describes the features, functions and characteristics of the product/service to be delivered — "what" the product is. It is defined by requirements and answers: what functionality must the software have?</p>
+<h3>Project scope</h3>
+<p>Describes the work that must be performed to deliver the product with the specified features — "how" the work will be done. It includes tasks, deliverables, deadlines, resources and budget, captured typically in a Work Breakdown Structure (WBS).</p>
+<table>
+<tr><th>Aspect</th><th>Product Scope</th><th>Project Scope</th></tr>
+<tr><td>Focus</td><td>Features/functions of deliverable</td><td>Work needed to create the deliverable</td></tr>
+<tr><td>Measured by</td><td>Requirements, specifications</td><td>WBS, schedule, budget</td></tr>
+<tr><td>Completion</td><td>Verified against requirements</td><td>Verified against project plan</td></tr>
+<tr><td>Change control</td><td>Requirements change management</td><td>Project change control process</td></tr>
+</table>
+</div>
+</section>
+
+<section class="q" id="q8">
+<h2>8. Class diagram with Aggregation — Petrol Bunk</h2>
+<div class="body">
+<p>Aggregation is a "has-a"/whole-part relationship where the part can exist independently of the whole (hollow diamond at the whole end).</p>
+<div class="diagram">
+<svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dia" markerWidth="14" markerHeight="10" refX="0" refY="5" orient="auto"><polygon points="0,5 7,0 14,5 7,10" fill="white" stroke="#2b6cb0"/></marker></defs>
+<rect class="box" x="250" y="20" width="140" height="50" rx="4"/>
+<text x="320" y="50" text-anchor="middle" font-size="13">PetrolBunk</text>
+
+<rect class="box" x="30" y="150" width="130" height="50" rx="4"/>
+<text x="95" y="180" text-anchor="middle" font-size="13">FuelDispenser</text>
+
+<rect class="box" x="190" y="150" width="110" height="50" rx="4"/>
+<text x="245" y="180" text-anchor="middle" font-size="13">StorageTank</text>
+
+<rect class="box" x="330" y="150" width="110" height="50" rx="4"/>
+<text x="385" y="180" text-anchor="middle" font-size="13">Employee</text>
+
+<rect class="box" x="470" y="150" width="130" height="50" rx="4"/>
+<text x="535" y="180" text-anchor="middle" font-size="13">PaymentCounter</text>
+
+<line x1="290" y1="70" x2="110" y2="150" class="arrow" marker-start="url(#dia)"/>
+<line x1="310" y1="70" x2="245" y2="150" class="arrow" marker-start="url(#dia)"/>
+<line x1="335" y1="70" x2="385" y2="150" class="arrow" marker-start="url(#dia)"/>
+<line x1="360" y1="70" x2="535" y2="150" class="arrow" marker-start="url(#dia)"/>
+</svg>
+</div>
+<p>A <code>PetrolBunk</code> aggregates <code>FuelDispenser</code>, <code>StorageTank</code>, <code>Employee</code> and <code>PaymentCounter</code> objects. Each part (e.g. an <code>Employee</code>) can exist even if the specific PetrolBunk object is deleted — it could be transferred to another bunk — which is the defining property of aggregation as opposed to composition.</p>
+</div>
+</section>
+
+<section class="q" id="q9">
+<h2>9. Class diagram with Generalization — Petrol Bunk</h2>
+<div class="body">
+<p>Generalization is an "is-a" relationship shown with a hollow triangle arrow pointing to the parent (superclass).</p>
+<div class="diagram">
+<svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="tri" markerWidth="16" markerHeight="12" refX="0" refY="6" orient="auto"><polygon points="0,0 12,6 0,12" fill="white" stroke="#2b6cb0"/></marker></defs>
+<rect class="box" x="250" y="20" width="140" height="50" rx="4"/>
+<text x="320" y="50" text-anchor="middle" font-size="13">Employee</text>
+
+<rect class="box2" x="30" y="150" width="130" height="50" rx="4"/>
+<text x="95" y="180" text-anchor="middle" font-size="13">PumpOperator</text>
+
+<rect class="box2" x="190" y="150" width="120" height="50" rx="4"/>
+<text x="250" y="180" text-anchor="middle" font-size="13">Cashier</text>
+
+<rect class="box2" x="340" y="150" width="130" height="50" rx="4"/>
+<text x="405" y="180" text-anchor="middle" font-size="13">Manager</text>
+
+<rect class="box2" x="500" y="150" width="120" height="50" rx="4"/>
+<text x="560" y="180" text-anchor="middle" font-size="13">Mechanic</text>
+
+<line x1="95" y1="150" x2="290" y2="70" class="arrow" marker-end="url(#tri)"/>
+<line x1="250" y1="150" x2="305" y2="70" class="arrow" marker-end="url(#tri)"/>
+<line x1="405" y1="150" x2="340" y2="70" class="arrow" marker-end="url(#tri)"/>
+<line x1="560" y1="150" x2="360" y2="70" class="arrow" marker-end="url(#tri)"/>
+</svg>
+</div>
+<p><code>PumpOperator</code>, <code>Cashier</code>, <code>Manager</code> and <code>Mechanic</code> are specialisations of the generic <code>Employee</code> class. They inherit common attributes (EmployeeID, Name, Shift, Salary) and methods (login(), markAttendance()) from Employee, while adding their own specific behaviour (e.g. PumpOperator.dispenseFuel(), Cashier.collectPayment()).</p>
+</div>
+</section>
+
+<section class="q" id="q10">
+<h2>10. Three system organizational styles — LIBSYS</h2>
+<div class="body">
+<p>LIBSYS is a library system that lets users search catalogues across several distributed sites and order documents.</p>
+<h3>a) Repository model</h3>
+<p>All sub-systems (cataloguing, search, loan management, member records) share a common central database (the repository). Changes made by one sub-system are immediately visible to others — efficient for data-intensive systems like LIBSYS where the catalogue is the shared resource.</p>
+<h3>b) Client-server model</h3>
+<p>The catalogue/search service runs on a server; user workstations (clients) at different library branches send search/loan requests over the network and receive responses — matches LIBSYS's distributed, multi-site access pattern.</p>
+<h3>c) Abstract machine (layered) model</h3>
+<p>LIBSYS can be organised in layers: a user-interface layer, a business-logic layer (search, reservation, fine calculation) and a data-management layer (catalogue database), each layer using only the services of the layer below it, which improves portability and separation of concerns.</p>
+</div>
+</section>
+
+<section class="q" id="q11">
+<h2>11. VAF, Function Points, LOC, Effort and Cost calculation</h2>
+<div class="body">
+<p><b>Given:</b> Count Total TC (UFP) = 300, Σ(fi) = 33, 1 FP = 50 LOC, Productivity = 14 FP/person-month, Labor cost = ₹90,000/month/developer.</p>
+
+<h3>I. Value Adjustment Factor (VAF)</h3>
+<div class="calc">VAF = 0.65 + 0.01 × Σ(fi)
+    = 0.65 + 0.01 × 33
+    = 0.65 + 0.33
+    = 0.98</div>
+
+<h3>II. Function Point Estimate (FP)</h3>
+<div class="calc">FP = TC (UFP) × VAF
+   = 300 × 0.98
+   = 294 Function Points</div>
+
+<h3>III. Size in LOC</h3>
+<div class="calc">Size (LOC) = FP × (LOC per FP)
+           = 294 × 50
+           = 14,700 LOC</div>
+
+<h3>IV. Effort required (person-months)</h3>
+<div class="calc">Effort = FP / Productivity
+       = 294 / 14
+       = 21 person-months</div>
+
+<h3>V. Project Cost — FP method and LOC method</h3>
+<div class="calc">Cost (FP method) = Effort × Labor cost per month
+                 = 21 × ₹90,000
+                 = ₹18,90,000
+
+For the LOC method, productivity in LOC/person-month:
+   = 14 FP/pm × 50 LOC/FP = 700 LOC/person-month
+
+Effort (LOC method) = Size(LOC) / Productivity(LOC/pm)
+                    = 14,700 / 700
+                    = 21 person-months
+
+Cost (LOC method) = 21 × ₹90,000
+                  = ₹18,90,000</div>
+<p><b>Result:</b> Both methods give the same effort (21 person-months) and the same total project cost of <b>₹18,90,000</b>, since LOC was derived consistently from the FP estimate.</p>
+</div>
+</section>
+
+<section class="q" id="q12">
+<h2>12. State machine model — Hair Dryer Machine</h2>
+<div class="body">
+<div class="diagram">
+<svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><polygon points="0,0 10,4 0,8" fill="#2d3748"/></marker></defs>
+<circle cx="30" cy="110" r="8" fill="#2d3748"/>
+<line x1="38" y1="110" x2="80" y2="110" class="arrow" marker-end="url(#ar)"/>
+<rect class="box" x="80" y="80" width="110" height="60" rx="6"/>
+<text x="135" y="115" text-anchor="middle" font-size="12">Off</text>
+
+<line x1="190" y1="100" x2="260" y2="100" class="arrow" marker-end="url(#ar)"/>
+<text x="220" y="90" font-size="10">plugIn/switchOn</text>
+<rect class="box" x="260" y="70" width="120" height="60" rx="6"/>
+<text x="320" y="105" text-anchor="middle" font-size="12">Idle (Low Heat)</text>
+
+<line x1="380" y1="90" x2="460" y2="90" class="arrow" marker-end="url(#ar)"/>
+<text x="400" y="80" font-size="10">pressHeat</text>
+<rect class="box" x="460" y="60" width="120" height="60" rx="6"/>
+<text x="520" y="95" text-anchor="middle" font-size="12">Heating (High)</text>
+
+<line x1="520" y1="60" x2="320" y2="70" class="arrow" marker-end="url(#ar)" stroke-dasharray="3,2"/>
+<text x="420" y="50" font-size="10">overheat/thermalCutoff</text>
+
+<line x1="260" y1="120" x2="190" y2="120" class="arrow" marker-end="url(#ar)"/>
+<text x="210" y="150" font-size="10">switchOff</text>
+
+<rect class="box2" x="260" y="160" width="120" height="50" rx="6"/>
+<text x="320" y="190" text-anchor="middle" font-size="12">Cooling</text>
+<line x1="320" y1="130" x2="320" y2="160" class="arrow" marker-end="url(#ar)"/>
+<text x="330" y="150" font-size="10">coolButton</text>
+<line x1="290" y1="180" x2="150" y2="140" class="arrow" marker-end="url(#ar)"/>
+</svg>
+</div>
+<p><b>States:</b> Off → Idle (Low Heat) → Heating (High Heat) → Cooling → Off.<br>
+<b>Events/transitions:</b> plugIn/switchOn (Off→Idle), pressHeatButton (Idle→Heating), thermalCutoff/overheat (Heating→Idle, safety), coolButton (Heating/Idle→Cooling), switchOff (any state→Off), unplug (Off, final).<br>
+This models the dryer's reactive behaviour purely in terms of states and the events that cause transitions between them, which is the essence of a state machine (statechart) diagram.</p>
+</div>
+</section>
+
+<section class="q" id="q13">
+<h2>13. Object models — explanation with diagram</h2>
+<div class="body">
+<p>An <b>object model</b> represents the static structure of a system in terms of objects, their classes, attributes, operations and the relationships (association, aggregation, generalization, dependency) among them. It answers "what are the things in the system and how are they related?" — as opposed to dynamic models (state/sequence) which capture behaviour over time.</p>
+<div class="diagram">
+<svg viewBox="0 0 620 200" xmlns="http://www.w3.org/2000/svg">
+<rect class="box" x="30" y="70" width="150" height="70" rx="4"/>
+<text x="105" y="95" text-anchor="middle" font-size="12" font-weight="bold">Customer</text>
+<line x1="30" y1="105" x2="180" y2="105" stroke="#2b6cb0"/>
+<text x="105" y="122" text-anchor="middle" font-size="10">+name +address</text>
+
+<rect class="box" x="230" y="70" width="150" height="70" rx="4"/>
+<text x="305" y="95" text-anchor="middle" font-size="12" font-weight="bold">Order</text>
+<line x1="230" y1="105" x2="380" y2="105" stroke="#2b6cb0"/>
+<text x="305" y="122" text-anchor="middle" font-size="10">+orderID +date</text>
+
+<rect class="box" x="430" y="70" width="150" height="70" rx="4"/>
+<text x="505" y="95" text-anchor="middle" font-size="12" font-weight="bold">Product</text>
+<line x1="430" y1="105" x2="580" y2="105" stroke="#2b6cb0"/>
+<text x="505" y="122" text-anchor="middle" font-size="10">+sku +price</text>
+
+<line x1="180" y1="105" x2="230" y2="105" class="arrow"/>
+<text x="205" y="95" font-size="9" text-anchor="middle">1..*</text>
+<line x1="380" y1="105" x2="430" y2="105" class="arrow"/>
+<text x="405" y="95" font-size="9" text-anchor="middle">1..*</text>
+</svg>
+</div>
+<p>Object models are usually depicted as UML class diagrams showing classes as boxes (name, attributes, operations) and lines showing multiplicities/relationships, e.g. a <code>Customer</code> places one or more <code>Order</code>s, each containing one or more <code>Product</code> line items. They form the foundation on which dynamic models (sequence, state) are then built.</p>
+</div>
+</section>
+
+<section class="q" id="q14">
+<h2>14. Sequence model — Insulin Pump</h2>
+<div class="body">
+<div class="diagram">
+<svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="sm" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><polygon points="0,0 10,4 0,8" fill="#2d3748"/></marker></defs>
+<text x="70" y="20" font-size="11" text-anchor="middle" font-weight="bold">GlucoseSensor</text>
+<line x1="70" y1="30" x2="70" y2="240" stroke="#a0aec0" stroke-dasharray="3,3"/>
+<text x="220" y="20" font-size="11" text-anchor="middle" font-weight="bold">ControlSoftware</text>
+<line x1="220" y1="30" x2="220" y2="240" stroke="#a0aec0" stroke-dasharray="3,3"/>
+<text x="380" y="20" font-size="11" text-anchor="middle" font-weight="bold">DoseCalculator</text>
+<line x1="380" y1="30" x2="380" y2="240" stroke="#a0aec0" stroke-dasharray="3,3"/>
+<text x="540" y="20" font-size="11" text-anchor="middle" font-weight="bold">PumpActuator</text>
+<line x1="540" y1="30" x2="540" y2="240" stroke="#a0aec0" stroke-dasharray="3,3"/>
+
+<line x1="70" y1="60" x2="215" y2="60" class="arrow" marker-end="url(#sm)"/>
+<text x="140" y="52" font-size="10">sendGlucoseReading()</text>
+
+<line x1="220" y1="90" x2="375" y2="90" class="arrow" marker-end="url(#sm)"/>
+<text x="300" y="82" font-size="10">requestDose(reading)</text>
+
+<line x1="380" y1="120" x2="225" y2="120" class="arrow" marker-end="url(#sm)"/>
+<text x="300" y="112" font-size="10">return doseAmount</text>
+
+<line x1="220" y1="150" x2="535" y2="150" class="arrow" marker-end="url(#sm)"/>
+<text x="380" y="142" font-size="10">deliverInsulin(dose)</text>
+
+<line x1="540" y1="180" x2="225" y2="180" class="arrow" marker-end="url(#sm)"/>
+<text x="380" y="172" font-size="10">deliveryConfirmed()</text>
+
+<line x1="220" y1="210" x2="75" y2="210" class="arrow" marker-end="url(#sm)"/>
+<text x="140" y="202" font-size="10">resumeMonitoring()</text>
+</svg>
+</div>
+<p>The sequence diagram shows the time-ordered interaction: the <code>GlucoseSensor</code> periodically sends a glucose reading to the <code>ControlSoftware</code>, which asks the <code>DoseCalculator</code> to compute the required insulin dose; the calculated dose is returned and the <code>ControlSoftware</code> instructs the <code>PumpActuator</code> to deliver it. On confirmation, monitoring resumes — reflecting the safety-critical closed loop of an insulin pump.</p>
+</div>
+</section>
+
+<section class="q" id="q15">
+<h2>15. Use case model — Petrol Pump</h2>
+<div class="body">
+<div class="diagram">
+<svg viewBox="0 0 620 260" xmlns="http://www.w3.org/2000/svg">
+<ellipse class="box" cx="330" cy="40" rx="100" ry="28"/>
+<text x="330" y="45" text-anchor="middle" font-size="12">Buy Fuel</text>
+
+<ellipse class="box" cx="330" cy="110" rx="100" ry="28"/>
+<text x="330" y="115" text-anchor="middle" font-size="12">Make Payment</text>
+
+<ellipse class="box" cx="330" cy="180" rx="110" ry="28"/>
+<text x="330" y="185" text-anchor="middle" font-size="12">Check Fuel Price</text>
+
+<ellipse class="box2" cx="500" cy="180" rx="100" ry="28"/>
+<text x="500" y="185" text-anchor="middle" font-size="12">Refill Tank</text>
+
+<ellipse class="box2" cx="330" cy="230" rx="120" ry="26"/>
+<text x="330" y="234" text-anchor="middle" font-size="12">Generate Receipt</text>
+
+<circle cx="40" cy="110" r="12" fill="#ebf8ff" stroke="#2b6cb0"/>
+<line x1="40" y1="122" x2="40" y2="170" stroke="#2b6cb0" stroke-width="1.5"/>
+<line x1="20" y1="140" x2="60" y2="140" stroke="#2b6cb0" stroke-width="1.5"/>
+<line x1="40" y1="170" x2="20" y2="200" stroke="#2b6cb0" stroke-width="1.5"/>
+<line x1="40" y1="170" x2="60" y2="200" stroke="#2b6cb0" stroke-width="1.5"/>
+<text x="40" y="215" text-anchor="middle" font-size="10">Customer</text>
+<line x1="65" y1="120" x2="230" y2="60" class="arrow"/>
+<line x1="65" y1="130" x2="230" y2="110" class="arrow"/>
+<line x1="65" y1="140" x2="220" y2="180" class="arrow"/>
+
+<circle cx="590" cy="60" r="12" fill="#fffaf0" stroke="#c05621"/>
+<text x="590" y="90" text-anchor="middle" font-size="10">PumpOperator</text>
+<line x1="585" y1="72" x2="530" y2="165" class="arrow"/>
+<line x1="585" y1="80" x2="380" y2="225" class="arrow"/>
+</svg>
+</div>
+<p><b>Actors:</b> Customer, PumpOperator, PaymentGateway (external).<br>
+<b>Use cases:</b> Buy Fuel, Check Fuel Price, Make Payment (includes PaymentGateway interaction), Generate Receipt (extends Make Payment), Refill Tank (performed by PumpOperator). This diagram captures the external functional requirements of the petrol pump system from each actor's viewpoint.</p>
+</div>
+</section>
+
+<section class="q" id="q16">
+<h2>16. Multiple inheritance with hierarchy diagram</h2>
+<div class="body">
+<p>Multiple inheritance allows a class to inherit attributes/methods from more than one parent class, combining behaviour from separate hierarchies.</p>
+<div class="diagram">
+<svg viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="tri2" markerWidth="16" markerHeight="12" refX="0" refY="6" orient="auto"><polygon points="0,0 12,6 0,12" fill="white" stroke="#2b6cb0"/></marker></defs>
+<rect class="box" x="30" y="20" width="140" height="50" rx="4"/>
+<text x="100" y="50" text-anchor="middle" font-size="12">FlyingObject</text>
+<rect class="box" x="320" y="20" width="140" height="50" rx="4"/>
+<text x="390" y="50" text-anchor="middle" font-size="12">MotorVehicle</text>
+<rect class="box2" x="175" y="140" width="150" height="55" rx="4"/>
+<text x="250" y="170" text-anchor="middle" font-size="12">FlyingCar</text>
+<line x1="150" y1="70" x2="235" y2="140" class="arrow" marker-end="url(#tri2)"/>
+<line x1="390" y1="70" x2="270" y2="140" class="arrow" marker-end="url(#tri2)"/>
+</svg>
+</div>
+<p>Example: class <code>FlyingCar</code> inherits from both <code>FlyingObject</code> (fly(), land()) and <code>MotorVehicle</code> (drive(), refuel()), so a FlyingCar object has capabilities of both parents. Languages like C++ support this directly; Java avoids ambiguity (the "diamond problem") by supporting multiple inheritance of interfaces only, not implementation.</p>
+</div>
+</section>
+
+<section class="q" id="q17">
+<h2>17. CASE workbenches</h2>
+<div class="body">
+<p>A <b>CASE workbench</b> is an integrated set of tools that support a specific stage or activity of the software process (as opposed to a single CASE tool supporting one task, or a CASE environment supporting the whole lifecycle).</p>
+<table>
+<tr><th>Workbench Type</th><th>Supports</th><th>Example Tools</th></tr>
+<tr><td>Analysis/design workbench</td><td>Creating and validating models (DFD, ERD, class diagrams)</td><td>Rational Rose, StarUML</td></tr>
+<tr><td>Programming workbench</td><td>Program editing, compiling, debugging</td><td>IDEs like Eclipse, Visual Studio</td></tr>
+<tr><td>Testing workbench</td><td>Test-case generation, execution, coverage analysis</td><td>Selenium, JUnit</td></tr>
+<tr><td>Project management workbench</td><td>Planning, scheduling, cost estimation</td><td>MS Project, Jira</td></tr>
+<tr><td>Documentation workbench</td><td>Document generation and formatting</td><td>Doxygen, LaTeX tools</td></tr>
+<tr><td>Re-engineering workbench</td><td>Reverse engineering, restructuring legacy code</td><td>Refactoring tools</td></tr>
+</table>
+<p>Workbenches increase productivity by tightly integrating tools that share a common data repository for a single phase of development.</p>
+</div>
+</section>
+
+<section class="q" id="q18">
+<h2>18. Architectural system characteristics</h2>
+<div class="body">
+<ul>
+<li><b>Performance</b> — minimizing communication, localizing critical operations in few, large components.</li>
+<li><b>Security</b> — organizing the system into layers, protecting critical assets in innermost layers.</li>
+<li><b>Safety</b> — critical safety features localized in a minimal number of modules for easier verification.</li>
+<li><b>Availability</b> — including redundant components so the system can continue if one component fails.</li>
+<li><b>Maintainability</b> — using fine-grain, self-contained components that can be changed easily.</li>
+</ul>
+<p>Note that some characteristics conflict (e.g. performance often favours large components while maintainability favours small ones), so architectural design involves trading these off according to system priorities.</p>
+</div>
+</section>
+
+<section class="q" id="q19">
+<h2>19. Packing robot system — block diagram</h2>
+<div class="body">
+<div class="diagram">
+<svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg">
+<rect class="box" x="20" y="30" width="140" height="50" rx="4"/><text x="90" y="60" text-anchor="middle" font-size="11">Vision System</text>
+<rect class="box" x="20" y="110" width="140" height="50" rx="4"/><text x="90" y="140" text-anchor="middle" font-size="11">Object Identification</text>
+<rect class="box" x="20" y="190" width="140" height="50" rx="4"/><text x="90" y="220" text-anchor="middle" font-size="11">Conveyor Sensor</text>
+
+<rect class="box2" x="240" y="110" width="160" height="60" rx="4"/><text x="320" y="135" text-anchor="middle" font-size="11" font-weight="bold">Packing Controller</text><text x="320" y="152" text-anchor="middle" font-size="10">(planning + control)</text>
+
+<rect class="box" x="470" y="30" width="150" height="50" rx="4"/><text x="545" y="60" text-anchor="middle" font-size="11">Arm Controller</text>
+<rect class="box" x="470" y="110" width="150" height="50" rx="4"/><text x="545" y="140" text-anchor="middle" font-size="11">Gripper Controller</text>
+<rect class="box" x="470" y="190" width="150" height="50" rx="4"/><text x="545" y="220" text-anchor="middle" font-size="11">Packing Bay Actuator</text>
+
+<line x1="160" y1="55" x2="240" y2="130" class="arrow"/>
+<line x1="160" y1="135" x2="240" y2="140" class="arrow"/>
+<line x1="160" y1="215" x2="240" y2="150" class="arrow"/>
+<line x1="400" y1="125" x2="470" y2="55" class="arrow"/>
+<line x1="400" y1="135" x2="470" y2="135" class="arrow"/>
+<line x1="400" y1="150" x2="470" y2="215" class="arrow"/>
+</svg>
+</div>
+<p>Sensor sub-systems (Vision System, Object Identification, Conveyor Sensor) feed data to the central <b>Packing Controller</b>, which plans the pick-and-place sequence and sends commands to actuator sub-systems (Arm Controller, Gripper Controller, Packing Bay Actuator) — a classic sense-plan-act robotic control architecture.</p>
+</div>
+</section>
+
+<section class="q" id="q20">
+<h2>20. Architectural decisions</h2>
+<div class="body">
+<ul>
+<li><b>Is there a generic application architecture (e.g., reference model) that can be used?</b> — reusing existing patterns instead of designing from scratch.</li>
+<li><b>How will the system be distributed</b> across processors/machines (client-server, distributed, standalone)?</li>
+<li><b>What architectural style(s) are most appropriate</b> — e.g. layered, repository, client-server, pipe-and-filter?</li>
+<li><b>What approach will be used to structure the system</b> — object-oriented, function-oriented, event-based?</li>
+<li><b>How will the system be decomposed</b> into modules/sub-systems and how will they interact?</li>
+<li><b>What control strategy should be used?</b> — centralized vs event-driven control.</li>
+<li><b>How will the architectural design be evaluated?</b> — against quality attributes like performance, security, maintainability.</li>
+<li><b>How should the architecture be documented?</b> — using views (logical, process, deployment) or standard notations (UML).</li>
+</ul>
+</div>
+</section>
+
+<section class="q" id="q21">
+<h2>21. Film and picture library — Client-Server model</h2>
+<div class="body">
+<div class="diagram">
+<svg viewBox="0 0 620 220" xmlns="http://www.w3.org/2000/svg">
+<rect class="box2" x="240" y="20" width="160" height="50" rx="4"/><text x="320" y="50" text-anchor="middle" font-size="12">Catalogue Server</text>
+<rect class="box2" x="240" y="90" width="160" height="50" rx="4"/><text x="320" y="120" text-anchor="middle" font-size="12">Image/Film Server</text>
+<rect class="box2" x="240" y="160" width="160" height="50" rx="4"/><text x="320" y="190" text-anchor="middle" font-size="12">Print Server</text>
+
+<rect class="box" x="20" y="20" width="140" height="50" rx="4"/><text x="90" y="50" text-anchor="middle" font-size="11">Client (Browser App)</text>
+<rect class="box" x="20" y="90" width="140" height="50" rx="4"/><text x="90" y="120" text-anchor="middle" font-size="11">Client (Editor App)</text>
+<rect class="box" x="460" y="90" width="140" height="50" rx="4"/><text x="530" y="120" text-anchor="middle" font-size="11">Media Store (DB)</text>
+
+<line x1="160" y1="45" x2="240" y2="45" class="arrow"/>
+<line x1="160" y1="115" x2="240" y2="115" class="arrow"/>
+<line x1="160" y1="130" x2="240" y2="185" class="arrow"/>
+<line x1="400" y1="115" x2="460" y2="115" class="arrow"/>
+</svg>
+</div>
+<p>Multiple specialized servers (Catalogue Server, Image/Film Server, Print Server) each provide a distinct service. Client applications (a browser for searching the catalogue, an editing tool for viewing/annotating images) send requests over the network to the appropriate server, which retrieves data from the shared Media Store and returns it. This separates the interface (client) from the compute/data-intensive services (servers), allowing independent scaling of, e.g., the Image Server which needs far more storage and bandwidth than the Catalogue Server.</p>
+</div>
+</section>
+
+<section class="q" id="q22">
+<h2>22. Control styles and types</h2>
+<div class="body">
+<h3>Centralized control</h3>
+<ul>
+<li><b>Call-return model</b> — top-down control, one sub-system (the "controller") calls other subroutines/subsystems and waits for a result (used in sequential, procedural systems).</li>
+<li><b>Manager model</b> (concurrent systems) — a central process manages the starting, stopping and coordination of other concurrent processes.</li>
+</ul>
+<h3>Event-based control</h3>
+<ul>
+<li><b>Broadcast model</b> — an event is broadcast to all sub-systems; any sub-system that can handle the event responds. Useful when subsystems must react to changes elsewhere but the source of the event may not know which subsystems need to be informed.</li>
+<li><b>Interrupt-driven model</b> — used in real-time systems where interrupts are detected by an interrupt handler and immediately passed to the relevant handling process; provides very fast response but is harder to prove correct.</li>
+</ul>
+</div>
+</section>
+
+<section class="q" id="q23">
+<h2>23. OSI model with reference architectures</h2>
+<div class="body">
+<div class="diagram">
+<svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+<g font-size="12">
+<rect class="box" x="40" y="10" width="220" height="36"/><text x="150" y="33" text-anchor="middle">7. Application</text>
+<rect class="box" x="40" y="46" width="220" height="36"/><text x="150" y="69" text-anchor="middle">6. Presentation</text>
+<rect class="box" x="40" y="82" width="220" height="36"/><text x="150" y="105" text-anchor="middle">5. Session</text>
+<rect class="box" x="40" y="118" width="220" height="36"/><text x="150" y="141" text-anchor="middle">4. Transport</text>
+<rect class="box" x="40" y="154" width="220" height="36"/><text x="150" y="177" text-anchor="middle">3. Network</text>
+<rect class="box" x="40" y="190" width="220" height="36"/><text x="150" y="213" text-anchor="middle">2. Data Link</text>
+<rect class="box" x="40" y="226" width="220" height="36"/><text x="150" y="249" text-anchor="middle">1. Physical</text>
+</g>
+</svg>
+</div>
+<p>The <b>OSI (Open Systems Interconnection)</b> reference model is a classic example of a <b>layered/abstract-machine architecture</b>: each layer provides services to the layer above and uses services of the layer below, without knowing the internal implementation of other layers.</p>
+<ul>
+<li><b>Physical</b> — raw bit transmission over the medium.</li>
+<li><b>Data Link</b> — framing, error detection, MAC addressing.</li>
+<li><b>Network</b> — routing and logical addressing (IP).</li>
+<li><b>Transport</b> — end-to-end reliable delivery (TCP/UDP).</li>
+<li><b>Session</b> — establishing/managing sessions between applications.</li>
+<li><b>Presentation</b> — data translation, encryption, compression.</li>
+<li><b>Application</b> — end-user services (HTTP, FTP, SMTP).</li>
+</ul>
+<p>This layered reference architecture allows protocols at each layer to be changed independently, as long as the interface to adjacent layers is preserved — the same principle used in software layered architectures.</p>
+</div>
+</section>
+
+<section class="q" id="q24">
+<h2>24. Characteristics of Object-Oriented Design (OOD)</h2>
+<div class="body">
+<ul>
+<li><b>Encapsulation</b> — objects bundle data (attributes) and behaviour (methods), hiding internal state behind a public interface.</li>
+<li><b>Abstraction</b> — objects model real-world or conceptual entities, exposing only relevant details.</li>
+<li><b>Inheritance</b> — classes can derive from other classes, reusing and extending behaviour.</li>
+<li><b>Polymorphism</b> — objects of different classes can be treated through a common interface, with behaviour resolved at run time.</li>
+<li><b>Modularity</b> — the system is decomposed into loosely-coupled, highly-cohesive objects/classes.</li>
+<li><b>Identity</b> — every object has a unique identity, distinct from its state.</li>
+<li><b>Message passing</b> — objects interact only by sending messages (calling methods) to each other.</li>
+<li><b>Reusability</b> — classes and components can be reused across projects, reducing development effort.</li>
+</ul>
+</div>
+</section>
+
+<section class="q" id="q25">
+<h2>25. Transponder object — Java code</h2>
+<div class="body">
+<p>A transponder (e.g. in an air-traffic system) receives an interrogation signal and automatically transmits identification/altitude data in response.</p>
+<div class="calc">public class Transponder {
+    private String aircraftID;
+    private double altitude;
+    private double speed;
+    private boolean isActive;
+
+    public Transponder(String aircraftID) {
+        this.aircraftID = aircraftID;
+        this.isActive = true;
+    }
+
+    // Called when an interrogation signal is received
+    public String respondToInterrogation() {
+        if (!isActive) {
+            return "NO_RESPONSE";
+        }
+        return "ID:" + aircraftID + " ALT:" + altitude + " SPD:" + speed;
+    }
+
+    public void updateAltitude(double newAltitude) {
+        this.altitude = newAltitude;
+    }
+
+    public void updateSpeed(double newSpeed) {
+        this.speed = newSpeed;
+    }
+
+    public void squawkEmergency() {
+        this.aircraftID = "7700-" + aircraftID; // emergency code
+    }
+
+    public void switchOff() {
+        this.isActive = false;
+    }
+}</div>
+<p>The class encapsulates the transponder's state (ID, altitude, speed, active flag) and exposes methods that model its real behaviour — responding automatically to interrogation and allowing updates from onboard sensors, which illustrates encapsulation and message-based interaction typical of OOD.</p>
+</div>
+</section>
+
+<section class="q" id="q26">
+<h2>26. Weather mapping system with a subsystem diagram</h2>
+<div class="body">
+<div class="diagram">
+<svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg">
+<rect class="box" x="20" y="20" width="150" height="50" rx="4"/><text x="95" y="50" text-anchor="middle" font-size="11">Data Collection Sys.</text>
+<rect class="box" x="20" y="90" width="150" height="50" rx="4"/><text x="95" y="120" text-anchor="middle" font-size="11">Data Processing Sys.</text>
+<rect class="box" x="20" y="160" width="150" height="50" rx="4"/><text x="95" y="190" text-anchor="middle" font-size="11">Data Archiving Sys.</text>
+
+<rect class="box2" x="240" y="90" width="160" height="50" rx="4"/><text x="320" y="120" text-anchor="middle" font-size="11">Comms System</text>
+
+<rect class="box" x="460" y="20" width="150" height="50" rx="4"/><text x="535" y="50" text-anchor="middle" font-size="11">Map Display Sys.</text>
+<rect class="box" x="460" y="90" width="150" height="50" rx="4"/><text x="535" y="120" text-anchor="middle" font-size="11">Station Monitoring Sys.</text>
+<rect class="box" x="460" y="160" width="150" height="50" rx="4"/><text x="535" y="190" text-anchor="middle" font-size="11">Forecast Analysis Sys.</text>
+
+<line x1="170" y1="45" x2="240" y2="105" class="arrow"/>
+<line x1="170" y1="115" x2="240" y2="115" class="arrow"/>
+<line x1="170" y1="185" x2="240" y2="130" class="arrow"/>
+<line x1="400" y1="105" x2="460" y2="45" class="arrow"/>
+<line x1="400" y1="115" x2="460" y2="115" class="arrow"/>
+<line x1="400" y1="130" x2="460" y2="185" class="arrow"/>
+</svg>
+</div>
+<p>Ground stations feed the <b>Data Collection System</b>, which forwards raw readings to the <b>Data Processing System</b> for validation/formatting; processed data is stored by the <b>Data Archiving System</b>. All data exchange between the ground segment and the control-room segment goes through a central <b>Comms System</b>, which relays information to the <b>Map Display</b>, <b>Station Monitoring</b> and <b>Forecast Analysis</b> subsystems. This subsystem-level diagram shows the mapping system as a composition of cooperating, loosely-coupled subsystems rather than individual classes.</p>
+</div>
+</section>
+
+<section class="q" id="q27">
+<h2>27. Weather station with a use case diagram</h2>
+<div class="body">
+<div class="diagram">
+<svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+<ellipse class="box" cx="320" cy="40" rx="110" ry="28"/><text x="320" y="45" text-anchor="middle" font-size="12">Collect Weather Data</text>
+<ellipse class="box" cx="320" cy="110" rx="110" ry="28"/><text x="320" y="115" text-anchor="middle" font-size="12">Transmit Data Report</text>
+<ellipse class="box" cx="320" cy="180" rx="110" ry="28"/><text x="320" y="185" text-anchor="middle" font-size="12">Self-Test Diagnostics</text>
+<ellipse class="box2" cx="320" cy="230" rx="120" ry="26"/><text x="320" y="234" text-anchor="middle" font-size="12">Report Instrument Failure</text>
+
+<circle cx="60" cy="130" r="12" fill="#ebf8ff" stroke="#2b6cb0"/>
+<text x="60" y="170" text-anchor="middle" font-size="10">Weather Station (System)</text>
+<line x1="72" y1="130" x2="210" y2="50" class="arrow"/>
+<line x1="72" y1="130" x2="210" y2="110" class="arrow"/>
+<line x1="72" y1="130" x2="210" y2="180" class="arrow"/>
+
+<circle cx="560" cy="80" r="12" fill="#fffaf0" stroke="#c05621"/>
+<text x="560" y="105" text-anchor="middle" font-size="10">Mapping System</text>
+<line x1="548" y1="82" x2="430" y2="105" class="arrow"/>
+</svg>
+</div>
+<p><b>Actors:</b> the Weather Station (autonomous system) and the remote Mapping System.<br>
+<b>Use cases:</b> Collect Weather Data (periodic sensor reading), Transmit Data Report (sent to the Mapping System), Self-Test Diagnostics, and Report Instrument Failure (extends Self-Test when a fault is detected). This models the weather station purely from the outside, in terms of the services it offers and consumes.</p>
+</div>
+</section>
+
+<section class="q" id="q28">
+<h2>28. Approaches to Object Identification</h2>
+<div class="body">
+<ul>
+<li><b>Grammatical (noun) analysis</b> — nouns in the requirements/problem description are candidate objects/classes, verbs suggest operations (based on Abbott's technique).</li>
+<li><b>Use of tangible entities / behaviour analysis</b> — identify real-world things the system must track or control (people, devices, records) and model them directly as objects.</li>
+<li><b>Domain analysis</b> — build on existing domain-specific object models/frameworks from similar, previously-built systems.</li>
+<li><b>Scenario-based analysis (use-case driven)</b> — identify objects that participate in each use-case scenario by examining the interactions needed to fulfil it.</li>
+<li><b>CRC (Class-Responsibility-Collaboration) cards</b> — an informal, collaborative technique where each candidate class's responsibilities and collaborators are listed on a card, aiding identification and refinement.</li>
+</ul>
+<p>In practice, several approaches are combined: grammatical analysis provides an initial candidate list, which is then refined via scenario walkthroughs and CRC-card sessions.</p>
+</div>
+</section>
+
+<section class="q" id="q29">
+<h2>29. Design evolution — adding a pollution monitoring feature</h2>
+<div class="body">
+<p>Design evolution is the process of extending/adapting an existing architecture to add new capability without a complete redesign — illustrated using the weather-station example extended with pollution monitoring.</p>
+<ol>
+<li><b>Identify the change</b> — a new requirement: monitor air-pollution levels (e.g. CO₂, SO₂, particulate matter) alongside existing weather data.</li>
+<li><b>Assess impact on existing architecture</b> — because the weather station is built as extensible objects/subsystems (Data Collection, Processing, Archiving), a new <code>PollutionSensor</code> object/subsystem can be added rather than modifying existing classes — an example of the Open/Closed principle.</li>
+<li><b>Extend the object model</b> — add classes such as <code>PollutionMonitor</code>, <code>GasSensor</code>, <code>ParticulateSensor</code> that inherit from an existing generic <code>Instrument</code>/<code>Sensor</code> superclass, reusing common behaviour (calibrate(), readValue(), reportFault()).</li>
+<li><b>Extend the interfaces</b> — the Data Collection subsystem's interface is extended to accept pollution readings alongside temperature/humidity, without changing its interface to other subsystems.</li>
+<li><b>Update data formats/reports</b> — the transmitted data-report format is extended (not replaced) with new pollution fields, preserving backward compatibility with the Mapping System.</li>
+<li><b>Re-test and re-validate</b> — regression-test unaffected subsystems, and specifically test the new pollution feature end to end.</li>
+</ol>
+<p>This shows how good initial object-oriented design (loosely coupled subsystems, inheritance hierarchies for instruments) makes later evolution cheaper and less risky than in monolithic, tightly-coupled designs.</p>
+</div>
+</section>
+
+<section class="q" id="q30">
+<h2>30. Organisational paradigms suggested by Constantine</h2>
+<div class="body">
+<p>Larry Constantine identified four organisational paradigms for software teams:</p>
+<table>
+<tr><th>Paradigm</th><th>Characteristics</th></tr>
+<tr><td><b>Closed</b></td><td>Structures the team along a traditional hierarchy of authority; efficient for well-understood, routine problems but stifles creativity.</td></tr>
+<tr><td><b>Random</b></td><td>Depends on individual initiative of team members with little structure; good for highly innovative problems but can be inefficient when member skills are more or less equal.</td></tr>
+<tr><td><b>Open</b></td><td>Attempts to organise teams in a manner that combines the strengths of closed and random paradigms; uses lots of communication and consensus decision-making — effective for solving complex problems.</td></tr>
+<tr><td><b>Synchronous</b></td><td>Relies on the natural division of labour so that team members have well-defined tasks with minimal need for communication; works well when the problem can be partitioned into independent, non-communicating tasks.</td></tr>
+</table>
+</div>
+</section>
+
+<section class="q" id="q31">
+<h2>31. Different types of Estimation techniques</h2>
+<div class="body">
+<ul>
+<li><b>Expert judgement</b> — one or more experts estimate effort/cost based on experience with similar past projects.</li>
+<li><b>Estimation by analogy (analogous estimation)</b> — compare the new project with completed similar projects and scale the known effort/cost.</li>
+<li><b>Algorithmic/parametric models</b> — mathematical models relating effort to project attributes: e.g. <b>COCOMO</b> (Constructive Cost Model), <b>Function Point Analysis</b>, Putnam's SLIM model.</li>
+<li><b>Bottom-up estimation</b> — decompose the project into small tasks (WBS), estimate each, then sum them up.</li>
+<li><b>Top-down estimation</b> — estimate the overall project effort first, then allocate proportions to sub-tasks/phases.</li>
+<li><b>Delphi technique / Wideband Delphi</b> — a structured, anonymous group estimation technique that iterates until estimates converge.</li>
+<li><b>Planning poker</b> (agile) — team members independently estimate relative size (story points) and discuss to reach consensus.</li>
+<li><b>Price-to-win estimation</b> — the estimate is set to match the customer's budget/expectation rather than a true technical estimate (a risky but sometimes used commercial practice).</li>
+</ul>
+<p>Best practice is to use two or more of these techniques together and compare results, since no single technique is reliable in isolation.</p>
+</div>
+</section>
+
+<section class="q" id="q32">
+<h2>32. COCOMO model</h2>
+<div class="body">
+<p><b>COCOMO (Constructive Cost Model)</b>, developed by Barry Boehm, estimates effort, schedule and cost based on estimated project size (KLOC — thousand lines of code).</p>
+<h3>Levels of COCOMO</h3>
+<ul>
+<li><b>Basic COCOMO</b> — a simple, single-value estimate of effort as a function of program size alone.</li>
+<li><b>Intermediate COCOMO</b> — computes effort as a function of program size and a set of "cost drivers" (attributes like reliability, complexity, personnel experience, tool use).</li>
+<li><b>Detailed (Advanced) COCOMO</b> — incorporates the effect of the cost drivers on each phase (analysis, design, coding, testing) of the software life cycle.</li>
+</ul>
+<h3>Project modes (Basic COCOMO)</h3>
+<table>
+<tr><th>Mode</th><th>Description</th><th>Effort Formula (E, in person-months)</th></tr>
+<tr><td>Organic</td><td>Small, familiar team, well-understood problem</td><td>E = 2.4 × (KLOC)<sup>1.05</sup></td></tr>
+<tr><td>Semi-detached</td><td>Medium size/complexity, mixed experience</td><td>E = 3.0 × (KLOC)<sup>1.12</sup></td></tr>
+<tr><td>Embedded</td><td>Complex, tight constraints (hardware/regulatory)</td><td>E = 3.6 × (KLOC)<sup>1.20</sup></td></tr>
+</table>
+<p>Development time is then estimated as <code>D = a × E^b</code> (constants depending on the mode), and average staffing as <code>Effort / Development time</code>. COCOMO is widely used because it gives quick, size-based estimates early in the project, though its accuracy depends heavily on getting a good KLOC estimate.</p>
+</div>
+</section>
+
+<section class="q" id="q33">
+<h2>33. Stakeholders involved in software project management</h2>
+<div class="body">
+<table>
+<tr><th>Stakeholder</th><th>Interest / Role</th></tr>
+<tr><td>Project Sponsor / Customer</td><td>Funds the project, defines business objectives, approves scope changes</td></tr>
+<tr><td>Project Manager</td><td>Plans, schedules, monitors, and controls the project</td></tr>
+<tr><td>End Users</td><td>Use the delivered software; their needs drive requirements</td></tr>
+<tr><td>Development Team (Designers, Developers, Testers)</td><td>Design, build, and verify the software</td></tr>
+<tr><td>Business Analyst / Requirements Engineer</td><td>Elicits and documents requirements</td></tr>
+<tr><td>Quality Assurance Team</td><td>Ensures the product meets quality standards</td></tr>
+<tr><td>Senior Management</td><td>Provides resources, resolves organisational conflicts, strategic alignment</td></tr>
+<tr><td>Suppliers / Vendors / Sub-contractors</td><td>Supply components, tools, or outsourced services</td></tr>
+<tr><td>Regulatory Bodies</td><td>Impose compliance/legal/safety standards on the product</td></tr>
+<tr><td>Maintenance Team</td><td>Supports and enhances the software after delivery</td></tr>
+</table>
+<p>Effective project management requires identifying all stakeholders early, understanding their (sometimes conflicting) interests, and managing communication and expectations with each throughout the project lifecycle.</p>
+</div>
+</section>
+
+</div>
+
+<footer>Prepared as study material — Software Engineering practice question solutions.</footer>
+
+</body>
+</html>

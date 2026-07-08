@@ -1,0 +1,2433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Engineering — SEE Question Bank</title>
+<style>
+  :root{
+    --beige-1:#f5efe2;
+    --beige-2:#ece2cc;
+    --beige-3:#e0d3b3;
+    --beige-line:#cdbd93;
+    --ink:#211d16;
+    --ink-soft:#4a4334;
+    --accent:#8a6d3b;
+    --card-bg:#fbf8f1;
+    --code-bg:#efe6d2;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--beige-1);
+    color:var(--ink);
+    font-family:'Georgia','Iowan Old Style','Times New Roman',serif;
+    line-height:1.55;
+  }
+
+  /* ---------- Top Header ---------- */
+  header.site{
+    background:var(--ink);
+    color:var(--beige-1);
+    padding:22px 24px 18px;
+    text-align:center;
+    border-bottom:6px solid var(--accent);
+  }
+  header.site h1{
+    margin:0 0 4px;
+    font-size:1.7rem;
+    letter-spacing:0.5px;
+    font-weight:700;
+  }
+  header.site p{
+    margin:0;
+    color:var(--beige-3);
+    font-size:0.9rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+  }
+
+  /* ---------- Tab Navigation ---------- */
+  nav.tabs{
+    position:sticky;
+    top:0;
+    z-index:50;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:0;
+    background:var(--beige-2);
+    border-bottom:2px solid var(--ink);
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
+  }
+  nav.tabs button{
+    font-family:inherit;
+    font-size:0.95rem;
+    font-weight:700;
+    letter-spacing:0.5px;
+    padding:14px 22px;
+    background:transparent;
+    border:none;
+    border-right:1px solid var(--beige-line);
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:background 0.15s, color 0.15s;
+  }
+  nav.tabs button:last-child{border-right:none;}
+  nav.tabs button:hover{background:var(--beige-3); color:var(--ink);}
+  nav.tabs button.active{
+    background:var(--ink);
+    color:var(--beige-1);
+  }
+
+  main{
+    max-width:960px;
+    margin:0 auto;
+    padding:28px 18px 80px;
+  }
+
+  .unit-section{display:none;}
+  .unit-section.active{display:block;}
+
+  .unit-banner{
+    text-align:center;
+    margin-bottom:26px;
+    padding-bottom:14px;
+    border-bottom:3px double var(--ink);
+  }
+  .unit-tag{
+    display:inline-block;
+    background:var(--ink);
+    color:var(--beige-1);
+    font-size:0.75rem;
+    letter-spacing:2px;
+    padding:4px 12px;
+    border-radius:2px;
+    margin-bottom:8px;
+  }
+  .unit-banner h2{
+    margin:6px 0 0;
+    font-size:1.4rem;
+    color:var(--ink);
+  }
+
+  .unit-intro{
+    background:var(--beige-2);
+    border:1px solid var(--beige-line);
+    padding:12px 16px;
+    margin-bottom:20px;
+    font-size:0.92rem;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- Question Cards ---------- */
+  .qcard-grid{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  article.qcard{
+    background:var(--card-bg);
+    border:1px solid var(--beige-line);
+    border-left:5px solid var(--ink);
+    border-radius:3px;
+    padding:20px 24px 22px;
+    box-shadow:0 1px 3px rgba(33,29,22,0.08);
+  }
+  article.qcard h3{
+    margin:0 0 10px;
+    font-size:1.05rem;
+    color:#fff;
+    background:var(--accent);
+    display:inline-block;
+    padding:5px 14px;
+    border-radius:2px;
+  }
+  article.qcard > p:first-of-type{
+    font-weight:700;
+    color:var(--ink);
+    background:var(--beige-2);
+    padding:10px 14px;
+    border-left:3px solid var(--accent);
+    margin:0 0 14px;
+    font-size:0.98rem;
+  }
+  article.qcard h4{
+    margin:16px 0 8px;
+    font-size:0.98rem;
+    color:var(--accent);
+    border-bottom:1px solid var(--beige-line);
+    padding-bottom:4px;
+  }
+  article.qcard h5{
+    margin:14px 0 6px;
+    font-size:0.92rem;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+  article.qcard p{
+    margin:8px 0;
+    font-size:0.94rem;
+    color:var(--ink);
+  }
+  article.qcard ul, article.qcard ol{
+    margin:8px 0;
+    padding-left:22px;
+    font-size:0.94rem;
+  }
+  article.qcard li{margin:5px 0;}
+  article.qcard strong{color:var(--ink); font-weight:700;}
+
+  article.qcard table{
+    width:100%;
+    border-collapse:collapse;
+    margin:14px 0;
+    font-size:0.88rem;
+  }
+  article.qcard th, article.qcard td{
+    border:1px solid var(--beige-line);
+    padding:8px 10px;
+    text-align:left;
+    vertical-align:top;
+  }
+  article.qcard th{
+    background:var(--ink);
+    color:var(--beige-1);
+  }
+  article.qcard tr:nth-child(even) td{
+    background:var(--beige-2);
+  }
+
+  article.qcard pre{
+    background:var(--code-bg);
+    border:1px solid var(--beige-line);
+    padding:12px 14px;
+    overflow-x:auto;
+    font-family:'Courier New',monospace;
+    font-size:0.78rem;
+    line-height:1.35;
+    border-radius:2px;
+  }
+  article.qcard code{
+    font-family:'Courier New',monospace;
+    background:var(--code-bg);
+    padding:1px 4px;
+    border-radius:2px;
+  }
+  article.qcard hr{
+    border:none;
+    border-top:1px dashed var(--beige-line);
+    margin:16px 0;
+  }
+
+  footer.site{
+    text-align:center;
+    padding:20px;
+    color:var(--ink-soft);
+    font-size:0.8rem;
+    border-top:2px solid var(--beige-line);
+    background:var(--beige-2);
+  }
+
+  @media (max-width:600px){
+    nav.tabs button{padding:10px 12px; font-size:0.82rem;}
+    header.site h1{font-size:1.3rem;}
+    article.qcard{padding:16px;}
+  }
+</style>
+</head>
+<body>
+<header class="site">
+  <h1>Software Engineering — SEE Question Bank</h1>
+  <p>20CS5PCSEG / 23CS4PCSED &nbsp;·&nbsp; Units 1–5 &nbsp;·&nbsp; Previous Year Questions &amp; Answers</p>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-unit="1">Unit 1</button>
+  <button class="tab-btn" data-unit="2">Unit 2</button>
+  <button class="tab-btn" data-unit="3">Unit 3</button>
+  <button class="tab-btn" data-unit="4">Unit 4</button>
+  <button class="tab-btn" data-unit="5">Unit 5</button>
+</nav>
+
+<main>
+
+<section id="unit1" class="unit-section active">
+  <div class="unit-banner">
+    <span class="unit-tag">UNIT 1</span>
+    <h2>Unit 1: Semester End Examination (SEE)</h2>
+  </div>
+  
+  <div class="qcard-grid">
+  <article class="qcard">
+<h3>Question 1. a)</h3>
+<p><strong>Discuss the responsibilities that the software engineers should have towards professional and society. State ACM/IEEE principles that software engineers should adhere to the code of Ethics and professional practice. [6 Marks]</strong></p>
+<h4>1. General Professional &amp; Social Responsibilities</h4>
+<p>Software engineering is carried out within a legal and social framework. Software engineers must display ethical behavior, honesty, and integrity rather than simply focusing on technical competence. They have professional responsibilities that go beyond the technical code, including:</p>
+<ul>
+<li><strong>Confidentiality:</strong> Engineers must respect the confidentiality of employers and clients, regardless of whether a formal confidentiality agreement has been executed.</li>
+<li><strong>Competence:</strong> Engineers must not misrepresent their level of competence or knowingly accept work that is outside their current expertise.</li>
+<li><strong>Intellectual Property Rights:</strong> Engineers must be aware of and abide by local and international laws governing patents, copyrights, and intellectual property.</li>
+<li><strong>Computer Misuse:</strong> Software engineers must not deploy their technical skills to intentionally misuse or compromise other computer systems.</li>
+</ul>
+<h4>2. ACM/IEEE Code of Ethics Principles</h4>
+<p>The joint ACM/IEEE-CS task force formulated a standard Code of Ethics composed of <strong>8 core principles</strong>:</p>
+<ol>
+<li><strong>PUBLIC:</strong> Software engineers shall act consistently with the public interest.</li>
+<li><strong>CLIENT AND EMPLOYER:</strong> Software engineers shall act in a manner that is in the best interests of their client and employer, consistent with the public interest.</li>
+<li><strong>PRODUCT:</strong> Software engineers shall ensure that their products and related modifications meet the highest professional standards possible.</li>
+<li><strong>JUDGMENT:</strong> Software engineers shall maintain integrity and independence in their professional judgment.</li>
+<li><strong>MANAGEMENT:</strong> Software engineering managers and leaders shall subscribe to and promote an ethical approach to the management of software development and maintenance.</li>
+<li><strong>PROFESSION:</strong> Software engineers shall advance the integrity and reputation of the profession consistent with the public interest.</li>
+<li><strong>COLLEAGUES:</strong> Software engineers shall be fair to and supportive of their colleagues.</li>
+<li><strong>SELF:</strong> Software engineers shall participate in lifelong learning regarding the practice of their profession and shall promote an ethical approach to the practice of the profession.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Question 1. b)</h3>
+<p><strong>Give reasons for your answers based on the type of system being developed, suggest the most appropriate generic software process model that might be used as a basis for managing the development of the following systems:</strong></p>
+<ul>
+<li><strong>i) An interactive system that allows flight passengers to find flight times from terminals installed in airports.</strong></li>
+<li><strong>ii) A banking accounting system that replaces an existing system.</strong></li>
+<li><strong>iii) A system to control anti-lock braking in a bike. [6 Marks]</strong></li>
+</ul>
+<h4>Answer:</h4>
+<table>
+<thead>
+<tr>
+<th>System Type</th>
+<th>Suggested Process Model</th>
+<th>Core Engineering Justification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>i) Interactive Airport Kiosk</strong></td>
+<td><strong>Incremental / Evolutionary Development Model</strong></td>
+<td>The user interface (UI/UX) is the most critical component of an interactive passenger system. Requirements for public-facing layouts evolve based on user feedback. Developing it incrementally allows the back-end connectivity to remain stable while public-facing interfaces are iteratively refined and validated through real-world usability testing.</td>
+</tr>
+<tr>
+<td><strong>ii) Banking Accounting Replacement System</strong></td>
+<td><strong>Waterfall (Linear Sequential) Model</strong></td>
+<td>Banking accounting software requires absolute accuracy, audit trails, and strict adherence to predefined financial regulatory frameworks. The system requirements are well-understood since it is replacing an existing legacy software database. Because errors in financial data calculation are unacceptable, it requires a disciplined, phase-by-phase approach where requirements are fully locked down before architecture and coding begin.</td>
+</tr>
+<tr>
+<td><strong>iii) Bike Anti-Lock Braking System (ABS)</strong></td>
+<td><strong>Waterfall Model with Formal Specification / Cleanroom Software Engineering</strong></td>
+<td>A bike ABS is a safety-critical real-time embedded system. Any failure in software execution can result in fatal injury. Requirements must be fully stabilized, completely specified up front, and mathematically verified. It cannot be engineered via speculative, trial-and-error increments because hardware integration requires fixed software properties.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article class="qcard">
+<h3>Question 1. c)</h3>
+<p><strong>A software system is to be developed to manage the records of the candidates who register for the Online Course. The record includes the records of all candidates (Course name, duration, start and end dates assignment submission and so on). After the completion of the course the candidate has to take up an exam and qualify the exam with certain minimum percentage for certification. Classify and explain the Non-functional requirements hierarchy diagram for the above software system. [8 Marks]</strong></p>
+<h4>1. Non-Functional Requirements (NFR) Classification Framework</h4>
+<p>Non-functional requirements specify constraints on the services or functions offered by the system, covering operational bounds, performance properties, and regulatory compliance. They are classified into three overarching categories:</p>
+<ol>
+<li><strong>Product Requirements:</strong> Define the runtime behavior of the software.</li>
+<li><strong>Organizational Requirements:</strong> Derived from the policies, procedures, and institutional environments of the operational entity.</li>
+<li><strong>External Requirements:</strong> Derived from external operational factors, legislative bodies, or ethical guidelines.</li>
+</ol>
+<h4>2. Structural Hierarchy Diagram Mapping</h4>
+<pre><code>                           Non-Functional Requirements
+                                       │
+        ┌──────────────────────────────┼──────────────────────────────┐
+        ▼                              ▼                              ▼
+  Product Requirements     Organizational Requirements       External Requirements
+        │                              │                              │
+  ┌─────┴─────┐                  ┌─────┴─────┐                  ┌─────┴─────┐
+  ▼           ▼                  ▼           ▼                  ▼           ▼
+Usability  Performance        Delivery  Implementation        Ethical    Legislative
+           Requirements       Standards   Constraints                   Regulations
+         (Speed, Reliability)                                            (Data Privacy)
+
+</code></pre>
+<h4>3. Explicit System-Specific Contextual Mapping</h4>
+<ul>
+<li><strong>A. Product Requirements</strong></li>
+<li><strong>Usability Requirements:</strong> The user interface for online assignment submission and terminal exam testing must be intuitive and cross-browser accessible to support candidates with differing technical skill sets.</li>
+<li><strong>Performance (Speed/Throughput):</strong> During synchronized certification exams, the web server must handle a minimum concurrent load of 1,000 candidate requests simultaneously without page timeout crashes.</li>
+<li>
+<p><strong>Reliability/Availability:</strong> The database containing active scores and qualification states must be available 24/7, with an unexpected runtime downtime threshold of less than 0.01% during active exam slots.</p>
+</li>
+<li>
+<p><strong>B. Organizational Requirements</strong></p>
+</li>
+<li><strong>Delivery Requirements:</strong> The system's certification sub-engine must be operational and deployed onto the live college infrastructure within 4 months of project kickoff.</li>
+<li>
+<p><strong>Implementation Constraints:</strong> The engineering architecture must be built using open-source web technologies (e.g., Python/Java) and utilize a relational database system like MySQL to integrate with existing student record databases.</p>
+</li>
+<li>
+<p><strong>C. External Requirements</strong></p>
+</li>
+<li><strong>Legislative (Data Protection &amp; Security):</strong> Because personal candidate records, enrollment periods, and test scores are processed, the application must encrypt user data in transit (TLS 1.3) and at rest to ensure compliance with relevant data privacy laws.</li>
+<li><strong>Ethical/Qualification Integrity:</strong> The exam portal must execute strict browser-locking scripts to prevent unauthorized access to outside reference resources, ensuring academic honesty and qualification validity.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question 2. a)</h3>
+<p><strong>Explain the metrics for specifying non-functional requirements. [6 Marks]</strong></p>
+<p>Non-functional requirements must be stated quantitatively using measurable metrics so they can be objectively tested and verified during system evaluation. The key engineering metrics include:</p>
+<table>
+<thead>
+<tr>
+<th>Property Category</th>
+<th>Standard Measurable Metrics</th>
+<th>Practical System Engineering Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Speed</strong></td>
+<td>* Processed transactions/second<br></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><br>* Response time to input events<br></p>
+<p><br><em> Screen refresh/render rate | "The system shall process banking ledger entries within an average response latency of less than 2.0 seconds." |<br />
+| </em><em>Size</em>* | * Megabytes (RAM/Storage)<br></p>
+<p><br><em> Number of ROM chips required | "The embedded train braking controller binary footprint must occupy less than 512 KB of flash ROM memory." |<br />
+| </em><em>Ease of Use</em>* | * Total user training time required<br></p>
+<p><br><em> Number of explicit help frames | "A system operator shall require no more than 3 hours of training to fully master the manual override terminal interface." |<br />
+| </em><em>Reliability</em>* | * Mean Time to Failure (MTTF)<br></p>
+<p><br>* Probability of unexpected downtime<br></p>
+<p><br><em> Rate of Fault Occurrence (ROCOF) | "The flight navigation control system must have a Rate of Fault Occurrence of less than 1 failure per $10^7$ continuous operating hours." |<br />
+| </em><em>Robustness</em>* | * Time to resume service after crash<br></p>
+<p><br><em> Percentage of data corruption on crash | "Following an unexpected power grid failure, the core database server must recover and restart completely within 60 seconds." |<br />
+| </em><em>Portability</em>* | * Number of targeted target systems<br></p>
+<p><br>* Percentage of platform-dependent code | "The application code base must be minimum 95% compliant with ANSI C standards to ensure cross-compilation." |</p>
+</article>
+<article class="qcard">
+<h3>Question 2. b)</h3>
+<p><strong>Draw the sequence diagram showing the action performed in ATM withdrawal system. You can make any reasonable assumptions about the system. Pay particular attention for specifying user errors. [6 Marks]</strong></p>
+<h4>Core Architectural Assumptions:</h4>
+<ol>
+<li><strong>Actors/Objects:</strong> User (Customer), ATM Machine Interface, Central Banking Controller System, Card Validation Module.</li>
+<li><strong>User Error Focus:</strong> Invalid Identification Code (PIN) entry and Insufficient Balance conditions.</li>
+</ol>
+<h4>Textual UML Sequence Flow representation:</h4>
+<pre><code>User             ATM Interface        Central Banking Database
+ │                    │                          │
+ ├─► insertCard() ───►│                          │
+ │                    ├─► validateCard()         │
+ │                    ◄─┴─ [Card is valid]       │
+ │                    │                          │
+ ◄─ promptsPIN() ─────┤                          │
+ │                    │                          │
+ ├─► enterPIN() ─────►│                          │
+ │                    ├─► verifyCredentials() ──►│
+ │                    │◄─────────────────────────┤ Return PIN_Status
+ │                    │                          │
+                     [ALT 1: Invalid PIN Entry]
+ │                    │                          │
+ ◄─ displayError() ───┤                          │
+ ◄─ ejectCard() ──────┤                          │
+ │                    │                          │
+                     [ALT 2: Valid PIN - Proceed]
+ │                    │                          │
+ ◄─ promptsAmount() ──┤                          │
+ ├─► entersAmount() ─►│                          │
+ │                    ├─► checkAccountBalance() ►│
+ │                    │◄─────────────────────────┤ Return Balance_Status
+ │                    │                          │
+                   [ALT 2A: Insufficient Balance Error]
+ │                    │                          │
+ ◄─ rejectRequest() ──┤                          │
+ ◄─ displayError() ───┤                          │
+ │                    │                          │
+                   [ALT 2B: Success Path - Cash Available]
+ │                    │                          │
+ │                    ├─► deductBalance() ──────►│
+ │                    │◄─────────────────────────┤ Confirm Update
+ │                    │                          │
+ ◄─ dispenseCash() ───┤                          │
+ ◄─ printReceipt() ───┤                          │
+ │                    │                          │
+
+</code></pre>
+</article>
+<article class="qcard">
+<h3>Question 2. c)</h3>
+<p><strong>Illustrate the problems of using natural language for defining user and system requirements, using the example for Insulin Pump Control Software. Explain how structuring natural language into forms can help avoid some of these difficulties. [8 Marks]</strong></p>
+<h4>1. Core Problems of Using Unstructured Natural Language</h4>
+<p>Using unstructured natural language for software specifications introduces several challenges:</p>
+<ul>
+<li><strong>Lack of Clarity:</strong> Natural language statements can be imprecise and ambiguous, making it difficult to write definitions with technical accuracy.</li>
+<li><strong>Requirements Confusion:</strong> Functional requirements (system capabilities), non-functional requirements (operating bounds), and system design information can become intermingled, confusing implementations.</li>
+<li><strong>Requirements Amalgamation:</strong> Multiple distinct requirements may be combined into a single paragraph, making tracking, verification, and verification difficult.</li>
+</ul>
+<h4>2. Insulin Pump Example Scenario (Unstructured Text Fallacy)</h4>
+<p>An unstructured text entry might state:</p>
+<blockquote>
+<p><em>"The software must calculate blood sugar variations continuously and distribute insulin safely via the pump infrastructure while raising an alert if levels spike dangerously or hardware malfunctions occur."</em></p>
+</blockquote>
+<ul>
+<li><strong>Critique:</strong> This statement mixes computation functions (calculate variations), physical actuation functions (distribute insulin), safety limits (safely), and distinct error handling rules (sugar spike vs. hardware fault) into a single block. It does not define what a "dangerous spike" means quantitatively, leaving room for interpretation.</li>
+</ul>
+<h4>3. How Structured Forms Resolve These Difficulties</h4>
+<p>Structuring requirements into standardized templates restricts unconstrained text to a predefined input template. This ensures consistency, simplifies cross-referencing, and forces the author to think about the inputs, operational bounds, and side effects of each requirement.</p>
+<h4>Structured Template Definition for the Insulin Pump Software:</h4>
+<ul>
+<li><strong>Function Identifier:</strong> <code>SYS-RE-IP-04</code></li>
+<li><strong>Description:</strong> Calculate and deliver the required insulin dose based on measured blood sugar levels.</li>
+<li><strong>Inputs:</strong> Measured Blood Sugar Level ($Sugar_{current}$), Prior Blood Sugar Level ($Sugar_{previous}$), Active Insulin Level ($Insulin_{active}$).</li>
+<li><strong>Source:</strong> Subcutaneous sensor hardware array.</li>
+<li><strong>Outputs:</strong> Actuation signal to stepper motor ($Pulse_{count}$).</li>
+<li><strong>Destination:</strong> Insulin pump micro-injector hardware mechanism.</li>
+<li><strong>Action Context:</strong> The software calculates the change in glucose concentration over time. If levels rise, it determines the basal dose required to stabilize blood sugar. The total calculated output step must never exceed the absolute safe limit defined in the safety specification.</li>
+<li><strong>Pre-condition:</strong> The insulin reservoir must contain a minimum volume threshold of fluid, and the sensor must clear its diagnostic self-test.</li>
+<li><strong>Post-condition:</strong> The internal historical ledger logs the precise milligram dosage delivered, and the target delivery counter updates.</li>
+<li><strong>Side-Effects/Exceptions:</strong> If the calculation yields a value outside the safe operational limits, or if a hardware sensor fault is detected, the delivery mechanism locks, the software switches to fail-safe mode, and a physical audio alarm is activated.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question 3. a) i)</h3>
+<p><strong>Differentiate between Software Engineering and System Engineering. [4 Marks]</strong></p>
+<table>
+<thead>
+<tr>
+<th>Aspect of Comparison</th>
+<th>Software Engineering (SE)</th>
+<th>System Engineering (SysE)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Primary Scope</strong></td>
+<td>Focused on the software components, architectures, code artifacts, and requirements of a digital program.</td>
+<td>Concerned with all aspects of the design, engineering, and deployment of complex physical and logical systems.</td>
+</tr>
+<tr>
+<td><strong>Domain Inclusion</strong></td>
+<td>Deals with digital logical execution, data engineering, libraries, algorithms, and application layers.</td>
+<td>Encompasses mechanical design, electrical circuitry, system policy, process logistics, hardware, and software.</td>
+</tr>
+<tr>
+<td><strong>Structural Relationship</strong></td>
+<td>Operates as a focused subset within the broader system engineering discipline.</td>
+<td>Functions as the overall framework responsible for partitioning tasks among hardware, software, and operational policies.</td>
+</tr>
+<tr>
+<td><strong>Key Objectives</strong></td>
+<td>Optimizes code properties like software reliability, maintainability, performance, and portability.</td>
+<td>Integrates components to ensure the system as a whole meets operational constraints and business needs.</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article class="qcard">
+<h3>Question 3. a) ii)</h3>
+<p><strong>Illustrate the four important attributes which all software products should have. Identify and Suggest four other attributes that may sometimes be significant for a Fire Alarm system. [4 Marks]</strong></p>
+<h4>1. Four Essential Attributes of All Software Products</h4>
+<ol>
+<li><strong>Maintainability:</strong> Software should be written so that it can evolve to meet the changing needs of customers without requiring a complete rewrite.</li>
+<li><strong>Dependability &amp; Security:</strong> Software must be reliable, secure, and safe, ensuring it does not cause physical or economic damage in the event of system failure or malicious attacks.</li>
+<li><strong>Efficiency:</strong> Software should optimize the utilization of system resources, such as CPU cycles, memory allocation, and storage footprints.</li>
+<li><strong>Acceptability:</strong> The software must be understandable, usable, and compatible with other operational systems used by its target audience.</li>
+</ol>
+<h4>2. Four Critical Attributes Specific to a Fire Alarm System</h4>
+<ol>
+<li><strong>Real-Time Responsiveness (Latency Bounds):</strong> The system must guarantee that sensor polling inputs showing thermal spikes trigger alarm notifications within a strict maximum latency window (e.g., $&lt;200$ milliseconds).</li>
+<li><strong>Fail-Safe Fault Tolerance:</strong> If a sensor component breaks or loses power, the software must drop into a fallback mode that flags the issue via a local siren rather than failing silently.</li>
+<li><strong>Robustness Against Environmental Interference:</strong> The processing algorithms must filter out environmental noise (such as dust buildup or localized cooking steam) to avoid triggering false positive alarms.</li>
+<li><strong>Resilience to Security Attacks (Tamper Proofing):</strong> The embedded firmware must resist external tampering, unauthorized network connections, and denial-of-service (DoS) attempts to prevent malicious actors from disabling the alarm infrastructure.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Question 3. b)</h3>
+<p><strong>Consider an interactive coffee vending system that allows different people to find different flavors of coffee and select one of them. Identify the Non-functional requirements for this system and classify them and arrange in a hierarchy diagram. [6 Marks]</strong></p>
+<h4>1. Identified Non-Functional Requirements (Context Specific)</h4>
+<ul>
+<li><strong>Product Performance:</strong> The machine must dispense the selected coffee flavor within 45 seconds of payment authorization.</li>
+<li><strong>Usability:</strong> The interactive selection screen must offer multi-language support (English, Hindi, etc.) and clear visual icons to allow users to navigate flavor profiles without training.</li>
+<li><strong>Reliability:</strong> The system must accurately monitor ingredient inventory levels (milk, coffee beans, syrups) and automatically disable unavailable options to prevent empty cups from being served.</li>
+<li><strong>Organizational Standard:</strong> The hardware and software interface must comply with standardized commercial food vending machine safety regulations and institutional power efficiency parameters.</li>
+<li><strong>Security/External:</strong> The integrated contactless payment terminal must encrypt all transaction data to comply with relevant financial security protocols.</li>
+</ul>
+<h4>2. Hierarchy Representation</h4>
+<pre><code>                          Coffee Vending NFR Hierarchy
+                                       │
+        ┌──────────────────────────────┼──────────────────────────────┐
+        ▼                              ▼                              ▼
+  Product Requirements     Organizational Requirements       External Requirements
+        │                              │                              │
+  ┌─────┴─────┐                        ▼                              ▼
+  ▼           ▼               Operational Policies            Payment Regulations
+Usability  Performance        (Inventory Control &amp;            (PCI-DSS Financial
+(UI Icons, (Dispense Speed,    Power Constraints)               Security &amp; Health
+ Languages)   Accuracy)                                          Safety Laws)
+
+</code></pre>
+</article>
+<article class="qcard">
+<h3>Question 3. c)</h3>
+<p><strong>A train protection system automatically applies the brakes of a train if the speed limit for a segment of track is exceeded or if the train enters a track segment that is currently signaled with a red light (i.e., the segment should not be entered). Assuming that the signal status and the speed limit for the track segment are transmitted to on-board software on the train before it enters that track segment. Design a template using structured natural language to capture the requirements for the above system. [6 Marks]</strong></p>
+<h4>Structured Requirements Specification</h4>
+<ul>
+<li><strong>Requirement Identifier:</strong> <code>SYS-RE-TPS-09</code></li>
+<li><strong>Requirement Title:</strong> Automatic Emergency Braking Actuation.</li>
+<li><strong>Target System Layer:</strong> On-board Safety-Critical Embedded Train Control Software Module.</li>
+<li><strong>Inputs:</strong> * Current Train Speed ($V_{current}$) via axle tachometers.</li>
+<li>Segment Allowed Speed Limit ($V_{limit}$) via trackside transponder transmission.</li>
+<li>
+<p>Next Segment Signal Status ($Signal_{state}$).</p>
+</li>
+<li>
+<p><strong>Outputs:</strong> Emergency Pneumatic Brake Control Line Signal ($Brake_{engage}$).</p>
+</li>
+<li><strong>Action Description:</strong> * The software shall continuously evaluate input parameters at a clock rate of 100 Hz.</li>
+<li><strong>Rule 1 (Speed Check):</strong> If $V_{current} &gt; V_{limit}$, the system triggers an emergency brake sequence.</li>
+<li>
+<p><strong>Rule 2 (Signal Check):</strong> If $Signal_{state} == \text{RED}$, the system verifies if the train has crossed into the restricted track segment. If confirmed, it applies maximum emergency braking.</p>
+</li>
+<li>
+<p><strong>Pre-conditions:</strong> The telemetry data link between the track transponder and the on-board software receiver must be active and synchronized.</p>
+</li>
+<li><strong>Post-conditions:</strong> The emergency brake signal remains latched until the train comes to a complete stop ($V_{current} == 0$), and an event log entry is written to solid-state memory.</li>
+<li><strong>Exceptions / Side Effects:</strong> If the trackside transponder link drops or transmits corrupted telemetry data packets, the software must assume a worst-case scenario, flag a telemetry loss error to the driver's interface, and automatically apply the backup brakes as a safety precaution.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question 4. a)</h3>
+<p><strong>As a Software professional working for a reputed company, you have been approached by your friend to share confidential information of the organization. Discuss the ethical dilemmas that this request raises and the professional and ethical responsibilities of a software engineer that you would be violating if the request is addressed. State Code of Ethics and Professional Practice as specified by ACM/IEEE-CS joint task force. [8 Marks]</strong></p>
+<h4>1. Analysis of Ethical Dilemmas</h4>
+<p>This scenario presents an ethical dilemma that pits <strong>personal loyalty</strong> against <strong>professional obligation</strong>. The conflict arises between wanting to maintain a personal relationship and fulfilling legal, ethical, and professional commitments to one's employer:</p>
+<ul>
+<li><strong>Trust vs. Breach:</strong> Sharing confidential intellectual property exploits an engineer's access privileges, violating corporate trust and non-disclosure obligations for a personal relationship.</li>
+<li><strong>Economic Harm:</strong> Leaking proprietary information can undermine the employer's market position, potentially causing economic damage to the company and its employees.</li>
+</ul>
+<h4>2. Violated Professional &amp; Ethical Principles (ACM/IEEE-CS)</h4>
+<p>Sharing confidential information explicitly violates several core principles of the ACM/IEEE-CS Code of Ethics:</p>
+<ul>
+<li><strong>Principle 2: CLIENT AND EMPLOYER:</strong> This principle states that software engineers must act in the best interests of their client and employer, provided this aligns with the public interest. Disclosing trade secrets directly harms the employer's competitive position.</li>
+<li><strong>Principle 4: JUDGMENT:</strong> This principle requires engineers to maintain integrity and independence in their professional decisions. Allowing personal friendships to influence professional conduct undermines this independence.</li>
+<li><strong>Principle 6: PROFESSION:</strong> Software engineers must protect the integrity and reputation of their profession. Unethical behavior by an individual degrades public and corporate trust in the engineering field as a whole.</li>
+<li><strong>General Confidentiality Responsibility:</strong> Software engineers are obligated to protect all confidential information acquired during their professional practice, regardless of whether a formal non-disclosure agreement is signed.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question 4. b)</h3>
+<p><strong>Giving reasons for your answer based on the type of system being developed, suggest the most appropriate generic software process model that might be used as a basis for managing the development of the following systems:</strong> * <strong>(i) A system to control anti-lock braking in a car</strong></p>
+<ul>
+<li><strong>(ii) A virtual reality system to support software maintenance</strong></li>
+<li><strong>(iii) An interactive system that allows railway passengers to find train times from terminals installed in stations. Explain each of the models with relevant diagrams. [6 Marks]</strong></li>
+</ul>
+<h4>Answer &amp; Mapping Strategy:</h4>
+<ul>
+<li><strong>(i) Car Anti-Lock Braking System (ABS) $\rightarrow$ Waterfall Model with Rigorous Testing</strong></li>
+<li>
+<p><strong>Justification:</strong> Car ABS is a safety-critical real-time system where software defects can cause fatal accidents. The system requires strict, unambiguous specification up front to align with fixed physical braking hardware. Speculative iterative cycles are unsafe here; requirements must be fully locked down and validated before any manufacturing occurs.</p>
+</li>
+<li>
+<p><strong>(ii) Virtual Reality (VR) Support System $\rightarrow$ Evolutionary / Prototyping Model</strong></p>
+</li>
+<li>
+<p><strong>Justification:</strong> VR systems feature experimental 3D rendering interfaces, human-computer interaction patterns, and complex rendering workflows. Requirements are poorly defined at the start because users cannot easily articulate how they will navigate a 3D environment. Prototyping allows engineers to build rapid visual iterations, assess user experience, and discover technical bottlenecks early in development.</p>
+</li>
+<li>
+<p><strong>(iii) Interactive Railway Station Terminal $\rightarrow$ Incremental Development Model</strong></p>
+</li>
+<li><strong>Justification:</strong> The primary focus of a public information terminal is user accessibility and stable system integration. Core capabilities (such as querying schedule databases) can be built first in an early increment. Secondary capabilities (such as localized platform maps or ad banners) can then be rolled out in successive software updates based on terminal performance data.</li>
+</ul>
+<h4>Core Generic Process Model Diagrams (UML Flow representation):</h4>
+<p><strong>Waterfall Process Model Flow:</strong></p>
+<pre><code>[Requirements Phase] ──► [System Design] ──► [Implementation] ──► [Integration &amp; Testing] ──► [Operations]
+
+</code></pre>
+<p><strong>Incremental Process Model Flow:</strong></p>
+<pre><code>Define Outline Requirements ──► Partition Requirements ──► Design Architecture
+                                                                │
+   ┌────────────────────────────────────────────────────────────┤
+   ▼                                                            ▼
+[Build Increment 1 Core Services]             [Build Increment 2 Secondary Services]
+   │                                                            │
+   └───────────────────────────► [Integrate &amp; Deliver System] ◄─┘
+
+</code></pre>
+</article>
+<article class="qcard">
+<h3>Question 4. c)</h3>
+<p><strong>Design a Software requirements document for an Online furniture ordering System. [6 Marks]</strong></p>
+<p>This document follows standard IEEE guidelines for software requirements documentation.</p>
+</article>
+<article class="qcard">
+<h3>Software Requirements Specification (SRS) for E-Furnish Portal</h3>
+<h4>1. Introduction</h4>
+<ul>
+<li><strong>1.1 Purpose:</strong> This document defines the functional and non-functional requirements for the E-Furnish e-commerce portal, an application designed to enable browse-to-purchase interactions for commercial furniture catalog listings.</li>
+<li><strong>1.2 Scope:</strong> The system covers customer account registration, dynamic 3D dimension catalog exploration, localized shopping cart management, payment processing integration, and order fulfillment tracking.</li>
+</ul>
+<h4>2. Overall Description</h4>
+<ul>
+<li><strong>2.1 Product Perspective:</strong> The system interacts with external payment gateways (e.g., Stripe) and enterprise inventory tracking management databases to ensure stock levels remain accurate.</li>
+<li><strong>2.2 User Characteristics:</strong> * <em>Guest/Customer:</em> Requires zero technical training; expects intuitive navigation.</li>
+<li><em>Inventory Manager:</em> Needs administrative tools to update catalog price metrics and stock availability data.</li>
+</ul>
+<h4>3. System Requirements</h4>
+<ul>
+<li><strong>3.1 Functional Requirements (FR)</strong></li>
+<li><strong>FR-1:</strong> The application shall allow customers to securely register accounts using verified email addresses or third-party OAuth links.</li>
+<li><strong>FR-2:</strong> The catalog interface shall display furniture items partitioned by room type, listing dimensional data, material compositions, and current stock status.</li>
+<li>
+<p><strong>FR-3:</strong> The system must validate payment details against external gateway APIs and instantly email an itemized PDF receipt upon successful authorization.</p>
+</li>
+<li>
+<p><strong>3.2 Non-Functional Requirements (NFR)</strong></p>
+</li>
+<li><strong>NFR-Performance:</strong> Product searches must return results within less than 1.5 seconds under a concurrent system load of 500 active users.</li>
+<li><strong>NFR-Security:</strong> All communication containing credit card fields or password strings must be encrypted over HTTPS using TLS 1.3.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question 5. a)</h3>
+<p><strong>As an expert in computer security, you have been approached by an organization that campaigns for the rights of torture victims and have been asked to help them gain unauthorized access to the computer systems of a British company. This will help them confirm or deny that this company is selling equipment used directly in the torture of political prisoners. Discuss the ethical dilemmas that this request raises and the professional and ethical responsibilities of a software engineer that you would be violating. State Code of Ethics and Professional Practice as specified by ACM/IEEE-CS joint task force. [8 Marks]</strong></p>
+<h4>1. Analysis of the Ethical Dilemma</h4>
+<p>This scenario presents a classic ethical conflict between <strong>legal/professional obligations</strong> and <strong>fundamental human rights ethics</strong>:</p>
+<ul>
+<li><strong>The Legalist Position:</strong> Executing unauthorized access (hacking) into a corporate system is illegal under international computer misuse laws, regardless of intent.</li>
+<li><strong>The Humanitarian Position:</strong> If the targeted company is supplying weapons or torture instruments to authoritarian regimes, uncovering this data could save lives and expose serious human rights violations.</li>
+<li><strong>The Dilemma:</strong> The engineer must choose between upholding professional codes of conduct (avoiding system intrusion) and acting on a moral imperative to prevent human suffering.</li>
+</ul>
+<h4>2. Specific Violations of Professional Responsibilities (ACM/IEEE-CS)</h4>
+<p>While the objective may stem from a desire to expose wrongdoing, performing unauthorized network exploitation directly violates several core tenets of the ACM/IEEE-CS joint task force code:</p>
+<ul>
+<li><strong>Computer Misuse Violations:</strong> Software engineers have an explicit responsibility to never deploy their technical skills to compromise or break into other computer systems without authorization.</li>
+<li><strong>Principle 1: PUBLIC:</strong> This principle dictates that software engineers must act consistently with the public interest. While exposing human rights abuses serves a public interest, conducting illegal network exploitation undermines public trust in the security profession, creating a conflict within this principle.</li>
+<li><strong>Principle 4: JUDGMENT:</strong> Software professionals must maintain integrity and independence in their professional judgment. Engaging in illegal cyber-espionage compromise projects compromises this independence.</li>
+</ul>
+<h4>3. Proper Resolution Path</h4>
+<p>An ethical security professional must decline the request to hack the company. Instead, they should guide the campaign organization to work with legal investigative bodies, human rights rapporteurs, or authorized whistleblower protection programs to gain legitimate access to the company's records.</p>
+</article>
+<article class="qcard">
+<h3>Question 5. b)</h3>
+<p><strong>Illustrate the two fundamental types of evolutionary development. Identify the problems existing in an evolutionary approach. [6 Marks]</strong></p>
+<p>Evolutionary development is based on the idea of developing an initial implementation, exposing it to user comment, and refining it through many versions until an acceptable system is produced.</p>
+<h4>1. Two Fundamental Types of Evolutionary Development</h4>
+<ol>
+<li><strong>Exploratory Development:</strong> The objective of this process is to work directly with the customer to explore their requirements and deliver a final, operational system. Development starts with the system parts that are well understood. The system evolves by adding new features as proposed by the customer.</li>
+<li><strong>Throw-away Prototyping:</strong> The objective of this process is to illustrate and clarify poorly understood requirements to gain a better understanding of what the system needs. The prototype focuses on experimenting with requirements that are unclear or risky. Once requirements are clarified, this experimental software build is discarded, and the actual system is rewritten from scratch using a more structured process model.</li>
+</ol>
+<h4>2. Critical Problems Existing in the Evolutionary Approach</h4>
+<p>From a managerial and architectural perspective, evolutionary development introduces several notable drawbacks:</p>
+<ul>
+<li><strong>Lack of Process Visibility:</strong> Software systems evolve rapidly through multiple design iterations. It is not cost-effective for managers to produce comprehensive documentation, design models, or specification revisions for every single intermediate release.</li>
+<li><strong>Poor System Structure:</strong> Continuous changes to code modules introduce architectural erosion. Because new features are integrated ad-hoc into existing software builds, modules become tightly coupled, making long-term maintenance difficult and expensive.</li>
+<li><strong>Special Skills Requirement:</strong> Effective evolutionary development requires experienced engineers who can navigate fluid requirements and use rapid prototyping tools, a skillset that can be harder to find than standard development competencies.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question 6. a)</h3>
+<p><strong>Describe the following: (i) Attributes of a good software system, (ii) Key challenges faced by software engineering. [8 Marks]</strong></p>
+<h4>(i) Attributes of a Good Software System</h4>
+<p>A high-quality software product must provide the required functionality and performance while remaining maintainable, dependable, and acceptable to users:</p>
+<ol>
+<li><strong>Maintainability:</strong> The codebase must be engineered using clear documentation, modular structures, and loose coupling so it can adapt to changing business requirements over time.</li>
+<li><strong>Dependability &amp; Security:</strong> This attribute covers reliability (not failing during operations), safety (not causing physical harm), and security (preventing unauthorized data access or disruption).</li>
+<li><strong>Efficiency:</strong> The application must balance CPU execution time, memory allocation, and disk operations to maximize throughput and preserve resource utilization.</li>
+<li><strong>Acceptability:</strong> The interface must be understandable, intuitive, and seamlessly integrate with existing workflows and systems used by the target audience.</li>
+</ol>
+<h4>(ii) Key Challenges Faced by Software Engineering</h4>
+<p>In the 21st century, software engineering must adapt to three main operational challenges:</p>
+<ol>
+<li><strong>The Heterogeneity Challenge:</strong> Modern software must operate across diverse, distributed networks that include legacy systems, cloud architectures, varied hardware platforms, and mobile devices. Designing systems that maintain interoperability across these varied environments is a major engineering challenge.</li>
+<li><strong>The Delivery Challenge:</strong> Market pressures require software to be developed and deployed rapidly. Engineers must streamline development processes to deliver software quickly without compromising quality, safety, or architectural integrity.</li>
+<li><strong>The Trust Challenge:</strong> As software becomes deeply integrated into everyday infrastructure, building trustworthy systems is critical. Software engineers must verify that remote web applications and data systems protect user information from malicious attacks, unauthorized access, and runtime manipulation.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Question 6. b)</h3>
+<p><strong>Design a template using structured natural language to capture the requirements of a system that monitors the insulin level of patients in a hospital intensive care unit. [8 Marks]</strong></p>
+<h4>Structured Specification Document</h4>
+<ul>
+<li><strong>Requirement Identifier:</strong> <code>SYS-RE-ICU-INSULIN-01</code></li>
+<li><strong>Requirement Title:</strong> Real-Time ICU Glucose Analysis and Alert Actuation.</li>
+<li><strong>Target Environment:</strong> Intensive Care Unit (ICU) Patient Monitoring Network Layer.</li>
+<li><strong>Inputs:</strong> * Blood Glucose Concentration Level ($GLUCOSE_{current}$) via indwelling vascular sensor hardware, polled at a 60-second cycle.</li>
+<li>
+<p>Patient Age ($PATIENT_{age}$), Patient Weight ($PATIENT_{weight}$), and Target Glycemic Range ($Range_{target}$) from the electronic health record system.</p>
+</li>
+<li>
+<p><strong>Outputs:</strong> * ICU Central Station Terminal Alarm Event Display ($Alert_{visual}$).</p>
+</li>
+<li>Local Bedside Siren Signal ($Alarm_{audio}$).</li>
+<li>
+<p>Target Basal Pump Micro-Infusion Rate Payload ($Infusion_{rate}$).</p>
+</li>
+<li>
+<p><strong>Action Description:</strong> * The software shall evaluate $GLUCOSE_{current}$ against the patient's predefined $Range_{target}$ bounds immediately upon receiving each sensor measurement.</p>
+</li>
+<li><strong>Rule 1 (Hypoglycemia):</strong> If $GLUCOSE_{current} &lt; 70 \text{ mg/dL}$, the system must completely halt active insulin infusion, trigger an immediate bedside audio alarm, and send a critical alert to the central ICU terminal.</li>
+<li>
+<p><strong>Rule 2 (Hyperglycemia):</strong> If $GLUCOSE_{current} &gt; \text{Upper Bound of } Range_{target}$, the system recalculates the required basal insulin infusion rate based on the patient's weight and age metrics, transmitting the updated rate payload to the bedside pump.</p>
+</li>
+<li>
+<p><strong>Pre-conditions:</strong> The sensor calibration sequence must be verified, and the medical network link between the bedside hardware and the central monitoring database must be online.</p>
+</li>
+<li><strong>Post-conditions:</strong> The internal clinical log updates to record the current glucose measurements, active pump infusion rates, and event states.</li>
+<li><strong>Exceptions / Error States:</strong> If the sensor hardware generates null or unreadable telemetry packets, or if a physical disconnect state is detected, the software must trigger an immediate high-priority alarm at the central ICU station and switch the system to a safe manual monitoring state.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question 6. c)</h3>
+<p><strong>Suggest the guidelines to be followed when writing user requirements in order to minimize misunderstandings. [4 Marks]</strong></p>
+<p>To minimize ambiguities and misunderstandings when specifying user requirements in natural language, engineers should follow these structured guidelines:</p>
+<ol>
+<li><strong>Invent a Standard Format:</strong> Create and enforce a standardized structure for every requirement statement to ensure consistency across the entire documentation process.</li>
+<li><strong>Use Language Consistently:</strong> Establish strict terminology conventions. Use mandatory words like <strong>"shall"</strong> exclusively for mandatory functional capabilities, and words like <strong>"should"</strong> for optional or non-mandatory features.</li>
+<li><strong>Use Text Highlighting:</strong> Apply visual formatting—such as bolding key terms, using italics for system states, or underlining mathematical bounds—to make important requirements easier to read and scan.</li>
+<li><strong>Avoid Computer Jargon:</strong> When drafting user requirements, express capabilities in the language of the application domain rather than using technical software terminology, ensuring non-technical stakeholders can understand the document.</li>
+<li><strong>Include Rationales:</strong> For complex requirements, provide a brief rationale explaining <em>why</em> the requirement is necessary and identifying the stakeholder origin to guide future development decisions.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Question: (June 2025)</h3>
+<p><strong>Consider an interactive system (kiosk) set up at different places in the ground floor of a mall that allows users to check the details of various shops located on each floor, the offers and discounts available, as well as the information of common facilities available like lifts, lobby, etc. Identify the Non-functional requirements required for such a system and explain using a hierarchy diagram. [6 Marks]</strong></p>
+<h4>1. Identified Non-Functional Requirements (Mall Kiosk Context)</h4>
+<ul>
+<li><strong>Usability:</strong> The terminal interface must be highly intuitive, relying on clear 2D/3D floor maps and large touchscreen button assets so that shoppers of all age groups and technical skill levels can navigate it without prior training.</li>
+<li><strong>Performance (Response Time):</strong> Floor layout maps and shop listings must load within less than 1.0 second of a touch input event to prevent user frustration.</li>
+<li><strong>Reliability/Availability:</strong> The kiosk terminal software must maintain an operational availability of 99.9% during mall operational hours (e.g., 9:00 AM to 11:00 PM).</li>
+<li><strong>Maintainability (Organizational):</strong> The catalog details, store promotional banners, and active discounts must be dynamically updatable via a centralized remote server network connection without requiring manual software reinstallation on individual physical kiosks.</li>
+<li><strong>Compliance/External:</strong> The structural mounting and user interface navigation buttons must comply with public accessibility guidelines (e.g., proper screen height scaling options for wheelchair users).</li>
+</ul>
+<h4>2. Non-Functional Requirements Hierarchy Diagram</h4>
+<pre><code>                             Mall Kiosk NFR Hierarchy
+                                        │
+         ┌──────────────────────────────┼──────────────────────────────┐
+         ▼                              ▼                              ▼
+   Product Requirements     Organizational Requirements       External Requirements
+         │                              │                              │
+   ┌─────┴─────┐                        ▼                              ▼
+   ▼           ▼              Operational &amp; Maintenance           Accessibility Laws
+Usability   Performance       (Remote Catalog Updates &amp;       (ADA/Public Infrastructure
+(Floor Maps, (Interactive      Terminal Diagnostics)            Standard Height Settings)
+ UI Assets)  Touch Latency)
+
+</code></pre>
+</article>
+<article class="qcard">
+<h3>Question: (June 2025)</h3>
+<p><strong>Design a Software requirements document for a Mobile Shop that is into Sales and Service of mobiles. The mobile shop provides various facilities for customers like EMI options for the purchase of a new mobile and exchange of old mobiles. [6 Marks]</strong></p>
+<p>This document follows the standardized IEEE formatting guidelines tailored specifically for the context of this retail business:</p>
+</article>
+<article class="qcard">
+<h3>Software Requirements Specification (SRS) for SmartCell Retail &amp; Service Platform</h3>
+<h4>1. Introduction</h4>
+<ul>
+<li><strong>1.1 Purpose:</strong> This document establishes the absolute functional and non-functional baseline for the unified inventory, point-of-sale (POS), and service tracking software platform for the SmartCell retail outlet.</li>
+<li><strong>1.2 Scope:</strong> The platform handles device sales inventory, customer repair ticket lifecycle logging, trade-in value appraisals, and financial terminal processing for EMI payment management tracking.</li>
+</ul>
+<h4>2. Overall Description</h4>
+<ul>
+<li><strong>2.1 Product Perspective:</strong> The system interacts natively with external credit institution APIs (for verification of installment financing options) and vendor device appraisal engines.</li>
+<li><strong>2.2 User Classes:</strong> * <em>Sales Executive:</em> Executes customer point-of-sale orders, device exchange validations, and financial application submissions.</li>
+<li><em>Service Technician:</em> Updates diagnostic statuses, components replaced, and pricing tiers on assigned device repair workflows.</li>
+</ul>
+<h4>3. Specific System Requirements</h4>
+<ul>
+<li><strong>3.1 Functional Requirements (FR)</strong></li>
+<li><strong>FR-1 (Sales &amp; Exchange):</strong> The system shall calculate the fair-market value of an old device after a sales executive inputs its model type, cosmetic condition score, and functional verification checks, automatically deducting this balance from a chosen new item invoice.</li>
+<li><strong>FR-2 (EMI Integration):</strong> The system must submit a buyer's profile to third-party consumer credit portals and track loan approval, generating monthly payment schedules for validated installment agreements.</li>
+<li>
+<p><strong>FR-3 (Service Management):</strong> The system shall assign a unique tracker barcode string to every repair intake ticket, logging device issues, tracking service status shifts (<em>Intake</em>, <em>Diagnosing</em>, <em>Awaiting Parts</em>, <em>Ready for Pickup</em>), and generating SMS notifications to the customer upon phase completion.</p>
+</li>
+<li>
+<p><strong>3.2 Non-Functional Requirements (NFR)</strong></p>
+</li>
+<li><strong>NFR-Availability:</strong> The inventory system database must maintain a continuous operational uptime of 99.5% during shop retail hours.</li>
+<li><strong>NFR-Security:</strong> Customer credit score data inputs, financing applications, and transaction data packets must be encrypted in transit using TLS 1.3 protocols.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question: (June 2025)</h3>
+<p><strong>As a programmer you are offered a promotion to project manager but you feel that you can make a more effective contribution still. Discuss the ethical dilemmas that this request raises and also list the professional and ethical responsibilities of a software engineer. State Code of Ethics and Professional Practice as specified by ACM/IEEE-CS joint task force. [8 Marks]</strong></p>
+<h4>1. Analysis of the Ethical Dilemma</h4>
+<p>This scenario describes an engineering conflict between <strong>organizational expectation/career status</strong> versus <strong>personal professional competence and capability optimization</strong>:</p>
+<ul>
+<li><strong>The Organizational Pull:</strong> Management assumes that moving from technical production to a leadership position is the natural progression of value. Refusing the role might be perceived as a lack of ambition or a rejection of corporate goals.</li>
+<li><strong>The Technical Reality:</strong> The programmer recognizes that their core strength lies in writing code, system optimization, or technical architecture, rather than managing budgets, team schedules, and project administration.</li>
+<li><strong>The Dilemma:</strong> Accepting the management position for higher status and compensation can introduce risk under <strong>Principle 2 (Competence)</strong> if the engineer lacks project management skills. This shift could inadvertently harm team performance and delivery outcomes, whereas remaining a developer maximizes their engineering contribution to the company.</li>
+</ul>
+<h4>2. Applicable Tenets from the ACM/IEEE-CS Code of Ethics</h4>
+<ul>
+<li><strong>Principle 2: CLIENT AND EMPLOYER:</strong> Software engineers must work in a manner that supports the best interests of their employer, consistent with public interest. If an individual knowingly takes a role where their contribution drops significantly or where they struggle to deliver due to mismatched skills, they may inadvertently act against the company's best operational interests.</li>
+<li><strong>Principle 4: JUDGMENT:</strong> This principle dictates that software engineers must maintain integrity and independence in their professional judgment. This includes being honest with oneself and management about one's operational capacities and limitations.</li>
+<li><strong>Principle 8: SELF:</strong> Engineers are responsible for continuous professional learning. In this scenario, the programmer can ethically resolve the dilemma by arranging a career path conversation with management to explore alternative technical leadership tracks (such as a Principal Architect role) that preserve code contribution value.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question: (June 2025)</h3>
+<p><strong>Design a template using structured natural language to capture the requirements for a weather Monitoring System that collects weather data from a weather station and predicts the weather forecasts. [6 Marks]</strong></p>
+<h4>Structured Specification Document</h4>
+<ul>
+<li><strong>Requirement Identifier:</strong> <code>SYS-RE-WMS-2026-03</code></li>
+<li><strong>Requirement Title:</strong> Dynamic Atmospheric Data Ingestion and Predictive Forecasting.</li>
+<li><strong>Target Architecture:</strong> Automated Central Weather Processing Software Layer.</li>
+<li><strong>Inputs:</strong> * Ambient Temperature ($Temp$) via trackside digital thermistors.</li>
+<li>Barometric Atmospheric Pressure ($Press$) via localized solid-state barometers.</li>
+<li>Relative Humidity Percentage ($Humid$) via digital hygrometers.</li>
+<li>
+<p><em>Sampling Interval:</em> Continuously captured at a baseline clock rate of 0.1 Hz (every 10 seconds).</p>
+</li>
+<li>
+<p><strong>Outputs:</strong> * Consolidated Regional Metrics Database Array ($Data_{metric}$).</p>
+</li>
+<li>
+<p>Predictive Forecast Vector Payload ($Forecast_{poly}$) covering upcoming 24-hour trends.</p>
+</li>
+<li>
+<p><strong>Action Description:</strong> * The software must clean and parse incoming telemetry streams, flagging and removing out-of-bounds sensor values to prevent data contamination.</p>
+</li>
+<li>Every 15 minutes, the engine processes historical telemetry trends using predictive meteorological tracking equations to calculate pressure change trends ($\Delta Press / \Delta t$).</li>
+<li>
+<p><strong>Rule 1 (Storm Prediction):</strong> If barometric pressure drops more than 3 millibars within any 3-hour moving window, while relative humidity exceeds 85%, the software appends a high-probability storm flag warning vector to the output forecast block.</p>
+</li>
+<li>
+<p><strong>Pre-conditions:</strong> At least 85% of remote telemetry station nodes must have active network telemetry connections to ensure accurate spatial sample coverage.</p>
+</li>
+<li><strong>Post-conditions:</strong> The live weather dashboard web application is updated with new forecast values, and raw metrics are archived in a data lake.</li>
+<li><strong>Exceptions / Side Effects:</strong> If data drops due to network connectivity issues or severe sensor signal corruption, the system maintains operations by applying standard interpolation based on neighboring geographical station values. It also surfaces a diagnostic alert on the administrator console to notify them of the data drop.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Question: (June 2025)</h3>
+<p><strong>Giving reasons for your answer based on the type of system being developed, suggest the most appropriate generic software process model that might be used as a basis for managing the development of the following systems:</strong></p>
+<ul>
+<li><strong>(i) Campus web portal of a college</strong></li>
+<li><strong>(ii) An Air-traffic control system at airport. Explain each of the model with relevant diagrams.</strong></li>
+</ul>
+<h4>Answer &amp; Mapping Analysis:</h4>
+<ul>
+<li><strong>(i) Campus Web Portal of a College $\rightarrow$ Incremental Development Model</strong></li>
+<li>
+<p><strong>Core Justification:</strong> A college portal consists of distinct, independent functional sub-modules (e.g., student grade registration, financial fee payments, hostel room bookings, and library catalogs). Requirements for student profile interfaces can evolve over time based on user feedback. Using an incremental model allows high-priority foundational layers (like profile lookups and authentication) to be engineered and launched in early increments, while lower-priority items (like campus club events tracking) are developed in subsequent phases.</p>
+</li>
+<li>
+<p><strong>(ii) Air-Traffic Control System at an Airport $\rightarrow$ Waterfall Model with Formal Specification &amp; Rigorous Verification</strong></p>
+</li>
+<li><strong>Core Justification:</strong> Air-traffic control platform execution is a safety-critical real-time system where software failures or unexpected runtime timing delays can lead to catastrophic hardware damage and loss of life. Requirements (such as radar data ingestion rates, target tracking accuracies, and backup failover mechanics) must be explicitly defined, comprehensively specified, and mathematically verified from the outset. Speculative iterative processes are dangerous in this domain; the entire software architecture must be rigorously structured, step-by-phase, with absolute documentation consistency.</li>
+</ul>
+<h4>Process Model Diagrams:</h4>
+<p><strong>Incremental Development Lifecycle Flow:</strong></p>
+<pre><code>  [Inception: Define Requirements]
+                 │
+                 ▼
+     [System Architecture Design]
+                 │
+  ┌──────────────┴──────────────┐
+  ▼                             ▼
+[Build Increment 1: Core Portal] [Build Increment 2: Secondary Services]
+  │                             │
+  └──────────────┬──────────────┘
+                 ▼
+     [Integrated Live Release]
+
+</code></pre>
+<p><strong>Waterfall Safety-Critical System Flow:</strong></p>
+<pre><code> [Requirements Engineering]
+             │
+             ▼
+   [Software Specification]
+             │
+             ▼
+     [System Design]
+             │
+             ▼
+     [Implementation]
+             │
+             ▼
+  [Formal Testing &amp; Validation]
+
+</code></pre>
+</article>
+<article class="qcard">
+<h3>Question: (June 2025)</h3>
+<p><strong>Illustrate the four important attributes which all software products should have. Identify and Suggest four other attributes that may sometimes be significant for an Intruder Alarm system that is set up at home. [8 Marks Total]</strong></p>
+<h4>1. Four Essential Software Product Attributes</h4>
+<ol>
+<li><strong>Maintainability:</strong> The codebase must be engineered with clean readability, clear modular decomposition, and decoupling to adapt to changing commercial infrastructure parameters over time without requiring a complete rewrite.</li>
+<li><strong>Dependability and Security:</strong> The software must execute its features reliably without system failure, maintain data privacy, and resist external network threats or exploit attempts.</li>
+<li><strong>Efficiency:</strong> The application should optimize physical memory utilization, minimize CPU processing cycles, and manage disk space allocation efficiently during runtime execution.</li>
+<li><strong>Acceptability:</strong> The interface layout, documentation, and workflow integration choices must be usable, clear, and accepted by the target user base.</li>
+</ol>
+<h4>2. Four Critical Attributes for a Home Intruder Alarm System</h4>
+<ol>
+<li><strong>Deterministic Latency Bounds:</strong> The system must guarantee that when a motion sensor or window contact sensor drops its loop signal, the software triggers an alert routine within a strict maximum time window (e.g., $&lt; 100$ milliseconds).</li>
+<li><strong>Resilience to False Positives:</strong> Sensing sub-routines must include smart digital filtering algorithms to ignore environmental noise, such as domestic pet movements or rapid changes in ambient light.</li>
+<li><strong>Power-Outage Autonomy (Energy Conservation):</strong> The local terminal software must operate efficiently on low-power backup battery systems if the primary power grid fails, keeping core monitoring features active.</li>
+<li><strong>Anti-Tampering Firmware Security:</strong> The local control software and wireless device communication protocols must use cryptographic validation to prevent malicious actors from jamming sensor frequencies or intercepting system communications.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Question: (February / March 2023)</h3>
+<p><strong>List the additional information to be included when a standard form is used for specifying functional requirements. [6 Marks]</strong></p>
+<p>When utilizing a highly structured, standard document form to define system functional requirements, the following precise technical metadata fields must be included alongside the plain description text to ensure clarity and auditability:</p>
+<ol>
+<li><strong>Unique Requirement Identifier:</strong> A structured alphanumeric string format tag (e.g., <code>SYS-RE-FR-024</code>) to enable automated validation trace matrices across code and test cases.</li>
+<li><strong>Description of the Function:</strong> A clear description of the specific action, service, or calculation transformation the software module must execute.</li>
+<li><strong>Inputs Specification &amp; Core Source:</strong> A detailed specification listing all required incoming data fields, parameters, or hardware voltage signals, along with their respective points of origin.</li>
+<li><strong>Outputs Specification &amp; Target Destination:</strong> A clear definition detailing the expected calculated results, state updates, or physical system outputs, along with where that data should be sent.</li>
+<li><strong>Pre-conditions Baseline:</strong> A statement defining the required system state parameters, database conditions, and dependency settings that must be met before this functional rule can begin execution.</li>
+<li><strong>Post-conditions Target State:</strong> An analysis tracking the verified state configuration shifts, side effects, and ledger modifications that will be locked into the system database after execution completes successfully.</li>
+<li><strong>Side Effects &amp; Exceptions Protocol:</strong> A clear description outlining how the system should handle error scenarios, bad inputs, or network drops, specifying the exact fallback actions to maintain safety.</li>
+</ol>
+</article>
+  </div>
+</section>
+
+
+<section id="unit2" class="unit-section">
+  <div class="unit-banner">
+    <span class="unit-tag">UNIT 2</span>
+    <h2>Unit 2: Semester End Examination (SEE)</h2>
+  </div>
+  
+  <div class="qcard-grid">
+  <article class="qcard">
+<h3>Topic 1: Viewpoint Analysis &amp; Viewpoint Hierarchy Diagrams</h3>
+<h4>Question 1.1</h4>
+<p><strong>Analyze the Library Management System that catalogues copyrighted articles from various countries. Identify the principal viewpoints which might be considered and organize these using a viewpoint hierarchy diagram with appropriate explanation. [6 Marks]</strong></p>
+<h5>1. Theoretical Framework of Viewpoint-Oriented Analysis</h5>
+<p>Engineering complex requirements requires capturing multi-faceted organizational perspectives. Viewpoints represent a structural approach to identifying stakeholders and system boundaries, categorized into three distinct classes:</p>
+<ol>
+<li><strong>Interactor Viewpoints:</strong> People or other automated computing systems that interact directly with the software by providing inputs or receiving explicit outputs.</li>
+<li><strong>Indirect Viewpoints:</strong> Stakeholders or institutions that do not interact directly with the system operational components but influence or are affected by its deployment, rules, and policies.</li>
+<li><strong>Domain Viewpoints:</strong> Structural constraints, physical infrastructure boundaries, and domain-specific regulations (e.g., copyright laws, data compliance) inherent to the environment.</li>
+</ol>
+<h5>2. System Viewpoint Hierarchy Diagram</h5>
+<pre><code>                          Library Management System Viewpoints
+                                            │
+        ┌───────────────────────────────────┼───────────────────────────────────┐
+        ▼                                   ▼                                   ▼
+Interactor Viewpoints              Indirect Viewpoints                  Domain Viewpoints
+        │                                   │                                   │
+  ┌─────┴─────────────┐               ┌─────┴─────────────┐               ┌─────┴─────────────┐
+  ▼                   ▼               ▼                   ▼               ▼                   ▼
+Library Users     System Admins    Library Management  Publisher Guilds International  Copyright License
+(Borrowers,       (Cataloguers,    (Budget Officers,   &amp; Copyright Legal Intellectual  Registries (IFLA,
+ Researchers)     IT Staff)        Policy Makers)      Auditors)       Property Laws   National Databases)
+
+</code></pre>
+<h5>3. Contextual Analysis of Identified Viewpoints</h5>
+<ul>
+<li><strong>Interactor Viewpoint:</strong></li>
+<li><em>Library Users (Borrowers/Researchers):</em> Require low-latency search functionality, article retrieval interfaces, digital download services, and personal account checkout tracking panels.</li>
+<li>
+<p><em>System Administrators (Cataloguers/IT Staff):</em> Responsible for digital indexing, uploading metadata payloads, configuring storage networks, managing authorization tables, and running hardware diagnostic profiles.</p>
+</li>
+<li>
+<p><strong>Indirect Viewpoint:</strong></p>
+</li>
+<li><em>Library Management:</em> Concerned with operational metrics, hardware resource budgets, license expenditure models, subscription lifecycles, and institutional usage reporting.</li>
+<li>
+<p><em>Publisher Guilds &amp; Copyright Legal Auditors:</em> Do not execute day-to-day operations but enforce strict regulatory protocols regarding distribution limitations, digital rights management (DRM), and access counters.</p>
+</li>
+<li>
+<p><strong>Domain Viewpoint:</strong></p>
+</li>
+<li><em>International Intellectual Property Laws:</em> Restricts content display matrices dynamically based on user geographic IP lookups to comply with varying international copyright treaties and print distribution rights.</li>
+<li><em>Copyright License Registries:</em> Defines standard bibliographic formatting protocols (e.g., MARC21, Dublin Core metadata standards) that the system architecture must natively process and persist.</li>
+</ul>
+<h4>Question 1.2</h4>
+<p><strong>Identify and analyze the principal viewpoints for the vacation package U.S.N. reservation service. Organize these using a viewpoint hierarchy diagram with appropriate explanation. [6 Marks]</strong></p>
+<h5>1. Structural Classification of Viewpoints</h5>
+<ul>
+<li><strong>Interactor Viewpoints:</strong> Customers, travel agency dispatchers, and third-party travel vendor APIs (airlines, lodging, car rentals).</li>
+<li><strong>Indirect Viewpoints:</strong> Financial controllers, marketing executives, and regulatory aviation/tourism authorities.</li>
+<li><strong>Domain Viewpoints:</strong> Standard global distribution system (GDS) communication protocols and multi-currency pricing conversion layers.</li>
+</ul>
+<h5>2. Viewpoint Hierarchy Diagram</h5>
+<pre><code>                        Vacation Package Reservation Viewpoints
+                                            │
+        ┌───────────────────────────────────┼───────────────────────────────────┐
+        ▼                                   ▼                                   ▼
+Interactor Viewpoints              Indirect Viewpoints                  Domain Viewpoints
+        │                                   │                                   │
+  ┌─────┴─────────────┐               ┌─────┴─────────────┐               ┌─────┴─────────────┐
+  ▼                   ▼               ▼                   ▼               ▼                   ▼
+End Customers     Travel Agents    Financial Managers  Tourism Boards  GDS Integration   Multi-Currency
+(Mobile App/Web)  (Corporate Desk) &amp; Fraud Auditors   &amp; Safety Regs   APIs (Amadeus)    Conversion Rules
+
+</code></pre>
+<h5>3. Detailed Viewpoint Analysis</h5>
+<ul>
+<li><strong>Interactor Viewpoint (End Customers):</strong> Focuses on user-facing capabilities including multi-destination route searches, customized pricing bundles, instant booking changes, and secure mobile checkout screens.</li>
+<li><strong>Indirect Viewpoint (Financial Managers &amp; Fraud Auditors):</strong> Focuses on transactional integrity, credit processing overheads, cancellation reconciliation workflows, chargeback minimization tracking, and accounting compliance profiles.</li>
+<li><strong>Domain Viewpoint (GDS Integration APIs):</strong> Imposes strict message schema rules (e.g., EDIFACT, XML structures) and timeout windows that dictate how the application queries and holds seats or rooms from external supplier networks.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 2: Architectural Context &amp; Data Flow Modeling (DFD)</h3>
+<h4>Question 2.1</h4>
+<p><strong>Consider the “Online Fresh Food Store” application where users can place order for the item required using this app. Design the context diagram for this application by showing the various entities that interact with it. Explain your diagram clearly. [6 Marks]</strong></p>
+<h5>1. Core Architectural Boundary &amp; Data Exchanges</h5>
+<p>The context diagram represents the highest conceptual abstraction level (Level 0 DFD), establishing the system boundaries, human actors, and external system interfaces that exchange data with the core application.</p>
+<h5>2. System Textual Architecture Mapping (Level 0 DFD)</h5>
+<pre><code>  ┌─────────────────┐        Customer Credentials &amp; Orders        ┌───────────────────────────────┐
+  │                 ├────────────────────────────────────────────►│                               │
+  │    Customer     │◄────────────────────────────────────────────┤                               │
+  │                 │         Order Invoices &amp; Status Tracking    │                               │
+  └─────────────────┘                                             │                               │
+                                                                  │                               │
+  ┌─────────────────┐           Inventory Requests Payload        │     Online Fresh Food Store   │
+  │  Store Inventory├────────────────────────────────────────────►│           Application         │
+  │     Database    │◄────────────────────────────────────────────┤            (System)           │
+  └─────────────────┘           Stock Level Re-order Signals      │                               │
+                                                                  │                               │
+  ┌─────────────────┐             Transaction Token &amp; Value       │                               │
+  │ External Payment│────────────────────────────────────────────►│                               │
+  │   Gateway API   │◄────────────────────────────────────────────┤                               │
+  └─────────────────┘          Authorization/Settlement Codes     └───────────────┬───────────────┘
+                                                                                  │  ▲
+                                                Dispatch Routing &amp; Delivery Pack  │  │ Delivery Status
+                                                                                  ▼  │ Update Code
+                                                                          ┌───────┴───────┐
+                                                                          │  Logistics /  │
+                                                                          │ Delivery Crew │
+                                                                          └───────────────┘
+
+</code></pre>
+<h5>3. Explanatory Breakdown of Information Exchange Flows</h5>
+<ul>
+<li><strong>Customer Entity:</strong> Transmits account registration strings, search filtering arrays, and customized food orders into the core system. In return, the system surfaces real-time delivery tracking alerts, dynamic stock notifications, and billing receipts.</li>
+<li><strong>Store Inventory Database:</strong> External operational node supplying real-time item availability matrices, batch expiration timestamps, and storage temperatures to the system. The application generates inventory deduction instructions and automated stock alerts when items fall below a predefined threshold.</li>
+<li><strong>External Payment Gateway API:</strong> Processes credit cards or digital wallet payloads, receiving encrypted monetary tokens and returning authorization confirmations or error codes to protect transaction security.</li>
+<li><strong>Logistics / Delivery Crew Interface:</strong> The application provides automated dispatch routes, itemized delivery packing details, and customer address strings to the logistics application, receiving geolocation coordinates and drop-off confirmation statuses in return.</li>
+</ul>
+<h4>Question 2.2</h4>
+<p><strong>Design an Online Shopping System using a Level 1 Data Flow Diagram (DFD). Ensure your response clearly outlines internal processes, data stores, external entities, and data flows. [8 Marks]</strong></p>
+<h5>1. System Process and Architecture Deconstruction</h5>
+<p>A Level 1 DFD decomposes the system boundary into distinct operational sub-processes. It maps data flows between external entities, core software features, and physical data stores.</p>
+<h5>2. Graphical-Textual Representation of Level 1 DFD</h5>
+<pre><code>[External Entity: Customer]
+      │  Account Fields &amp; Search Query Strings
+      ├───────────────────────────────────────────────┐
+      ▼                                               ▼
+┌───────────────┐                               ┌───────────────┐
+│  Process 1.0  │                               │  Process 2.0  │
+│Authenticate &amp; │                               │Browse Catalog │
+│Manage Accounts│                               │  &amp; Search     │
+└───────┬───────┘                               └───────┬───────┘
+        │ Read/Write User Profiles                      │ Query Item Availability
+        ▼                                               ▼
+ ═══════════════════                             ═══════════════════
+  D1: Users Data                                  D2: Catalog Data
+ ═══════════════════                             ═══════════════════
+        ▲                                               │ Return Inventory Match Matrix
+        │ Read Account Verification Tokens              ▼
+        │                                       ┌───────────────┐
+        │                                       │  Process 3.0  │
+        │                                       │ Manage Cart   │
+        │                                       │ &amp; Calculate   │
+        │                                       │   Invoices    │
+        │                                       └───────┬───────┘
+        │                                               │ Write Transaction Records
+        │                                               ▼
+        │                                        ═══════════════════
+        │                                         D3: Orders Data
+        │                                        ═══════════════════
+        │                                               ▲
+        │ Verify Billing Name                           │ Read Pending Orders
+        └───────────────────────┐                       │
+                                ▼                       ▼
+                        ┌───────────────┐       ┌───────────────┐
+                        │  Process 4.0  │       │  Process 5.0  │
+                        │Process Payment│──────►│Update Fulfillment
+                        │  via Gateway  │       │  &amp; Logistics  │
+                        └───────┬───────┘       └───────┬───────┘
+                                │                       │
+                                ▼                       ▼
+                       [External Entity:       [External Entity:
+                        Payment Gateway]         Logistics Crew]
+
+</code></pre>
+<h5>3. Clear Technical Specification of Components</h5>
+<ul>
+<li><strong>Processes (Transforms):</strong></li>
+<li><em>1.0 Authenticate &amp; Manage Accounts:</em> Validates user authentication requests against store <code>D1</code>, updates registration fields, and configures permission tokens.</li>
+<li><em>2.0 Browse Catalog &amp; Search:</em> Parses textual search arrays, queries indices in <code>D2</code>, filters outcomes based on availability rules, and formats listing layouts.</li>
+<li><em>3.0 Manage Cart &amp; Calculate Invoices:</em> Dynamically aggregates selected item nodes, computes itemized taxes, applies active promotional discount rules, and determines total outstanding balances.</li>
+<li><em>4.0 Process Payment:</em> Packages encrypted financial payloads and securely routes them to external clearing arrays, updating fulfillment pipelines upon successful authorization.</li>
+<li>
+<p><em>5.0 Update Fulfillment &amp; Logistics:</em> Generates physical invoice sheets, schedules warehousing dispatch tasks, and monitors shipping lifecycles.</p>
+</li>
+<li>
+<p><strong>Data Stores:</strong></p>
+</li>
+<li><code>D1: Users Data</code>: Persists encrypted credentials, default delivery records, and credit tier ratings.</li>
+<li><code>D2: Catalog Data</code>: Stores active item descriptions, structural dimensions, stock balances, and pricing records.</li>
+<li><code>D3: Orders Data</code>: Tracks active fulfillment lifecycles, historic receipt archives, and processing exception flags.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 3: State-Machine Behavioral Modeling</h3>
+<h4>Question 3.1</h4>
+<p><strong>Design the state machine model for an automatic washing machine that has different programs for different types of clothes. Give the state and stimulus description for the automatic washing machine. [8 Marks]</strong></p>
+<h5>1. Systems Engineering Behavioral Analysis</h5>
+<p>Real-time reactive control platforms are modeled using statecharts to display how the execution layer shifts between operational states based on asynchronous external stimulus events.</p>
+<h5>2. State Machine Transition Diagram</h5>
+<pre><code>           ┌──────────────────────────────────────────────┐
+           ▼                                              │
+     ┌───────────┐            programSelected()           │
+  ──►│   IDLE    ├────────────────────────────────────┐   │
+     └─────▲─────┘                                    ▼   │
+           │ clearFault()                       ┌─────────┴─────────┐
+           │                                    │ PROGRAM_CONFIGURED│
+     ┌─────┴─────┐                              └─────────┬─────────┘
+     │   FAULT   │◄──────────────┐                        │ pressStart()
+     └───────────┘               │                        ▼
+           ▲                     │                  ┌─────────────┐
+           │ waterSensorTimeout()│                  │   FILLING   │
+           │                     │                  └──────┬──────┘
+     ┌─────┴─────┐               │                         │ tankFullSensor()
+     │  RINSING  │◄───────┐      │                         ▼
+     └─────┬─────┘        │      │                  ┌─────────────┐
+           │ timerDone()  │      │                  │   WASHING   │
+           ▼              └──────┼──────────────────┴──────┬──────┘
+     ┌───────────┐               │ motorStallEvent()       │ timerDone()
+     │ SPINNING  │───────────────┘                         ▼
+     └─────┬─────┘                                  ┌─────────────┐
+           │ cycleComplete()                        │  DRAINING   │
+           └───────────────────────────────────────►│             │
+                                                    └──────┬──────┘
+                                                           │ pumpEmptySensor()
+                                                           ▼
+                                                    [Loop back to RINSING/SPIN]
+
+</code></pre>
+<h5>3. Comprehensive System Tables</h5>
+<h6>A. Concrete State Specification</h6>
+<ul>
+<li><strong>IDLE:</strong> The machine is powered on, microcontrollers are initialized, the safety door latch is open, and power consumption is minimized.</li>
+<li><strong>PROGRAM_CONFIGURED:</strong> The system captures program configurations from the control panel, mapping parameters (such as water temperatures, washing durations, and spin RPM limits) to the fabric profile (e.g., <em>Delicates</em>, <em>Heavy Cotton</em>, <em>Synthetics</em>).</li>
+<li><strong>FILLING:</strong> The intake solenoids are powered open, allowing water to enter the drum until the digital pressure sensor matches the selected fabric program's target volume.</li>
+<li><strong>WASHING:</strong> The intake solenoids are closed, the heating elements are turned on if required, and the main drive motor is driven in an alternating drum rotation profile based on the program parameters.</li>
+<li><strong>DRAINING:</strong> The main motor stops, the exhaust pump relay is activated, and water is removed from the drum cavity.</li>
+<li><strong>RINSING:</strong> The drum is filled with clean water, agitated briefly to clear remaining detergent residues, and drained completely.</li>
+<li><strong>SPINNING:</strong> The exhaust pump runs continuously while the main motor drives the drum at high RPM limits (e.g., 1200 RPM for Cottons, 600 RPM for Delicates) to extract water via centrifugal force.</li>
+<li><strong>FAULT:</strong> Safety override state triggered by anomalies like a motor stall or water level sensor timeouts. This state cuts power to the heating elements, grounds the motor driver boards, and activates an audible alarm indicator.</li>
+</ul>
+<h6>B. Stimulus and Event Definitions</h6>
+<ul>
+<li><code>programSelected()</code>: Asynchronous event from the control interface carrying numerical mode arguments matching fabric parameters.</li>
+<li><code>pressStart()</code>: Input signal indicating the safety door latch is verified closed, allowing execution to begin.</li>
+<li><code>tankFullSensor()</code>: Continuous polling flag from the pressure transducer circuit indicating the required fluid volume is reached.</li>
+<li><code>timerDone()</code>: Interrupt signal from the internal countdown array indicating a processing phase is complete.</li>
+<li><code>pumpEmptySensor()</code>: Low-threshold calibration signal from the exhaust monitor confirming fluid removal.</li>
+<li><code>motorStallEvent()</code>: Over-current trip alert generated by the motor controller boards if drum rotation is obstructed.</li>
+<li><code>clearFault()</code>: Maintenance switch input that resets the control logic and returns the machine to the <code>IDLE</code> state.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 4: Use Case &amp; Object-Oriented Sequence Modeling</h3>
+<h4>Question 4.1</h4>
+<p><strong>Develop a sequence diagram and a use-case model showing the interactions involved when a student registers for a course in a university. Courses may have limited enrolment, so that the registration process must include checks that places are available. Assume that the student accesses an electronic course catalogue to find out about various courses. [8 Marks]</strong></p>
+<h5>1. Use-Case Model Specification</h5>
+<ul>
+<li><strong>Primary Actors:</strong> Student, Course Catalogue Database System.</li>
+<li><strong>Secondary Actors:</strong> Registrar Financial Clearing System, Department Enrollment Controller.</li>
+</ul>
+<h6>Textual Use-Case Relationships Diagram</h6>
+<pre><code>                   ┌──────────────────────────────────────────────┐
+                   │        University Registration System        │
+                   │                                              │
+                   │   ┌─────────────────────────┐                │
+                   │   │   Browse Course Catalog │                │
+                   │   └────────────┬────────────┘                │
+                   │                ▲                             │
+                   │                │ &lt;&lt;extends&gt;&gt;                 │
+                   │   ┌────────────┴────────────┐                │
+                   │   │ Register for Courses    │                │
+                   │   └────────────┬────────────┘                │
+                   │                │                             │
+                   │                ▼ &lt;&lt;include&gt;&gt;                 │
+                   │   ┌─────────────────────────┐                │
+                   │   │ Validate Seat Capacity  │                │
+                   │   └─────────────────────────┘                │
+                   │                                              │
+                   └──────────────────────────────────────────────┘
+
+</code></pre>
+<h5>2. System Sequence Diagram Mapping Structural Control Flows</h5>
+<p>This diagram details the sequence of interactions, focusing on seat verification loops and handling seat-unavailable errors.</p>
+<pre><code>Student               Portal Interface       Enrollment Engine     Catalogue Database
+  │                          │                       │                      │
+  ├─► queryCatalogue(dept) ─►│                       │                      │
+  │                          ├─────────────────────────────────────────────►│
+  │                          ◄──────────────────────────────────────────────┤ returns Available_List[]
+  ◄─ renderCourses() ────────┤                       │                      │
+  │                          │                       │                      │
+  ├─► selectCourse(courseID)►│                       │                      │
+  │                          ├─► verifyAvailability()│                      │
+  │                          │                       ├─────────────────────►│
+  │                          │                       ◄──────────────────────┤ returns Remaining_Seats
+  │                          │                       │                      │
+  │                          │     [ALT BLOCK: Seats Available]             │
+  │                          │                       │                      │
+  │                          │                       ├─► allocateSeat() ───►│
+  │                          │                       ◄──────────────────────┤ seatReserved_ACK
+  │                          ◄─ confirmReservation()─┤                      │
+  │                          │                       │                      │
+  │                          │     [ALT BLOCK: Course Section Full]         │
+  │                          │                       │                      │
+  │                          ◄─ renderSectionFull()──┤                      │
+  ◄─ displayErrorPanel() ────┤                       │                      │
+  │                          │                       │                      │
+
+</code></pre>
+<h4>Question 4.2</h4>
+<p><strong>Consider an Online Stationary Ordering System. List the actors involved and explain the relevance of each actor. Prepare the use case diagram and sequence diagram for ordering stationeries and online payment. [6 Marks]</strong></p>
+<h5>1. Actor Identification and Systems Mapping</h5>
+<ul>
+<li><strong>Customer (Primary Interactor):</strong> Initiates searches, manages the contents of the local shopping cart, inputs delivery addresses, and authorizes payments.</li>
+<li><strong>Inventory Manager (Administrative Interactor):</strong> Updates item availability balances, modifies catalog pricing, logs supplier deliveries, and handles restocking orders.</li>
+<li><strong>Payment Gateway Processor (External System Interactor):</strong> Validates customer payment details and processes financial settlements between banking systems.</li>
+<li><strong>Logistics / Delivery System (External Operational Interactor):</strong> Receives delivery orders, optimizes delivery routing, and transmits updates back to the customer platform.</li>
+</ul>
+<h5>2. Use Case Structure Diagram</h5>
+<pre><code>  ┌────────────────────────────────────────────────────────┐
+  │              Online Stationary Ordering System          │
+  │                                                        │
+  │   (Search &amp; Filter Items)                              │
+  │              ▲                                         │
+  │              │ &lt;&lt;extends&gt;&gt;                             │
+  │      (Checkout Cart) ───► &lt;&lt;include&gt;&gt; ───► (Process    │
+  │              ▲                             Payment)    │
+  │              │                                 ▲       │
+  │      (Manage Inventory Profiles)               │       │
+  │                                                │       │
+  └──────┬─────────────────────────────────────────┼───────┘
+         ▲                                         ▼
+  [Inventory Manager]                     [Payment Gateway]
+
+</code></pre>
+<h5>3. Sequence Diagram of Checkout and Payment</h5>
+<pre><code>Customer                Store Interface         Order Controller     Payment Gateway
+  │                            │                        │                    │
+  ├─► triggerCheckout() ──────►│                        │                    │
+  │                            ├─► validateCartStock() ─►│                    │
+  │                            ◄─┴─ [Stock is Confirmed]│                    │
+  │                            │                        │                    │
+  ◄─ promptPaymentPanel() ─────┤                        │                    │
+  ├─► submitCardCredentials() ─►│                        │                    │
+  │                            ├────────────────────────────────────────────►│
+  │                            │   authorizeTransaction(token, amount)       │
+  │                            │                                             │
+  │                            │     [ALT 1: Authorization Approved]         │
+  │                            │◄────────────────────────────────────────────┤
+  │                            │ returns txSuccess_ACK                       │
+  │                            ├─► lockOrderRecord() ──►│                    │
+  │                            ◄─ renderReceiptPage()───┤                    │
+  │                            │                        │                    │
+  │                            │     [ALT 2: Transaction Declined]           │
+  │                            │◄────────────────────────────────────────────┤
+  │                            │ returns txDeclined_Error                    │
+  │                            ◄─ displayPaymentError()─┤                    │
+  ◄─ displayDeclineNotice() ───┤                        │                    │
+
+</code></pre>
+</article>
+<article class="qcard">
+<h3>Topic 5: Software Requirement Evolution &amp; Validation</h3>
+<h4>Question 5.1</h4>
+<p><strong>Differentiate between Enduring and Volatile requirements. Identify enduring and volatile requirements for a Hospital Management System. [6 Marks]</strong></p>
+<h5>1. Theoretical Comparison of Requirement Stability</h5>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Enduring Requirements</th>
+<th>Volatile Requirements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Core Definition</strong></td>
+<td>Foundational requirements derived from the core activity of the organization. They remain stable over time because they map directly to the primary domain domain.</td>
+<td>Requirements that are likely to change during system development or after deployment due to operational shifts, policy revisions, or new legislation.</td>
+</tr>
+<tr>
+<td><strong>Domain Grounding</strong></td>
+<td>Closely tied to the fundamental domain model of the application space.</td>
+<td>Dependent on evolving business strategies, hardware platforms, or dynamic regulatory changes.</td>
+</tr>
+<tr>
+<td><strong>System Evolution Impact</strong></td>
+<td>Provide the core software architecture that remains stable across versions.</td>
+<td>Require clean modular design and loose coupling to simplify updates and modifications.</td>
+</tr>
+</tbody>
+</table>
+<h5>2. Analysis within a Hospital Management System (HMS)</h5>
+<h6>A. Enduring Requirements (Core Clinical Baseline)</h6>
+<ul>
+<li><strong>Patient Identity Integrity:</strong> The system must maintain a unique, permanent electronic health record identifier for every patient to track medical history safely across clinical visits.</li>
+<li><strong>Clinical Documentation Capabilities:</strong> The software must support logging medical observations, vitals tracking records, diagnostic imaging reports, and active drug prescriptions.</li>
+<li><strong>Strict Data Privacy Standards:</strong> Patient records must be accessible only to authorized clinical stakeholders, ensuring patient confidentiality.</li>
+</ul>
+<h6>B. Volatile Requirements (Evolving Operational Constraints)</h6>
+<ul>
+<li><strong>Insurance and Billing Integration Forms:</strong> Change frequently due to shifts in commercial provider networks, updated co-payment policies, and changing billing codes.</li>
+<li><strong>Government Regulatory Reporting Templates:</strong> Require frequent updates to comply with evolving public health data mandates and changed tax legislation.</li>
+<li><strong>Telehealth Communication Interfaces:</strong> Evolve rapidly as the hospital adopts new video encoding protocols, remote monitoring devices, and external communication frameworks.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 6: Structural Object Modeling</h3>
+<h4>Question 6.1</h4>
+<p><strong>Draw an object aggregate diagram for a study pack for a university course. This study pack includes lecture notes, exercises, sample solutions, copies of transparencies used in lectures and videotapes. [6 Marks]</strong></p>
+<h5>1. Theoretical Principles of Object Aggregation Models</h5>
+<p>Aggregation models utilize specific UML notations to display part-whole relationships, where a container aggregate class is composed of multiple independent component objects. To secure full credit under standard engineering rubrics, <strong>a hollow diamond symbol must be drawn touching the container boundary box</strong>. Standard pointer arrows are incorrect and will lose marks.</p>
+<h5>2. UML Object Aggregation Model Representation</h5>
+<pre><code>                           ┌──────────────────────────┐
+                           │   Aggregate Container    │
+                           │        Study Pack        │
+                           └────────────┬─────────────┘
+                                        ◇  (Hollow Diamond at Whole)
+                                        │
+        ┌───────────────┬───────────────┼───────────────┬───────────────┐
+        ▼               ▼               ▼               ▼               ▼
+┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐
+│Component  │   │Component  │   │Component  │   │Component  │   │Component  │
+│LectureNotes│  │ Exercises │   │SampleSolns│   │Transparncy│   │ VideoTapes│
+└───────────┘   └───────────┘   └───────────┘   └───────────┘   └───────────┘
+
+</code></pre>
+<h5>3. Structural Component Analysis</h5>
+<ul>
+<li><code>Study Pack (The Aggregate Whole)</code>: The master index system that tracks component assignments for a given course code.</li>
+<li><code>LectureNotes</code>: Textual components containing course curriculum frameworks and reading materials.</li>
+<li><code>Exercises</code>: Task sets used to evaluate student comprehension.</li>
+<li><code>SampleSolutions</code>: Step-by-step resolution reference keys linked to the active exercise sheets.</li>
+<li><code>Transparencies</code>: Presentation assets and slide decks used during lectures.</li>
+<li><code>VideoTapes</code>: Multimedia assets containing recorded lectures or supplementary video material.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 7: Requirements Validation Techniques</h3>
+<h4>Question 7.1</h4>
+<p><strong>Explore the techniques employed for validating requirements and if asked showcase how these techniques apply to different categories of requirements. [6 Marks]</strong></p>
+<p>Requirements validation verifies that the defined requirements accurately reflect the customer's needs and adhere to strict engineering standards. The four key techniques include:</p>
+<ol>
+<li><strong>Requirements Reviews:</strong> A multidisciplinary committee systematically analyzes the requirements document to identify ambiguities, inconsistencies, omissions, and lack of realism.</li>
+<li><strong>Prototyping:</strong> Building an experimental, executable version of the system to let users interact with features, refine their expectations, and validate interface requirements.</li>
+<li><strong>Test-Case Generation:</strong> Developing test cases from the requirements early in the lifecycle. If a requirement is difficult to design a test case for, it often indicates the requirement is ambiguous or hard to measure.</li>
+<li><strong>Automated Consistency Analysis:</strong> Using computer-aided software engineering (CASE) tools to parse structured requirement models, identifying conflicting rules, name duplicates, or loose ends in the logic.</li>
+</ol>
+</article>
+  </div>
+</section>
+
+
+<section id="unit3" class="unit-section">
+  <div class="unit-banner">
+    <span class="unit-tag">UNIT 3</span>
+    <h2>Unit 3: Semester End Examination (SEE)</h2>
+  </div>
+  
+  <div class="qcard-grid">
+  <article class="qcard">
+<h3>Topic 1: Architectural Design Decisions &amp; Conflicting Quality Attributes</h3>
+<h4>Question 1.1</h4>
+<p><strong>Analyze why design conflicts might arise when designing an architecture where availability and security requirements are the most important non-functional/functional requirements. Justify your answer. [4 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<p>Architectural design is a balancing act where optimization for one non-functional quality attribute often directly degrades another. When <strong>availability</strong> and <strong>security</strong> are simultaneously established as the highest priorities, structural engineering conflicts arise for the following reasons:</p>
+<ol>
+<li><strong>Redundancy vs. Attack Surface Expansion (Availability vs. Security):</strong></li>
+<li><em>Availability Strategy:</em> To guarantee high availability, architectural patterns dictate the inclusion of <strong>redundant components</strong> (e.g., multi-node server clusters, replicated databases, and redundant communication paths). If one node fails, failover subsystems keep operations running.</li>
+<li>
+<p><em>Security Conflict:</em> Every single redundant component, mirrored database link, and backup data path added to the topology introduces a <strong>new potential vulnerability and entry point</strong> for an adversary to target. Managing authorization matrices and patch levels across multiple data stores increases the risk of configuration errors and security leaks.</p>
+</li>
+<li>
+<p><strong>Performance Latency Bounds vs. Cryptographic Verification (Availability vs. Security):</strong></p>
+</li>
+<li><em>Availability Strategy:</em> Availability relies on rapid subsystem responses, load-balancing checks, and minimal latency bounds to maintain data flow and prevent service timeouts.</li>
+<li>
+<p><em>Security Conflict:</em> High-level security requires multiple layers of authentication, token checks, parameter sanitization, and complex data encryption/decryption sequences (e.g., TLS handshakes, AES-256 block ciphers) at every layer. These necessary security controls consume CPU cycles and expand data transmission times, increasing transaction latencies. This overhead can make the system more vulnerable to Distributed Denial of Service (DDoS) attacks that exhaust server resources.</p>
+</li>
+<li>
+<p><strong>Loose Access Authorization vs. Least Privilege Monitored Latching:</strong></p>
+</li>
+<li>High availability requires clear fallback paths, meaning that if a central user-directory server goes down, local modules should use cached credentials to avoid system downtime. Conversely, strict security practices require continuous validation against a central server to ensure privileges haven't been revoked, making fallback caching an intentional risk.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Topic 2: Modular Decomposition Styles &amp; Sub-system Partitioning</h3>
+<h4>Question 2.1</h4>
+<p><strong>Differentiate between the two strategies used for decomposing a Sub-system to modules. [6 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<p>Subsystem decomposition partitions a complex software architecture into smaller, discoverable modules that can be built and maintained independently. The two primary generic structural strategies are <strong>Object-Oriented Decomposition</strong> and <strong>Function-Oriented (Data-Flow) Decomposition</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter of Comparison</th>
+<th>Object-Oriented Decomposition (OOD)</th>
+<th>Function-Oriented / Pipeline Decomposition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Primary Basis of Partitioning</strong></td>
+<td>Decomposes the subsystem around loose, autonomous <strong>objects</strong> that encapsulate private state data along with the specific operations that act upon that data.</td>
+<td>Decomposes the subsystem around functional <strong>transforms</strong> or processes that accept data inputs, manipulate them, and output a modified data stream.</td>
+</tr>
+<tr>
+<td><strong>State Management Strategy</strong></td>
+<td>The system state is strictly decentralized. Each object is individually responsible for managing and protecting its own local state variables.</td>
+<td>The system state can be centralized within shared memory structures or passed directly down a sequential pipeline from function to function.</td>
+</tr>
+<tr>
+<td><strong>Coupling Characterization</strong></td>
+<td>Implements <strong>loose coupling</strong> via strict encapsulation boundaries. Implementation changes within an object do not affect external components as long as the public interface remains identical.</td>
+<td>Can result in <strong>tight coupling</strong> across the transformation pipeline. If the data structural format changes, every processing function along that sequence often requires modification.</td>
+</tr>
+<tr>
+<td><strong>Real-World Conceptual Metaphor</strong></td>
+<td>Maps cleanly to real-world entities (e.g., a <code>Customer</code> object containing <code>name</code> attributes and a <code>validateCredit()</code> operation).</td>
+<td>Maps directly to computational steps or assembly-line workflows (e.g., <code>Read_Input</code> $\rightarrow$ <code>Compute_Tax</code> $\rightarrow$ <code>Format_Output</code>).</td>
+</tr>
+</tbody>
+</table>
+<h4>Question 2.2</h4>
+<p><strong>Explain the Object-Oriented Decomposition for an invoice processing system with a neat diagram. Discuss its advantages and disadvantages. [6 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<h6>1. Architectural Concept</h6>
+<p>Object-oriented decomposition represents an invoice processing system as a set of interacting objects that hide their private data formats behind public interfaces. Instead of viewing the pipeline as a series of sequential processing steps, the subsystem partitions responsibilities among discrete object instances such as <code>Invoice</code>, <code>CustomerProfile</code>, <code>PaymentReceipt</code>, and <code>AccountingLedger</code>.</p>
+<h6>2. Structural Object Decomposition Diagram</h6>
+<pre><code>                    ┌─────────────────────────┐
+                    │     InvoiceManager      │
+                    └────────────┬────────────┘
+                                 │
+         ┌───────────────────────┼───────────────────────┐
+         ▼                       ▼                       ▼
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│     Invoice     │     │ CustomerProfile │     │AccountingLedger │
+├─────────────────┤     ├─────────────────┤     ├─────────────────┤
+│ - invoiceID     │     │ - customerID    │     │ - ledgerCode    │
+│ - totalAmount   │     │ - creditLimit   │     │ - currentBalance│
+├─────────────────┤     ├─────────────────┤     ├─────────────────┤
+│ + calculateTax()│     │ + verifyLimit() │     │ + postDebit()   │
+│ + printReceipt()│     │ + updateAddress()│    │ + checkBalance()│
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+
+</code></pre>
+<h6>3. System Engineering Evaluation Matrix</h6>
+<ul>
+<li><strong>Core Engineering Advantages:</strong></li>
+<li><strong>Autonomous Maintenance (Encapsulation):</strong> Objects protect their internal data layouts. For example, if the calculation rules inside <code>calculateTax()</code> change to support updated tax rates, the <code>AccountingLedger</code> object requires zero code rewrite because its interaction interface remains untouched.</li>
+<li><strong>High Code Reusability:</strong> The <code>CustomerProfile</code> object, once built and validated, can be reused across other enterprise systems like shipping portals or customer relationship management (CRM) tools.</li>
+<li>
+<p><strong>Decentralized State Security:</strong> There is no single central database that components can corrupt directly. State corruption is limited to individual object instances, making debugging and containment straightforward.</p>
+</li>
+<li>
+<p><strong>Core Engineering Disadvantages:</strong></p>
+</li>
+<li><strong>Performance Overhead (Message Inefficiencies):</strong> When objects need to coordinate complex calculations, they interact by passing messages back and forth. This indirect interaction pattern can increase CPU overhead compared to direct, procedural functional calls.</li>
+<li><strong>Complex Interface Management:</strong> As the software scales to handle thousands of unique classes, managing interface agreements and communication states between objects can add architectural complexity.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 3: Control Styles — Centralized Subsystem Modeling</h3>
+<h4>Question 3.1</h4>
+<p><strong>Giving reasons for your answer, suggest an appropriate control model (Call-Return vs Event-Driven / Broadcast) for the following options: [8 Marks Total]</strong></p>
+<ol>
+<li><strong>A television controller that responds to signals from a remote control unit.</strong></li>
+<li><strong>A batch processing system that takes information about hours worked and pay rates and also prints salary slips.</strong></li>
+<li><strong>A system that monitors sugar levels in patients and dispenses insulin.</strong></li>
+</ol>
+<h5>Exam-Perfect Answer:</h5>
+<h6>1. Television Controller Terminal $\rightarrow$ Event-Driven (Asynchronous Broadcast) Control Model</h6>
+<ul>
+<li><strong>Core Justification:</strong> A television interface is a reactive system that spends most of its lifecycle idling in a low-power state. It cannot predict when a user will press a button on the remote control, nor can it use a synchronous polling loop without wasting energy. The remote control transmits asynchronous infrared or radio signals that act as external events. The television's embedded control system intercepts these events via interrupts, processes the input commands (such as a channel change or volume adjustment), and returns to its idle state.</li>
+</ul>
+<h6>2. Batch Employee Payroll Engine $\rightarrow$ Centralized Call-Return Control Model</h6>
+<ul>
+<li><strong>Core Justification:</strong> A payroll processing engine handles data sequentially and synchronously, running at scheduled execution times (e.g., at the end of the month). It processes predictable data streams from database tables, reading employee hours worked and calculating corresponding pay rates step-by-step. There are no unpredictable external events that require asynchronous handling. A top-down, centralized call-return model is ideal here, allowing a master process to sequentially execute subroutines (<code>Read_Hours</code>, <code>Compute_Deductions</code>, <code>Print_Salary_Slips</code>) with reliable predictability.</li>
+</ul>
+<h6>3. Subcutaneous Intensive ICU Insulin Dispenser $\rightarrow$ Centralized Call-Return Control Model with High-Frequency Polling Intercept</h6>
+<ul>
+<li><strong>Core Justification:</strong> An automated insulin delivery system is a safety-critical real-time system that must maintain control over its execution loop. An event-driven broadcast model is risky here because missed events or timing conflicts could cause dangerous dosing errors. The architecture relies on a deterministic <strong>Call-Return Polling Loop</strong> controlled by a real-time clock. Every 60 seconds, the master controller calls the sensor module to read blood glucose levels, evaluates the results against target safety metrics, calculates the proper dose, and calls the stepper motor driver to deliver the insulin. This structural pattern ensures that data collection and safety checks occur reliably at fixed intervals.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 4: Structural Architecture Design — CASE Tool Versioning</h3>
+<h4>Question 4.1</h4>
+<p><strong>Design an appropriate structural model (Repository vs Client-Server) for a configuration management CASE system that manages versions of objects and provides general configuration management capabilities, and explain with a diagram. [6 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<h6>1. Selection and Justification</h6>
+<p>The most effective architectural style for a configuration management system is the <strong>Repository Model</strong>. Version control tools must manage massive amounts of highly structured, interdependent data artifacts (e.g., source code, design models, binary assets, documentation files, and historical change logs). Components must access, modify, and track these artifacts continuously without creating redundant data copies across subsystems.</p>
+<p>A centralized repository handles version collisions, coordinates audit tracking, and enforces data integrity across all development tools. This structure allows new engineering tools (such as automated test runners or code compilers) to be integrated into the suite by connecting directly to the repository schema interface.</p>
+<h6>2. Repository Structural Architecture Diagram</h6>
+<pre><code>┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
+│   Code Editor   │       │  UML Modeler    │       │ Compiler Engine │
+└────────┬────────┘       └────────┬────────┘       └────────┬────────┘
+         │                         │                         │
+         │  Read/Write Artifacts   │  Query Model Trees      │ Read Source
+         ▼                         ▼                         ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                     │
+│                  Centralized Configuration Repository               │
+│                                                                     │
+│   ┌────────────────────────┐           ┌────────────────────────┐   │
+│   │ Object Version Ledger  │           │ Access Privilege Table │   │
+│   └────────────────────────┘           └────────────────────────┘   │
+└──────────────────────────────────┬──────────────────────────────────┘
+                                   │
+                                   ▼
+                       ═════════════════════════
+                        Data Store: solid-state
+                       ═════════════════════════
+
+</code></pre>
+<h6>3. Detailed Architectural Explanation</h6>
+<ul>
+<li><strong>Central Repository Block:</strong> Acts as the shared data engine. It maintains version control tracking histories, tracks object trees, handles branching logic, and protects access control configurations.</li>
+<li><strong>Integrated Subsystem Tools (Clients):</strong> Software assets like code editors, model layout checkers, and compilers act as active subsystems. They do not maintain their own duplicate storage schemes. Instead, they interact with the central data model using standardized query rules, keeping tool workflows synchronized.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 5: Object Identification and Structuring Strategies</h3>
+<h4>Question 5.2</h4>
+<p><strong>Analyze the various proposals that help in identifying objects in an object-oriented design process. [6 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<p>Identifying object classes is an iterative and critical task in object-oriented design (OOD). Software engineers rely on several established architectural strategies and proposals to discover and extract objects from system specifications:</p>
+<ol>
+<li><strong>Grammatical Underlining (Noun-Phrase Analysis):</strong></li>
+<li><em>Strategy:</em> System engineers analyze the natural language text description of the system or user requirements document.</li>
+<li>
+<p><em>Rule:</em> <strong>Nouns and noun phrases</strong> map directly to potential system objects or classes (e.g., <code>Student</code>, <code>Invoice</code>, <code>Sensor</code>). Conversely, <strong>verbs and verb phrases</strong> map to operations or methods belonging to those classes (e.g., <code>calculateTax()</code>, <code>registerCourse()</code>).</p>
+</li>
+<li>
+<p><strong>Tangible Entity (Physical Artifact) Mapping:</strong></p>
+</li>
+<li><em>Strategy:</em> Identify concrete, physical objects present in the operational application domain that the software must interact with or manage.</li>
+<li>
+<p><em>Application:</em> In industrial control, automation, or embedding environments, these include assets like a <code>CardReader</code>, <code>Valve</code>, <code>TelemetrySensor</code>, or <code>Thermostat</code>.</p>
+</li>
+<li>
+<p><strong>Behavioral Service Approach:</strong></p>
+</li>
+<li><em>Strategy:</em> Identify entities that do not necessarily have a physical form but exist to provide a centralized set of operational actions, computations, or orchestrations within the software layer.</li>
+<li>
+<p><em>Application:</em> Classes such as <code>TransactionManager</code>, <code>PaymentValidator</code>, or <code>RouteOptimizer</code> are extracted using this approach.</p>
+</li>
+<li>
+<p><strong>Scenario-Based Analysis (Use-Case Driven Elicitation):</strong></p>
+</li>
+<li><em>Strategy:</em> Analyze system use-case diagrams, sequence flows, and user stories sequentially. As actors interact with the system boundaries, the design team isolates the structural entities required to handle each event, identify data states, and execute reactions.</li>
+</ol>
+<h4>Question 5.3</h4>
+<p><strong>Using the UML graphical notation for object classes, identify the objects and design an object Generalization diagram showing interactions/relationships of objects for a group diary and time management system. [6 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<h6>1. Object Class Identification</h6>
+<p>Based on the system specification provided in the paper:</p>
+<ul>
+<li><code>DiaryEntry</code>: Central base class capturing timing records.</li>
+<li><code>Meeting</code>: A specialized subclass representing multi-person appointments.</li>
+<li><code>PersonalAppointment</code>: A specialized subclass tracking single-user tasks.</li>
+<li><code>TeamMember / CoWorker</code>: Represents system users who possess an individual diary schedule.</li>
+<li><code>CalendarScheduler</code>: The control entity responsible for slot discovery and rearrangement loops.</li>
+</ul>
+<h6>2. UML Generalization (Inheritance) Relationship Diagram</h6>
+<p><em>Note for full scoring: To establish inheritance (generalization) in standard UML, </em><em>a hollow triangle pointing toward the base class</em><em> must be used. Standard open arrows represent simple associations and will lose credit under standard evaluation schemes.</em></p>
+<pre><code>                             ┌─────────────────────────┐
+                             │       DiaryEntry        │
+                             ├─────────────────────────┤
+                             │ - entryID               │
+                             │ - startTime / duration  │
+                             └────────────▲────────────┘
+                                          │
+                                   ┌──────┴──────┐
+                    (Hollow Triangle at Base)    │
+                    ┌──────────────┴──────┐      └──────────────┴──────┐
+                    │       Meeting       │             │ PersonalAppointment  │
+                    ├─────────────────────┤             ├──────────────────────┤
+                    │ - attendeeList[]    │             │ - locationRoom       │
+                    │ - commonSlotACK     │             │ - reminderInterval   │
+                    ├─────────────────────┤             └──────────────────────┘
+                    │ + findCommonSlot()  │
+                    │ + rearrangeDiary()  │
+                    └─────────────────────┘
+
+</code></pre>
+<h6>3. Structural Collaboration Outline</h6>
+<ul>
+<li>The <code>CalendarScheduler</code> accesses individual <code>TeamMember</code> schedules.</li>
+<li>When a multi-person appointment is initiated, the system instantiates a <code>Meeting</code> object, calling its <code>findCommonSlot()</code> operation to analyze common times.</li>
+<li>If conflicts exist across attendee arrays, the execution path triggers <code>rearrangeDiary()</code> to adjust lower-priority entries within a member's <code>PersonalAppointment</code> list.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 6: Dynamic Object Interaction - UML Sequence Modeling</h3>
+<h4>Question 6.2</h4>
+<p><strong>Using the UML graphical notation for object classes, design a Sequence diagram for a petrol or gas station to be set up for fully automated operation. [6 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<h6>1. Design Class Architecture &amp; Activation Logic</h6>
+<p>To model a fully automated fuel kiosk execution line, the design relies on four distinct interacting object arrays:</p>
+<ul>
+<li><code>Customer</code>: The external actor interacting with the terminal interfaces.</li>
+<li><code>TerminalController</code>: Handles local user interface actions, display renderings, and input captures.</li>
+<li><code>CardValidator Module</code>: Connects to external clearings for payment token handshakes.</li>
+<li><code>PumpActuator Hardware</code>: Manages mechanical fuel flow control valves.</li>
+</ul>
+<h6>2. Structural Dynamic Sequence Diagram</h6>
+<p><em>Note for full scoring: As mandated by OOD schematic grading specifications, </em><em>thin vertical activation boxes must be clearly drawn on the dashed lifelines</em><em> to define the runtime duration of control focus.</em></p>
+<pre><code>Customer            TerminalController       CardValidator       PumpActuator
+   │                         │                     │                  │
+   ├─► insertCard() ────────►│                     │                  │
+   │                         ├──┐                  │                  │
+   │                         │  │ validateCard()   │                  │
+   │                         │◄─┘                  │                  │
+   │                         ├─► authorizeCard() ─►│                  │
+   │                         │◄────────────────────┤ cardValid_ACK    │
+   ◄─ renderPumpUnlock() ────┤                     │                  │
+   │                         │                     │                  │
+   ├─► squeezeNozzleHandle()►│                     │                  │
+   │                         ├─► engageValve(true) ──────────────────►│
+   │                         │                     │                  │  [Fuel Dispensing
+   │                         │                     │                  │   Loop Active]
+   │                         │                     │                  ◄  pulsesVolumeData()
+   │                         │◄───────────────────────────────────────┤
+   ├─► replaceNozzle() ─────►│                     │                  │
+   │                         ├─► closeValve() ───────────────────────►│
+   │                         ├─► finalizeTx() ────►│                  │
+   ◄─ renderReceipt() ───────┤                     │                  │
+   │                         │                     │                  │
+
+</code></pre>
+</article>
+<article class="qcard">
+<h3>Topic 7: Multi-Tiered Real-Time Subsystem Architecture</h3>
+<h4>Question 7.1</h4>
+<p><strong>Identify an appropriate structural model and design an architecture for a system that collects data from a set of air quality sensors situated around a city. There are 5000 sensors organized into 100 neighborhoods. Each Sensor must be interrogated four times per second. When more than 30% of the sensors in a particular neighborhood indicate that the air quality is below an acceptable level, local warning lights are activated. All the sensors return the readings to a central computer, which generates reports every 15 minutes on the air quality in the city. [6 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<h6>1. Architectural Selection and Structural Justification</h6>
+<p>The system requires a hybrid <strong>Hierarchical Client-Server Architecture</strong> combined with a <strong>Layered Abstract Machine Model</strong> to process the continuous incoming data:</p>
+<ul>
+<li><strong>Why Client-Server?</strong> Managing 5,000 active endpoints via a single centralized polling loop can cause severe network bottlenecks and performance issues. Branching the system into localized regional servers balances the load.</li>
+<li><strong>Why Hierarchical Partitioning?</strong> Grouping the sensors into 100 distinct neighborhoods allows localized sub-servers to process data arrays at high frequency ($5,000 \times 4 = 20,000 \text{ actions/sec}$). These sub-servers can quickly handle local alarm events independently. The central computer can then ingest lower-frequency metrics over longer intervals to generate broad, system-wide reports.</li>
+</ul>
+<h6>2. Structural Subsystem Architecture Diagram</h6>
+<pre><code> ┌─────────────────────────────────────────────────────────────────────────┐
+ │                       CENTRAL MAIN COMPUTER TIER                       │
+ │    Ingests neighborhood metrics summary history arrays every 15 mins    │
+ │    Generates Master Urban Air Quality Reports &amp; Trend Analysis Logs     │
+ └────────────────────────────────────▲────────────────────────────────────┘
+                                      │
+         ┌────────────────────────────┼────────────────────────────┐
+         ▼                            ▼                            ▼
+┌──────────────────┐         ┌──────────────────┐         ┌──────────────────┐
+│NEIGHBORHOOD SVR 1│         │NEIGHBORHOOD SVR 2│         │NEIGHBORHOOD SVR N│
+│Polks 50 local    │         │Polls 50 local    │         │Polls 50 local    │
+│sensors at 4 Hz.  │         │sensors at 4 Hz.  │         │sensors at 4 Hz.  │
+└────────┬─────────┘         └────────┬─────────┘         └────────┬─────────┘
+         │                            │                            │
+   ┌─────┴─────┐                ┌─────┴─────┐                ┌─────┴─────┐
+   ▼           ▼                ▼           ▼                ▼           ▼
+[Sensors]  [Warning Lights] [Sensors]  [Warning Lights] [Sensors]  [Warning Lights]
+1 to 50     (Local Relay)   51 to 100   (Local Relay)    (Cluster)   (Local Relay)
+
+</code></pre>
+<h6>3. Detailed Processing Workflow &amp; Logic Verification</h6>
+<ol>
+<li><strong>Local Telemetry Layer (Sensor Clusters):</strong> The 5,000 sensors are split evenly across 100 neighborhoods (averaging 50 sensors per localized neighborhood server cluster). Each sensor endpoint is polled at 4 Hz ($250 \text{ ms}$ interval cycles) by its designated regional server node.</li>
+<li><strong>Localized Decision Logic Engine:</strong> The regional neighborhood processor evaluates sensor readings in real time using a sliding status window:</li>
+</ol>
+<p>$$\text{Threshold Calculation: } \left( \frac{\text{Sensors Reporting Below Limit}}{\text{Total Sensors in Neighborhood}} \right) &gt; 0.30$$</p>
+<p>If this rule matches, the regional sub-server trips a local physical alert relay to turn on the neighborhood warning lights immediately, bypasssing the central network to avoid latency delays.<br />
+3. <strong>Central Reporting Aggregator:</strong> Every 15 minutes, each regional neighborhood node sends a summary data packet to the central main computer. This computer processes the aggregated data, updates historical databases, and generates the master air quality reports for the city.</p>
+</article>
+  </div>
+</section>
+
+
+<section id="unit4" class="unit-section">
+  <div class="unit-banner">
+    <span class="unit-tag">UNIT 4</span>
+    <h2>Unit 4: Semester End Examination (SEE)</h2>
+  </div>
+  
+  <div class="qcard-grid">
+  <article class="qcard">
+<h3>Topic 1: Project Scheduling Principles &amp; Formulations</h3>
+<h4>Question 1.1</h4>
+<p><strong>As a project manager of a company, what are the basic principles you must adopt when you develop a complete schedule for the project? [6 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<p>Software project scheduling distributes estimated engineering effort across defined project tasks by mapping them onto a timeline. A project manager must adhere to the following <strong>basic principles</strong> to ensure quality and trackability:</p>
+<ol>
+<li><strong>Compartmentalization:</strong> The entire project scope must be decomposed into a manageable set of distinct, bounded activities and tasks. Tasks must be clearly defined so they can be easily understood and allocated.</li>
+<li><strong>Interdependency:</strong> The structural relationship and sequencing between compartmentalized tasks must be determined. Some tasks can execute concurrently, whereas others exist in a strict linear sequence where a task cannot begin until its prerequisite activity completes.</li>
+<li><strong>Time Allocation:</strong> Each task must be assigned a specific number of work units (e.g., person-days or weeks). The project manager must establish start and end dates based on resource availability, tracking metrics, and delivery targets.</li>
+<li><strong>Effort Validation:</strong> The project manager must ensure that the total allocated effort does not exceed the size of the development team. Staffing constraints must be respected, and task allocations should avoid overallocating individual engineers.</li>
+<li><strong>Defined Responsibilities:</strong> Every compartmentalized task mapped to the schedule timeline must have a specific, explicitly assigned team member or owner.</li>
+<li><strong>Defined Outcomes:</strong> Every scheduled task must culminate in a tangible, verifiable work product or output (e.g., a design document, source code module, or test suite log).</li>
+<li><strong>Defined Milestones:</strong> Key milestones must be established throughout the timeline. Each milestone requires a formal quality review of the associated work products to verify completion before proceeding further.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Topic 2: Cost &amp; Effort Metrics Estimation — LOC &amp; FP Problems</h3>
+<h4>Question 2.1 (LOC Based Estimation)</h4>
+<p><strong>NETSIM is a network simulation software with an estimated Line of Code (LOC) of 33,200. If a team produces an average productivity of 620 LOC per month at the burdened labour rate of $8,000 per month, calculate:</strong></p>
+<ul>
+<li><strong>i) Cost per line of code</strong></li>
+<li><strong>ii) Total cost of the software</strong></li>
+<li><strong>iii) Estimation in person-months [6 Marks]</strong></li>
+</ul>
+<h5>Exam-Perfect Answer:</h5>
+<h6>Given Data:</h6>
+<ul>
+<li>Estimated Lines of Code ($\text{LOC}$) = $33,200 \text{ LOC}$</li>
+<li>Team Average Productivity ($\text{Productivity}$) = $620 \text{ LOC/pm}$</li>
+<li>Burdened Labor Rate ($\text{Rate}$) = $\$8,000 \text{ per month}$</li>
+</ul>
+<h6>Step i) Calculate Cost per Line of Code</h6>
+<p>$$\text{Cost per LOC} = \frac{\text{Burdened Labor Rate}}{\text{Average Productivity}}$$</p>
+<p>$$\text{Cost per LOC} = \frac{\$8,000}{620 \text{ LOC}} \approx \mathbf{\$12.90 \text{ per LOC}}$$</p>
+<h6>Step ii) Calculate Total Cost of the Software</h6>
+<p>$$\text{Total Cost} = \text{Estimated LOC} \times \text{Cost per LOC}$$</p>
+<p>$$\text{Total Cost} = 33,200 \times \$12.9032 \approx \mathbf{\$428,387.10}$$</p>
+<h6>Step iii) Calculate Estimation in Person-Months (Effort)</h6>
+<p>$$\text{Effort (Person-Months)} = \frac{\text{Estimated LOC}}{\text{Average Productivity}}$$</p>
+<p>$$\text{Effort} = \frac{33,200}{620} \approx \mathbf{53.55 \text{ person-months}}$$</p>
+<h4>Question 2.2 (FP Based Estimation)</h4>
+<p><strong>If an organization's productivity is 12 FP/pm based on a burdened labor rate of $20,000 per month. The Count total is 450 and $\Sigma(fi)$ is 58. Calculate:</strong></p>
+<ul>
+<li><strong>a. Cost per FP</strong></li>
+<li><strong>b. Estimated effort in person-months</strong></li>
+<li><strong>c. Estimated project cost [6 Marks]</strong></li>
+</ul>
+<h5>Exam-Perfect Answer:</h5>
+<h6>Given Data:</h6>
+<ul>
+<li>Productivity = $12 \text{ FP/pm}$</li>
+<li>Burdened Labor Rate ($\text{Rate}$) = $\$20,000 \text{ per month}$</li>
+<li>Count Total ($\text{Unadjusted Function Points}$) = $450$</li>
+<li>$\Sigma(f_i)$ ($\text{Sum of Value Adjustment Factors}$) = $58$</li>
+</ul>
+<h6>Step 1: Calculate Value Adjustment Factor (VAF)</h6>
+<p>$$\text{VAF} = 0.65 + \left(0.01 \times \Sigma(f_i)\right)$$</p>
+<p>$$\text{VAF} = 0.65 + (0.01 \times 58) = 0.65 + 0.58 = \mathbf{1.23}$$</p>
+<h6>Step 2: Calculate actual Estimated Total Function Points (FP)</h6>
+<p>$$\text{FP} = \text{Count Total} \times \text{VAF}$$</p>
+<p>$$\text{FP} = 450 \times 1.23 = \mathbf{553.5 \text{ FP}}$$</p>
+<h6>Step a) Calculate Cost per Function Point</h6>
+<p>$$\text{Cost per FP} = \frac{\text{Burdened Labor Rate}}{\text{Productivity}}$$</p>
+<p>$$\text{Cost per FP} = \frac{\$20,000}{12} \approx \mathbf{\$1,666.67 \text{ per FP}}$$</p>
+<h6>Step b) Calculate Estimated Effort in Person-Months</h6>
+<p>$$\text{Effort} = \frac{\text{Estimated Total FP}}{\text{Productivity}}$$</p>
+<p>$$\text{Effort} = \frac{553.5}{12} \approx \mathbf{46.125 \text{ person-months}}$$</p>
+<h6>Step c) Calculate Estimated Project Cost</h6>
+<p>$$\text{Estimated Project Cost} = \text{Estimated Total FP} \times \text{Cost per FP}$$</p>
+<p>$$\text{Estimated Project Cost} = 553.5 \times \$1666.6667 = \mathbf{\$922,500.00}$$</p>
+<p><em>(Alternatively: $\text{Effort} \times \text{Rate} = 46.125 \times \$20,000 = \$922,500.00$)</em></p>
+</article>
+<article class="qcard">
+<h3>Topic 3: Constantine’s Team Organizational Paradigms</h3>
+<h4>Question 3.1</h4>
+<p><strong>Identify the different organizational paradigms for software engineering teams as specified by Constantine and explain each of them in detail. [6 / 7 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<p>Constantine defines <strong>four organizational paradigms</strong> for structuring software development groups, based on their coordination mechanics, operational flexibility, and management hierarchies:</p>
+<pre><code>                     Constantine's Team Paradigms
+                                  │
+         ┌────────────────────────┼────────────────────────┐
+         ▼                        ▼                        ▼
+    Closed Paradigm          Random Paradigm          Open Paradigm
+   (Strict Hierarchy,       (Individual Autonomy,   (Collaborative Review,
+    Traditional Structure)   Innovative/Fluid)       Consensus Driven)
+                                  │
+                                  ▼
+                         Synchronous Paradigm
+                        (Parallel Execution,
+                         Coordinated Alignment)
+
+</code></pre>
+<ol>
+<li><strong>Closed Paradigm:</strong></li>
+<li><em>Structure:</em> Follows a traditional, strict top-down management hierarchy.</li>
+<li><em>Mechanics:</em> Activities are directed by a formal team leader who assigns tasks and enforces strict lines of communication.</li>
+<li>
+<p><em>Evaluation:</em> This paradigm excels at producing highly predictable software within well-defined domains. However, it can restrict individual innovation and creativity due to its rigid structure.</p>
+</li>
+<li>
+<p><strong>Random Paradigm:</strong></p>
+</li>
+<li><em>Structure:</em> Relies on a loose, autonomous, and decentralized team structure.</li>
+<li><em>Mechanics:</em> Team members work with high individual autonomy, prioritizing personal innovation over rigid process steps.</li>
+<li>
+<p><em>Evaluation:</em> This style is well-suited for breakthrough research and development or highly innovative project discovery phases. However, it introduces significant schedule risk for large-scale commercial system delivery due to its lack of centralized coordination.</p>
+</li>
+<li>
+<p><strong>Open Paradigm:</strong></p>
+</li>
+<li><em>Structure:</em> Combines the structural stability of the closed model with the collaborative innovation of the random model.</li>
+<li><em>Mechanics:</em> Decisions are reached through team consensus, communication flows openly across all members, and regular peer reviews guide task execution.</li>
+<li>
+<p><em>Evaluation:</em> This approach is highly effective for solving complex software problems. However, it requires strong communication skills and can sometimes experience delays during consensus-building phases.</p>
+</li>
+<li>
+<p><strong>Synchronous Paradigm:</strong></p>
+</li>
+<li><em>Structure:</em> Organizes team members around the natural decomposition of a problem.</li>
+<li><em>Mechanics:</em> Sub-tasks are partitioned so that individuals work on parallel components with minimal day-to-day coordination overhead. The pieces are designed to fit together cleanly at predefined integration milestones.</li>
+<li><em>Evaluation:</em> This model supports fast, scalable development when architecture interfaces are well-understood, but it relies on low requirements volatility to succeed.</li>
+</ol>
+</article>
+<article class="qcard">
+<h3>Topic 4: Project Management Frameworks &amp; Barry Boehm’s Framework</h3>
+<h4>Question 4.1</h4>
+<p><strong>Analyze the series of questions that lead to the definition of key project characteristics and the resultant project plan as proposed by Barry Boehm (The W5HH Principle). [6 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<p>Barry Boehm proposed the <strong>W5HH principle</strong>, a framework composed of seven key planning questions designed to help project managers define project scope, technical constraints, team roles, and delivery schedules:</p>
+<ol>
+<li><strong>Why is the system being developed?</strong></li>
+<li>
+<p><em>Objective:</em> Validates the underlying business motivations, strategic goals, and customer needs to confirm the project is worth pursuing.</p>
+</li>
+<li>
+<p><strong>What will be done, by when?</strong></p>
+</li>
+<li>
+<p><em>Objective:</em> Establishes the functional scope boundaries of the software product and defines the project schedule timeline.</p>
+</li>
+<li>
+<p><strong>Who is responsible for a function?</strong></p>
+</li>
+<li>
+<p><em>Objective:</em> Defines team roles and responsibilities, mapping specific engineering components to designated owners.</p>
+</li>
+<li>
+<p><strong>Where are they organizationally located?</strong></p>
+</li>
+<li>
+<p><em>Objective:</em> Maps out the organizational and physical distribution of developers, clients, end users, and stakeholders.</p>
+</li>
+<li>
+<p><strong>How will the job be done technically and managerially?</strong></p>
+</li>
+<li>
+<p><em>Objective:</em> Establishes the technical engineering process, design models, process models, and project management strategies.</p>
+</li>
+<li>
+<p><strong>How much of each resource is needed?</strong></p>
+</li>
+<li><em>Objective:</em> Leads to core project estimation models, quantifying required staffing levels, tools, and budget allocations.</li>
+</ol>
+<h2>Software Engineering (20CS5PCSEG / 23CS4PCSED)</h2>
+<h2>Unit 4: Semester End Examination (SEE) — Exam-Perfect Question Bank Answers (Part 2)</h2>
+</article>
+<article class="qcard">
+<h3>Topic 5: Advanced Project Scheduling — Network Diagrams &amp; Critical Path Analysis</h3>
+<h4>Question 5.1</h4>
+<p><strong>Design a Task Network and Timeline chart for the given tasks and showcase the critical path:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Duration (Days)</th>
+<th>Dependencies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>T1</strong></td>
+<td>15</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>T2</strong></td>
+<td>20</td>
+<td>T1 (M1)</td>
+</tr>
+<tr>
+<td><strong>T3</strong></td>
+<td>5</td>
+<td>T1, T2 (M2)</td>
+</tr>
+<tr>
+<td><strong>T4</strong></td>
+<td>15</td>
+<td>T2 (M3)</td>
+</tr>
+<tr>
+<td><strong>T5</strong></td>
+<td>25</td>
+<td>T2, T4 (M4)</td>
+</tr>
+<tr>
+<td><strong>T6</strong></td>
+<td>16</td>
+<td>T3 (M6)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>[8 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<h6>1. Dependency and Sequence Analysis</h6>
+<p>To build the scheduling network, we trace the earliest possible start and finish paths based on task prerequisites:</p>
+<ul>
+<li><strong>T1</strong> has no dependencies. It starts at Day 0 and finishes at Day 15.</li>
+<li><strong>T2</strong> depends on T1. It starts at Day 15 and finishes at Day 35 ($15 + 20$).</li>
+<li><strong>T3</strong> depends on T1 and T2. It must wait for both to finish, meaning it can only start after T2 completes on Day 35, finishing on Day 40 ($35 + 5$).</li>
+<li><strong>T4</strong> depends on T2. It starts at Day 35 and finishes at Day 50 ($35 + 15$).</li>
+<li><strong>T5</strong> depends on T2 and T4. It must wait for T4 to complete on Day 50, finishing on Day 75 ($50 + 25$).</li>
+<li><strong>T6</strong> depends on T3. It starts after T3 completes on Day 40 and finishes on Day 56 ($40 + 16$).</li>
+</ul>
+<h6>2. Task Network Diagram (Activity-on-Node)</h6>
+<pre><code>                      ┌──────────────┐       ┌──────────────┐
+                      │   T3 (5d)    │──────►│   T6 (16d)   │
+               ┌─────►│  Days: 35-40 │       │  Days: 40-56 │
+               │      └──────────────┘       └──────────────┘
+┌──────────────┐      ┌──────────────┐
+│   T1 (15d)   │─────►│   T2 (20d)   │
+│  Days: 0-15  │      │  Days: 15-35 │
+└──────────────┘      └──────┬───────┘
+               │             │               ┌──────────────┐
+               │             ▼               │   T5 (25d)   │
+               │      ┌──────────────┐       │  Days: 50-75 │
+               └─────►│   T4 (15d)   │──────►│ (Project End)│
+                      │  Days: 35-50 │       └──────────────┘
+                      └──────────────┘
+
+</code></pre>
+<h6>3. Critical Path Determination</h6>
+<p>The critical path is the longest sequential sequence of dependent tasks that dictates the minimum total time required to complete the project. Any delay in these tasks directly extends the project deadline.</p>
+<p>Let's calculate the total duration of each available path through the network:</p>
+<ul>
+<li><strong>Path 1:</strong> $\text{T1} \rightarrow \text{T2} \rightarrow \text{T3} \rightarrow \text{T6} = 15 + 20 + 5 + 16 = 56 \text{ Days}$</li>
+<li><strong>Path 2:</strong> $\text{T1} \rightarrow \text{T2} \rightarrow \text{T4} \rightarrow \text{T5} = 15 + 20 + 15 + 25 = \mathbf{75 \text{ Days}}$</li>
+</ul>
+<p>$$\text{Critical Path: } \mathbf{T1 \rightarrow T2 \rightarrow T4 \rightarrow T5}$$</p>
+<p>$$\text{Minimum Project Duration: } \mathbf{75 \text{ Days}}$$</p>
+</article>
+<article class="qcard">
+<h3>Topic 6: Software Project Risk Assessment &amp; RMMM Frameworks</h3>
+<h4>Question 6.1</h4>
+<p><strong>What types of risks are likely to be encountered as the software is being built, and as the technical leader, how do you assess the overall risk associated with the software? [8 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<h6>1. Core Classifications of Software Risks</h6>
+<p>Software engineering projects face three main categories of risks:</p>
+<ul>
+<li><strong>Project Risks:</strong> Threats that directly jeopardize the project schedule, resource allocation, or cost models. Examples include high staff turnover, budget cuts, or losing key development resources.</li>
+<li><strong>Technical Risks:</strong> Threats that compromise the quality, performance, or long-term maintainability of the software product. These typically stem from using unproven technologies, facing complex design bottlenecks, or dealing with poorly understood requirements patterns.</li>
+<li><strong>Business Risks:</strong> Threats that undermine the commercial viability or market adoption of the product. These include building a product that no longer fits the company's core sales strategy, losing executive management support, or encountering new market competitors.</li>
+</ul>
+<h6>2. Methodologies for Assessing Overall Project Risk</h6>
+<p>To evaluate risk levels across the lifecycle, a technical leader follows a structured two-step process:</p>
+<ul>
+<li><strong>Step A: Risk Identification using a Risk Item Checklist:</strong><br />
+The leader screens the project environment against established risk factors by asking targeted diagnostic questions:</li>
+<li><em>Management Commitment:</em> Have senior management and customer leadership formally committed to supporting the project?</li>
+<li><em>Requirements Stability:</em> Are user requirements fully understood by the engineering team, and is the project scope stable?</li>
+<li><em>Skills Integration:</em> Does the development team possess the right mix of technical skills and experience required for the chosen technology stack?</li>
+<li>
+<p><em>Staffing Adequacy:</em> Is the number of people assigned to the project sufficient to complete the work within the scheduled timeline?</p>
+</li>
+<li>
+<p><strong>Step B: Quantifying Risk Exposure ($RE$):</strong><br />
+For each identified risk, the leader estimates its probability of occurrence ($P$) and its total impact or cost ($C$) if it manifests. Risk Exposure is calculated using the following equation:</p>
+</li>
+</ul>
+<p>$$RE = P \times C$$</p>
+<ul>
+<li><em>Example Analysis:</em> Suppose there is an $80\%$ probability ($P = 0.80$) that a third-party software library component will fail integration, requiring an estimated $18$ person-days of rework across $100$ components at an engineering cost rate of $\$14.00/\text{LOC}$.</li>
+<li><em>Impact Cost ($C$):</em> $18 \times 100 \times \$14.00 = \$25,200$.</li>
+<li><em>Risk Exposure ($RE$):</em> $0.80 \times \$25,200 \approx \mathbf{\$20,160}$.</li>
+</ul>
+<p>By summing and ranking the risk exposure values across all items, the manager builds a prioritized checklist to guide risk mitigation efforts.</p>
+<h4>Question 6.2</h4>
+<p><strong>Describe the Risk Mitigation, Monitoring, and Management (RMMM) plan as a part of a software project plan considering a practical example. [6 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<p>An <strong>RMMM Plan</strong> isolates and addresses project risks through three sequential management phases:</p>
+<ol>
+<li><strong>Mitigation:</strong> Proactive strategies executed before a risk occurs to reduce its likelihood or impact.</li>
+<li><strong>Monitoring:</strong> Tracking specific project metrics over time to determine if a risk is becoming more or less likely to occur.</li>
+<li><strong>Management:</strong> Executing pre-planned contingency steps if a risk becomes an active problem.</li>
+</ol>
+<h5>Practical Case Study: Managing High Team Staff Turnover Risk</h5>
+<ul>
+<li><strong>1. Risk Mitigation Strategies (Proactive Prevention):</strong></li>
+<li><em>Action:</em> To minimize the impact of losing a key engineer, the manager enforces strict documentation standards, schedules regular peer code reviews, and implements cross-training loops across modules. This ensures that technical knowledge is shared across the team rather than trapped with a single person.</li>
+<li>
+<p><em>Team Alignment:</em> Maintain clear career development paths, cultivate a supportive team culture, and align financial incentives to improve retention rates.</p>
+</li>
+<li>
+<p><strong>2. Risk Monitoring Metrics (Active Tracking):</strong></p>
+</li>
+<li><em>Action:</em> The project manager tracks early warning indicators during weekly status meetings:</li>
+<li>General morale trends and expressions of burnout among team members.</li>
+<li>Clean clarity and completeness of active project documentation backlogs.</li>
+<li>
+<p>Requests for internal team transfers or an increase in unexcused absences.</p>
+</li>
+<li>
+<p><strong>3. Risk Management Protocols (Contingency Execution):</strong></p>
+</li>
+<li><em>Action:</em> If an engineer resigns unexpectedly, the manager executes the contingency plan immediately:</li>
+<li>Temporarily freeze low-priority features and reallocate the core development tasks to a pre-trained backup engineer.</li>
+<li>Hand off the remaining documented sub-modules to the rest of the team to preserve schedule continuity.</li>
+<li>Onboard a replacement resource from the company's internal talent pool or open an immediate recruitment ticket.</li>
+</ul>
+</article>
+  </div>
+</section>
+
+
+<section id="unit5" class="unit-section">
+  <div class="unit-banner">
+    <span class="unit-tag">UNIT 5</span>
+    <h2>Unit 5: Semester End Examination (SEE)</h2>
+  </div>
+  
+  <div class="qcard-grid">
+  <article class="qcard">
+<h3>Topic 1: Rapid Software Development &amp; Agile Principles</h3>
+<h4>Question 1.1</h4>
+<p><strong>Explain the principles of agile methods. Identify the reasons why the principles underlying agile methods are sometimes difficult to realize. [6 Marks]</strong></p>
+<h5>1. Five Core Principles of Agile Methods</h5>
+<p>Agile software engineering focuses on rapid software design and delivery, reducing process overhead, and producing high-quality code that responds effectively to changing user demands:</p>
+<ol>
+<li><strong>Customer Involvement:</strong> Customers must be deeply involved throughout the entire development lifecycle. Their role is to provide, prioritize, and continuously validate new feature requirements.</li>
+<li><strong>Incremental Delivery:</strong> The software is developed and rolled out in successive increments. Each release contains a functional subset of user requirements so customers can provide real-world feedback early.</li>
+<li><strong>People Not Process:</strong> The technical capabilities and interactions of the development team are prioritized over rigid process frameworks. Team members are given the autonomy to self-organize their tasks.</li>
+<li><strong>Embrace Change:</strong> The engineering team assumes that system requirements will change over time. The architecture is designed to accommodate shifts in requirements rather than trying to freeze them early.</li>
+<li><strong>Maintain Simplicity:</strong> Focus on keeping both the software design and the development process as simple as possible. Active effort is spent removing unnecessary complexity from the codebase.</li>
+</ol>
+<h5>2. Strategic Realization Barriers (Why They Are Difficult to Implement)</h5>
+<ul>
+<li><strong>Customer Availability Overise:</strong> While Agile assumes continuous customer participation, corporate clients often cannot allocate a dedicated representative to join daily stand-ups, write user stories, and perform continuous verification testing.</li>
+<li><strong>Team Competence Alignment:</strong> Agile relies on highly skilled, self-motivated software engineers. If a team lacks senior architectural experience, the lack of rigid process controls can lead to code quality issues and structural decline.</li>
+<li><strong>Contractual Lock-In Constraints:</strong> Traditional procurement contracts require clear upfront commitments regarding cost, timeline, and exact feature delivery maps. The fluid, evolving nature of agile increments does not align easily with fixed-price legal agreements.</li>
+<li><strong>Organizational Culture Inertia:</strong> Large, established institutions often feature deeply embedded bureaucratic structures that require comprehensive documentation, formal phase reviews, and hierarchical approvals. This creates friction with Agile's focus on decentralized autonomy.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 2: Verification and Validation — Software Inspection Processes</h3>
+<h4>Question 2.1</h4>
+<p><strong>Discuss why program inspections are an effective technique for discovering errors in a program. What types of checks are used to discover errors through inspections? [6 / 8 Marks]</strong></p>
+<h5>1. Core Engineering Effectiveness of Program Inspections</h5>
+<p>Program inspections involve a team of engineers systematically reviewing source code line-by-line to detect defects before compiling or running the software:</p>
+<ul>
+<li><strong>Defect Masking Prevention:</strong> During dynamic execution testing, an early defect can crash the program or corrupt state variables, masking subsequent errors in the execution path. Static inspections review code paths independently, allowing engineers to discover multiple separate bugs in a single session.</li>
+<li><strong>Broader Defect Coverage:</strong> Inspections locate non-functional defects that testing rarely uncovers, such as non-compliance with organizational style guides, unoptimized database queries, security holes, and code structures that complicate future maintenance.</li>
+<li><strong>Lower Remediation Costs:</strong> Finding a bug during an inspection bypasses the expensive testing cycles of writing reproduction scripts, analyzing memory dumps, and re-running test suites. This helps reduce the total effort required for debugging.</li>
+</ul>
+<h5>2. Standard Quality Fault Checklists Used During Inspections</h5>
+<p>Review teams evaluate code against a standardized inspection checklist to catch common programming errors:</p>
+<ul>
+<li><strong>Data Fault Checks:</strong> * Are all local variables properly initialized before their value is read?</li>
+<li>Do array index bounds checks guard against off-by-one errors?</li>
+<li>
+<p>Are pointer allocations checked to ensure they are not null before dereferencing?</p>
+</li>
+<li>
+<p><strong>Control Fault Checks:</strong></p>
+</li>
+<li>Are loop termination conditions guaranteed to be met, avoiding infinite loops?</li>
+<li>
+<p>Do complex conditional <code>if/else</code> statements cover all valid logical branches?</p>
+</li>
+<li>
+<p><strong>I/O and Interface Fault Checks:</strong></p>
+</li>
+<li>Do function calls pass arguments in the exact order, type, and quantity defined by the method signature?</li>
+<li>
+<p>Are external network sockets, file pointers, and database connections properly closed after use to prevent resource leaks?</p>
+</li>
+<li>
+<p><strong>Exception Management Checks:</strong></p>
+</li>
+<li>Are all potential runtime failures (e.g., <code>DivisionByZero</code>, <code>FileNotFound</code>) safely caught and handled by dedicated exception blocks?</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 3: Cleanroom Software Engineering Methodology</h3>
+<h4>Question 3.1</h4>
+<p><strong>Analyze the key strategies of clean-room approach to software development with a relevant diagram. [6 / 10 Marks]</strong></p>
+<h5>1. Underlying Philosophy</h5>
+<p>Cleanroom software engineering is a specialized process model that shifts the focus from finding and fixing bugs via testing to <strong>preventing bugs from entering the code in the first place</strong>. By analogy with semiconductor cleanrooms, the software is kept clean throughout production using formal mathematical specifications and correctness arguments.</p>
+<h5>2. The Cleanroom Process Flow Pipeline</h5>
+<p>The cleanroom lifecycle is managed across three distinct teams, ensuring that the developers <strong>never compile or execute their own code</strong>:</p>
+<pre><code>      [Requirements Elicitation]
+                  │
+                  ▼
+ ┌─────────────────────────────────┐
+ │       Specification Team        │ &lt;─── Refines &amp; Updates
+ └────────────────┬────────────────┘
+                  │ Formal Mathematical Specification
+                  ▼
+ ┌─────────────────────────────────┐
+ │        Development Team         │
+ │  • Structural Transformation    │
+ │  • Correctness Arguments Only   │
+ └────────────────┬────────────────┘
+                  │ Syntactically Verified Source Code
+                  ▼
+ ┌─────────────────────────────────┐
+ │       Certification Team        │
+ │  • Statistical Operational Tests│ ──► [System Certified]
+ │  • Ingests Cleanroom Code Base  │
+ └─────────────────────────────────┘
+
+</code></pre>
+<h5>3. Technical Breakdown of Core Teams and Strategies</h5>
+<ul>
+<li><strong>The Specification Team:</strong> Responsible for defining system requirements using formal, mathematically sound techniques (such as state-transition models or algebraic notations).</li>
+<li><strong>The Development Team:</strong> This team designs and structures the software to align with the formal specification. They write code using strict structured programming constructs and verify accuracy using formal mathematical arguments rather than compilation or dynamic testing.</li>
+<li><strong>The Certification Team:</strong> This team takes the completed code base and runs structured statistical tests derived from the system's operational profile. They measure the rate of fault occurrences to calculate statistical metrics like Mean Time to Failure (MTTF), certifying the software's reliability before live operational release.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 4: Automated Testing Infrastructure — The Testing Workbench</h3>
+<h4>Question 4.1</h4>
+<p><strong>Demonstrate software testing workbench and the tools that might be included in such a testing workbench. [6 Marks]</strong></p>
+<h5>1. Conceptual Blueprint of a Testing Workbench</h5>
+<p>A testing workbench provides an automated environment of tools to support the planning, creation, execution, and analysis of software test cases. It standardizes testing workflows, tracks defect metrics, and enables continuous regression testing.</p>
+<h5>2. Architectural Tools Integration Matrix</h5>
+<pre><code> ┌────────────────────────────────────────────────────────────────────────┐
+ │                           TESTING WORKBENCH                            │
+ │                                                                        │
+ │   ┌──────────────────────┐                     ┌────────────────────┐  │
+ │   │  Test Case Generator │                     │    Test Manager    │  │
+ │   └──────────┬───────────┘                     └──────────┬─────────┘  │
+ │              │ Creates Test Data                          │ Enforces   │
+ │              ▼                                            │ Execution  │
+ │   ┌───────────────────────────────────────────────────────┼────────┐   │
+ │   │                   Execution Engine                    │        │   │
+ │   │     [Source Code Under Test] ──► [Simulator Array] ◄──┘        │   │
+ │   └──────────────────────────────────┬─────────────────────────────┘   │
+ │                                      │ Captures Output Data Data       │
+ │                                      ▼                                 │
+ │   ┌────────────────────────────────────────────────────────────────┐   │
+ │   │                     Comparator Module                          │   │
+ │   │   Evaluates Actual Outputs vs. Predefined Expected Outcomes    │   │
+ │   └──────────────────────────────────┬─────────────────────────────┘   │
+ │                                      │ Logs Analysis Reports           │
+ │                                      ▼                                 │
+ │   ┌────────────────────────────────────────────────────────────────┐   │
+ │   │                  Dynamic Performance Analyzer                  │   │
+ │   │   Measures Memory Allocation &amp; Evaluates Code Path Coverage   │   │
+ │   └────────────────────────────────────────────────────────────────┘   │
+ └────────────────────────────────────────────────────────────────────────┘
+
+</code></pre>
+<h5>3. Concrete Specification of Automated Tool Suites</h5>
+<ul>
+<li><strong>Test Manager Frameworks:</strong> Coordinates the execution of automated test suites, tracking parameters like pass/fail rates, execution speed, and historical defect trends.</li>
+<li><strong>Test Data Generators:</strong> Analyzes system interfaces or specification documents to automatically generate varied sets of input test data (including boundary and out-of-bounds values).</li>
+<li><strong>Oracle / Comparator Modules:</strong> Automatically compares the actual runtime output data against the expected target values defined in the test specification, flagging any discrepancies.</li>
+<li><strong>Simulator Environments:</strong> Emulates the target physical hardware or external network APIs, allowing test cases to run reliably inside a sandbox environment.</li>
+<li><strong>Dynamic Code Coverage Analyzers:</strong> Monitors code execution during testing to track exactly which lines and logic paths were executed, helping teams verify the thoroughness of their test suites.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 5: Software Evolution — Legacy System Value &amp; Quality Assessment</h3>
+<h4>Question 5.2</h4>
+<p><strong>Consider that an organization has a set of legacy systems (e.g., 20 or 30 systems). Analyze how the quality and the business value of each of these systems is assessed and compared with others by plotting it on a chart showing relative business value and system quality. Discuss the different clusters that could be formed. Explain in detail. [6 / 8 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<h5>1. Strategic Assessment Framework</h5>
+<p>When managing a large portfolio of legacy software systems, an organization must objectively assess each application to decide whether to continue maintaining it, re-engineer it, or replace it entirely. This evaluation contrasts two dimensions:</p>
+<ul>
+<li><strong>Business Value:</strong> How critical the system's operations are to the company's current and future business objectives.</li>
+<li><strong>System Quality:</strong> The technical health of the software, including codebase maintainability, hardware reliability, documentation completeness, and ease of modification.</li>
+</ul>
+<h5>2. Portfolio Assessment Matrix Grid (The 4-Quadrant Cluster Chart)</h5>
+<pre><code>                  High │ ─────────────────────────┬─────────────────────────
+                       │                         │
+                       │      Cluster 2:         │      Cluster 1:
+                       │   High Business Value   │   High Business Value
+                       │   Low System Quality    │   High System Quality
+                       │                         │
+                       │   (RE-ENGINEER / COTS)  │      (MAINTAIN)
+                       │                         │
+   SYSTEM QUALITY      ├─────────────────────────┼─────────────────────────
+                       │                         │
+                       │      Cluster 4:         │      Cluster 3:
+                       │   Low Business Value    │   Low Business Value
+                       │   Low System Quality    │   High System Quality
+                       │                         │
+                       │       (SCRAP)           │      (REPLACE / ARCHIVE)
+                       │                         │
+                   Low │ ────────────────────────┴─────────────────────────
+                       └───────────────────────────────────────────────────
+                        Low                             High
+                                   BUSINESS VALUE
+
+</code></pre>
+<h5>3. Comprehensive Analysis of the Four Strategic Clusters</h5>
+<ul>
+<li><strong>Cluster 1: High Business Value &amp; High System Quality (Top-Right)</strong></li>
+<li><em>Characteristics:</em> These are core business systems running on stable, modern platforms with clean, maintainable code architectures.</li>
+<li>
+<p><em>Strategic Decision:</em> <strong>Maintain &amp; Optimize.</strong> The organization should leave these systems in place, performing routine, standard maintenance as needed.</p>
+</li>
+<li>
+<p><strong>Cluster 2: High Business Value &amp; Low System Quality (Top-Left)</strong></p>
+</li>
+<li><em>Characteristics:</em> These applications are critical to daily business operations, but they have high technical debt. The code is often poorly documented, tightly coupled, or reliant on obsolete hardware, making changes expensive and risky.</li>
+<li>
+<p><em>Strategic Decision:</em> <strong>Re-engineer or Replace with COTS.</strong> Because the business value is high, the system cannot simply be scrapped. The organization should invest in software re-engineering to clean up the code, or transition the operations to a modern Commercial Off-The-Shelf (COTS) solution.</p>
+</li>
+<li>
+<p><strong>Cluster 3: Low Business Value &amp; High System Quality (Bottom-Right)</strong></p>
+</li>
+<li><em>Characteristics:</em> These systems are technically healthy and stable, but the business processes they support are no longer central to the organization's strategic goals.</li>
+<li>
+<p><em>Strategic Decision:</em> <strong>Replace / Archive.</strong> It is not cost-effective to spend active development resources on these applications. The company should look to migrate any remaining essential features to other systems or replace them with inexpensive standard software tools.</p>
+</li>
+<li>
+<p><strong>Cluster 4: Low Business Value &amp; Low System Quality (Bottom-Left)</strong></p>
+</li>
+<li><em>Characteristics:</em> These are obsolete systems that provide minimal business value and suffer from severe technical debt or frequent hardware failures.</li>
+<li><em>Strategic Decision:</em> <strong>Scrap completely.</strong> These applications should be decommissioned and phased out entirely, as continuing to maintain them wastes budget and development effort.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 6: Software Testing Strategy — Whitebox vs. Blackbox Testing</h3>
+<h4>Question 6.3</h4>
+<p><strong>Differentiate between Whitebox and Blackbox testing with a relevant example and diagram. [6 / 8 / 10 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<h5>1. Concept Matrix Deconstruction</h5>
+<table>
+<thead>
+<tr>
+<th>Aspect of Comparison</th>
+<th>White-Box Testing (Structural / Glass-Box)</th>
+<th>Black-Box Testing (Functional / Behavioral)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Primary Definition</strong></td>
+<td>A test case design strategy where knowledge of the <strong>internal structural implementation and source code code</strong> is used to build tests.</td>
+<td>A test case design strategy where test items are derived exclusively from the <strong>external software requirements and functional specifications</strong>, with zero visibility into the internal code.</td>
+</tr>
+<tr>
+<td><strong>Core Testing Objective</strong></td>
+<td>Validates internal execution paths, statement execution branches, loop conditions, and specific algorithmic logic.</td>
+<td>Validates that the system responds accurately to inputs, outputs correct results, and satisfies defined user requirements.</td>
+</tr>
+<tr>
+<td><strong>Target Audience</strong></td>
+<td>Executed primarily by software developers and code auditors who understand the programming language.</td>
+<td>Executed by independent QA testing specialist groups, business analysts, or end users during beta validation phases.</td>
+</tr>
+<tr>
+<td><strong>Key Techniques</strong></td>
+<td>Basis path testing, data-flow testing, statement coverage analysis, and cyclomatic complexity verification.</td>
+<td>Equivalence partitioning boundaries analysis, error guessing, and state-transition verification charts.</td>
+</tr>
+</tbody>
+</table>
+<h5>2. Structural Process Diagrams</h5>
+<p><strong>Black-Box Testing (Behavioral Abstraction):</strong></p>
+<pre><code>      Inputs Array ──► [ Hidden Internal Code Processing Engine ] ──► Actual Output Metrics
+                             (No code visibility)
+
+</code></pre>
+<p><strong>White-Box Testing (Structural Flow Visibility):</strong></p>
+<pre><code>                        ┌───────────────────────────────┐
+                        │   Visible Source Code Logic   │
+      Inputs Vector ──► │  [Path A]   [Condition Check] │ ──► Path Validation Outcome
+                        │  [Path B]   [Internal Loop]   │
+                        └───────────────────────────────┘
+
+</code></pre>
+<h5>3. Practical Testing Example Scenario</h5>
+<p>Consider a database subroutine module engineered to calculate employee income taxes:</p>
+<ul>
+<li><strong>Black-Box Testing Approach:</strong> The tester applies an input salary value of $\$50,000$ to the system interface. Without reviewing the underlying code, they verify that the system returns the expected output value of exactly $\$7,500$, as specified in the functional business requirements.</li>
+<li><strong>White-Box Testing Approach:</strong> The engineer opens the source code file to trace the calculation statements directly. They design specific test inputs to guarantee that every branch of the internal logical conditions (<code>if salary &gt; 45000</code>, <code>else if salary &lt; 15000</code>) executes at least once, verifying that variables are initialized correctly inside the execution blocks.</li>
+</ul>
+</article>
+<article class="qcard">
+<h3>Topic 7: Blackbox Test Case Design — Equivalence Partitioning</h3>
+<h4>Question 7.2</h4>
+<p><strong>Analyze the following Scenario. <em>Payment Collection Process:</em> Payment may be made in 3 different ways. The user selects which way they wish to pay. If they select 'Card', they must input a 16-digit card number. If they select 'NetBanking', they must select their bank name from a list. If they select 'UPI', they must input a valid UPI ID (containing an '@' symbol). Design test cases using equivalence partitioning with the details: Input, Tests, Expected Output. [8 Marks]</strong></p>
+<h5>Exam-Perfect Answer:</h5>
+<h5>1. Theoretical Principles of Equivalence Partitioning</h5>
+<p>Equivalence partitioning divides a program's input data domains into distinct classes of data from which test cases can be derived. It assumes that all values within a given partition will cause the software to behave in the same way. Therefore, testing a single representative value from each partition is sufficient to validate that data group. Partitions are split into <strong>Valid Classes</strong> (inputs the system should process successfully) and <strong>Invalid Classes</strong> (inputs the system should reject with an error message).</p>
+<h5>2. Equivalence Partitions Mapping Matrix</h5>
+<table>
+<thead>
+<tr>
+<th>Input Domain Parameter</th>
+<th>Valid Equivalence Partitions Class</th>
+<th>Invalid Equivalence Partitions Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Payment Selection Method</strong></td>
+<td><code>Card</code>, <code>NetBanking</code>, <code>UPI</code></td>
+<td>Any value not matching the three options (e.g., <code>Crypto</code>, <code>Cash</code>)</td>
+</tr>
+<tr>
+<td><strong>Card Number Input Length</strong></td>
+<td>Numerical string containing exactly 16 characters</td>
+<td>* Alphanumeric strings or strings shorter than 16 digits.<br></td>
+</tr>
+</tbody>
+</table>
+<p><br><em> Strings exceeding 16 digits. |<br />
+| </em><em>Bank Selection Field</em><em> | Selected matching node from the dropdown registry. | Selection field left blank or null. |<br />
+| </em><em>UPI Virtual Address Field</em>* | Alphanumeric string containing exactly one <code>@</code> character asset. | Alphanumeric string completely lacking the <code>@</code> symbol or containing multiple <code>@</code> elements. |</p>
+<h5>3. Comprehensive Target Test Case Evaluation Log</h5>
+<table>
+<thead>
+<tr>
+<th>Test Case ID</th>
+<th>Input Parameters Provided</th>
+<th>Targeted Test Equivalence Context</th>
+<th>Expected System Response / Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TC-PAY-01</strong></td>
+<td><code>Method: Card</code><br></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><br><code>Number: 4321567890123456</code> | Valid card credentials entry block (Success Path). | Accepts transaction payload; redirects to 3D-Secure gateway page. |<br />
+| <strong>TC-PAY-02</strong> | <code>Method: Card</code><br></p>
+<p><br><code>Number: 12345</code> | Invalid shortened card length error check (Off-by-one boundary underflow). | Rejects invoice submission; displays the error flag message: <code>"Invalid Card Number Length"</code>. |<br />
+| <strong>TC-IS-03</strong> | <code>Method: Card</code><br></p>
+<p><br><code>Number: 45127635194056128</code> | Extended out-of-bounds boundary condition check. | Rejects input string; prompts a card syntax validation error notice. |<br />
+| <strong>TC-PAY-04</strong> | <code>Method: NetBanking</code><br></p>
+<p><br><code>BankSelected: "HDFC Bank"</code> | Valid banking selector interface path option. | Routes execution to the automated HES settlement portal login page. |<br />
+| <strong>FR-PAY-05</strong> | <code>Method: NetBanking</code><br></p>
+<p><br><code>BankSelected: null</code> | System handling for missing or unselected branch data inputs. | Rejects submission; highlights selection field with an alert stating: <code>"Please select a banking vendor"</code>. |<br />
+| <strong>FR-PAY-06</strong> | <code>Method: UPI</code><br></p>
+<p><br><code>Address: user@okaxis</code> | Valid handle structure containing the mandatory <code>@</code> symbol boundary identifier. | Processes payment request payload and routes validation ping to the customer app interface. |<br />
+| <strong>FR-2.7</strong> | <code>Method: UPI</code><br></p>
+<p><br><code>Address: plainusertext</code> | Missing the mandatory <code>@</code> symbol boundary criteria check. | Rejects string ingestion and displays an input validation message: <code>"Invalid address identifier format"</code>. |</p>
+</article>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  Compiled study guide for exam revision — Software Engineering PYQs, Units 1–5.
+</footer>
+
+<script>
+  const buttons = document.querySelectorAll('.tab-btn');
+  const sections = document.querySelectorAll('.unit-section');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const unit = btn.getAttribute('data-unit');
+      buttons.forEach(b => b.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('unit' + unit).classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+</script>
+</body>
+</html>
